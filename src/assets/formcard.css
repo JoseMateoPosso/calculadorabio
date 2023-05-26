@@ -1,0 +1,71 @@
+@font-face {
+    font-family: "Montserrat-Italic";
+    src: local("Montserrat-Italic"),
+        url(../assets/fonts/Montserrat-Italic-VariableFont_wght.ttf) format("truetype");
+}
+
+p,
+h3,
+li {
+    font-family: 'Montserrat-Italic';
+}
+
+.dialog-background {
+    background-image: url(../assets/imgs/fondo-01.png);
+    background-size: cover;
+    height: 100vh;
+}
+
+.v-card {
+    border-radius: 40px !important;
+    padding: 2em;
+}
+
+.v-card.fisrt-card {
+    box-shadow: none !important;
+    background: transparent;
+    border: 0;
+    padding: 0em;
+    margin-top: 200px;
+}
+
+.v-card.fisrt-card .popgray {
+    background: #ffffffb0;
+    border-radius: 20px;
+    border: 2px solid #fff;
+}
+
+div.popgray p {
+    padding: 2em;
+    color: #00b5e5;
+}
+
+button.bg-green {
+    margin: 0 auto;
+    display: block;
+    border-radius: 35px;
+    border-top-right-radius: 0;
+    padding: 16px 50px 32px;
+}
+
+.icon-back {
+    position: fixed;
+    top: 50%;
+    left: -12px;
+    background: #fff;
+    box-shadow: 0px 3px 6px gray;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.selected-image {
+    background: linear-gradient(45deg, #00b5e4, #60b343);
+}
+
+.image-filter {
+    filter: brightness(3);
+}
+
+i.mdi-radiobox-blank, i.mdi-radiobox-marked {
+    display: none;
+}
