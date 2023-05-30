@@ -16,9 +16,9 @@ li {
     height: 100vh;
 }
 
-.v-card {
-    border-radius: 40px !important;
-    padding: 2em;
+.v-card.card-option , .v-card {
+    border-radius: 30px !important;
+    padding: 1em;
 }
 
 .v-card.fisrt-card {
@@ -35,17 +35,34 @@ li {
     border: 2px solid #fff;
 }
 
+.v-card.fisrt-card .popgray.noborder-top {
+    border-top: none;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.v-card.fisrt-card .popgray.noborder-bottom {
+    border-bottom: none;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.v-card.fisrt-card button.v-btn {
+    margin: auto;
+}
+
 div.popgray p {
     padding: 2em;
     color: #00b5e5;
 }
 
-button.bg-green {
-    margin: 0 auto;
-    display: block;
+button.v-btn {
+    background-color: #4CAF50 !important;
+    color: #fff !important;
     border-radius: 35px;
     border-top-right-radius: 0;
-    padding: 16px 50px 32px;
+    padding: 16px 50px 32px !important;
+    box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)), 0px 2px 2px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)), 0px 1px 5px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.12));
 }
 
 .icon-back {
@@ -66,6 +83,30 @@ button.bg-green {
     filter: brightness(3);
 }
 
-i.mdi-radiobox-blank, i.mdi-radiobox-marked {
+.v-selection-control__wrapper {
     display: none;
+}
+
+.selected-image label.v-label.v-label--clickable {
+    color: #fff;
+    font-weight: 700;
+}
+
+label.v-label.v-label--clickable {
+    text-align: center;
+    display: block;
+    margin-bottom: 1em;
+}
+
+.v-text-field input {
+    padding: 0.5em 1em !important;
+    min-height: 20px !important;
+    text-align: center;
+    color: #fff;
+    font-weight: 700;
+}
+
+.v-field {
+    background: linear-gradient(45deg, #00b5e4, #60b343);
+    border-radius: 10px;
 }

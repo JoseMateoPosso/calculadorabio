@@ -1,6 +1,6 @@
 <template>
     <v-dialog :value="value" persistent max-width="900">
-        <v-card height="60vh" class="fisrt-card">
+        <v-card height="70vh" class="fisrt-card">
             <v-card-text>
                 <v-container>
                     <v-row>
@@ -8,7 +8,7 @@
                             <img v-bind:src="require('@/assets/imgs/texto.png')" alt="" width="300">
                         </v-col>
                         <v-col class="popgray" sm="5">
-                            <p>En <b>Avgust {{ props }}</b> queremos ayudar al
+                            <p>En <b>Avgust </b> queremos ayudar al
                                 planeta, por eso, te invitamos
                                 reducir tu <b>impacto ambiental</b>.
                                 <br><br>Descubre cómo puedes ayudar
@@ -27,10 +27,6 @@
 <script>
 export default {
     props: ['value'],
-    created() {
-    // props are exposed on `this`
-    console.log(this)
-    },
     methods: {
         close() {
             this.$emit('input', false);
