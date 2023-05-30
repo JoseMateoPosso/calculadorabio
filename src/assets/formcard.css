@@ -6,8 +6,13 @@
 
 p,
 h3,
-li {
+li,
+h5 {
     font-family: 'Montserrat-Italic';
+}
+
+h5 {
+    font-weight: 400;
 }
 
 .dialog-background {

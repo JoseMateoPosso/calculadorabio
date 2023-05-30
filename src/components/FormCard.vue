@@ -2,25 +2,31 @@
   <div :class="backgroundClass" id="app">
     <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250">
     <v-dialog v-for="(dialog, index) in dialogs" :key="index" v-model="dialog.open" persistent max-width="900">
-      <v-card height="60vh" :class="{ 'fisrt-card': isFirstDialogOpen }">
+      <v-card height="70vh" :class="{ 'fisrt-card': isFirstDialogOpen }">
+        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index, true)">mdi-arrow-left</v-icon>
+        <CardTitle :title="dialog.title" :progress="progressValue" />
         <v-card-text>
-          <v-progress-linear color="green" :model-value="progressValue"></v-progress-linear>
           <v-container>
             <v-row>
               <v-col>
-                <p v-if="dialog.content" v-html="dialog.content"></p>
+                <p v-html="dialog.content"></p>
                 <img v-if="dialog.img" :src="dialog.img.url" :height="dialog.img.height" />
-                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse"></v-text-field>
+                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number"
+                  v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
                 <v-btn v-if="dialog.skipAllowed" @click="changeDialog(index)">No aplica</v-btn>
               </v-col>
-              <v-col :cols="columnSize" sm="columnSmSize" :class="columnClass">
-                <p v-if="dialog.content2" v-html="dialog.content2"></p>
+              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
+                <p v-html="dialog.content2"></p>
                 <img v-if="dialog.img2" :src="dialog.img2.url" :height="dialog.img2.height" />
-                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                  <!--<RadioGroupCard v-if="dialog.requiresResponse" :response="dialog.response.radioGroup" />-->
+
+                  <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row class="justify-center">
-                    <v-col cols="3" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="dialog.response.radioGroup = item.id" :class="{ 'selected-image': dialog.response.radioGroup === item.id }">
-                        <v-img height="50" :src="item.image" :class="{ 'image-filter': dialog.response.radioGroup === item.id }"></v-img>
+                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
+                      <v-card @click="dialog.response.radioGroup = item.id"
+                        :class="{ 'selected-image': dialog.response.radioGroup === item.id }">
+                        <v-img height="50" :src="item.image"
+                          :class="{ 'image-filter': dialog.response.radioGroup === item.id }"></v-img>
                         <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
                       </v-card>
                     </v-col>
@@ -40,7 +46,14 @@
 </template>
 
 <script>
+import CardTitle from './CardTitle.vue'
+//import RadioGroupCard from './RadioGroupComponent.vue';
+
 export default {
+  components: {
+    CardTitle,
+    //RadioGroupCard
+  },
   data() {
     return {
       activeDialog: 0,
@@ -77,8 +90,8 @@ export default {
           }
         },
         {
-          content: "<h3 class='text-center mb-5'>¿Cuántas personas viven contigo?</h3>",
-          content2: "<h3 class='text-center mb-5'>Zona de Vivienda</h3>",
+          content: "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
+          content2: "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
           open: false,
           requiresResponse: true,
           response: {
@@ -92,16 +105,122 @@ export default {
           },
         },
         {
-          content: "<h3 class='text-center mb-5'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+          content: "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
           open: false,
           requiresResponse: true,
           skipAllowed: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
           response: {
             numSelected: 0,
             electricityConsumption: 0,
             completionFunction: 'calculateFootprintDo' // This function will be called when the dialog is completed
           },
         },
+        {
+          content: "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
+          response: {
+            numSelected: false,
+            items: [
+              { image: require('@/assets/imgs/gaspropano.png'), label: 'GAS PROPANO', id: 1 },
+              { image: require('@/assets/imgs/gasnatural.png'), label: 'GAS NATURAL', id: 2 },
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        },
+        {
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
+          img2: {
+            url: require("@/assets/imgs/gasnatural.png"),
+            height: 150
+          },
+          content: "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes? <br><br>",
+          content2: "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
+          response: {
+            numSelected: 0,
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        },
+        {
+          content: "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>¿Cuántos cilindros consumes al mes?</p><br>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
+          response: {
+            numSelected: 0,
+            electricityConsumption: 0,
+            completionFunction: 'calculateFootprintDo' // This function will be called when the dialog is completed
+          },
+        },
+        {
+          content: "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
+          response: {
+            numSelected: false,
+            items: [
+              { image: require('@/assets/imgs/bagazo.png'), label: 'BAGAZO', id: 1 },
+              { image: require('@/assets/imgs/carbon.png'), label: 'CARBÓN', id: 2 },
+              { image: require('@/assets/imgs/leña.png'), label: 'LEÑA', id: 3 },
+              { image: require('@/assets/imgs/madera.png'), label: 'MADERA', id: 4 },
+              { image: require('@/assets/imgs/fibrapalma.png'), label: 'FIBRA PALMA', id: 5 }
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        },
+        {
+          content: "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de Transporte<h5>",
+          response: {
+            numSelected: false,
+            items: [
+              { image: require('@/assets/imgs/transportemasivo.png'), label: 'SISTEMA DE TRANSPORTE MASIVO', id: 1 },
+              { image: require('@/assets/imgs/vehiculo.png'), label: 'VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO', id: 2 },
+              { image: require('@/assets/imgs/moto.png'), label: 'MOTO', id: 3 },
+              { image: require('@/assets/imgs/bicicleta.png'), label: 'BICICLETA', id: 4 },
+              { image: require('@/assets/imgs/apie.png'), label: 'A PIE', id: 5 }
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        },
+        {
+          content: "<h3 class='text-center mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de Transporte<h5>",
+          response: {
+            numSelected: 0,
+            items: [
+              { image: require('@/assets/imgs/transportemasivo.png'), label: 'SISTEMA DE TRANSPORTE MASIVO', id: 1 },
+              { image: require('@/assets/imgs/vehiculo.png'), label: 'VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO', id: 2 },
+              { image: require('@/assets/imgs/moto.png'), label: 'MOTO', id: 3 },
+              { image: require('@/assets/imgs/bicicleta.png'), label: 'BICICLETA', id: 4 },
+              { image: require('@/assets/imgs/apie.png'), label: 'A PIE', id: 5 }
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        },
+        {
+          content: "<h3 class='text-center mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Manejo de Residuos<h5>",
+          response: {
+            numSelected: false,
+            items: [
+              { label: 'SI', id: 1 },
+              { label: 'NO', id: 2 },
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
+        }
       ]
     };
   },
@@ -113,7 +232,11 @@ export default {
       return (this.activeDialog / this.dialogs.length) * 100;
     },
     columnSize() {
-      return this.activeDialog >= 3 ? 12 : 5;
+      if (this.activeDialog === 6) {
+        return 5;
+      } else {
+        return this.activeDialog >= 3 ? 12 : 5;
+      }
     },
     columnSmSize() {
       return this.activeDialog >= 3 ? 12 : undefined;
@@ -133,14 +256,14 @@ export default {
       if (!dialog.requiresResponse) return true;
       return dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null;
     },
-    changeDialog(index) {
+    changeDialog(index, isGoingBack = false) {
       // Check if a response is required
-      if (this.dialogs[index].requiresResponse) {
+      if (!isGoingBack && this.dialogs[index].requiresResponse) {
         // If a response is required and none has been given, return early
-        if (this.dialogs[index].response.numSelected === 0 || this.dialogs[index].response.radioGroup === null) {
-          alert('A response is required to continue.');
+        /*if (this.dialogs[index].response.numSelected === 0 || this.dialogs[index].response.radioGroup === null) {
+          alert('Debe completar alguno de los campos.');
           return;
-        } else if (this.dialogs[index].response.completionFunction) {
+        } else*/ if (this.dialogs[index].response.completionFunction) {
           this[this.dialogs[index].response.completionFunction](
             this.dialogs[index].response.numSelected,
             this.dialogs[index].response.radioGroup
@@ -149,11 +272,12 @@ export default {
       }
 
       this.dialogs[index].open = false;
-      if (index + 1 < this.dialogs.length) {
+      if (!isGoingBack && index + 1 < this.dialogs.length) {
         this.dialogs[index + 1].open = true;
         this.activeDialog++;
-      } else {
-        this.activeDialog = null;
+      } else if (isGoingBack && index - 1 >= 0) {
+        this.dialogs[index - 1].open = true;
+        this.activeDialog--;
       }
     },
     calculateFootprint(numSelected, radioGroup) {
