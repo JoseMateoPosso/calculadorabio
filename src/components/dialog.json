@@ -1,0 +1,108 @@
+{
+    "dialogs": [
+        {
+            "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos a reducir tu <b>impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>",
+            "img": {
+                "url": "/assets/imgs/texto.png",
+                "height": 180
+            },
+            "open": true,
+            "requiresResponse": false
+        },
+        {
+            "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de Gases de Efecto Invernadero (GEI) para contribuir a la lucha contra el cambio climático.",
+            "open": false,
+            "requiresResponse": false,
+            "img2": {
+                "url": "/assets/imgs/ardilla.png",
+                "height": 250
+            }
+        },
+        {
+            "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br> <ul> <li>Necesitas tus facturas de <b>gas y energía eléctrica.</b></li> <li>En tu factura de consumo de <b>gas</b>, te aparece tu consumo en <b>m3</b></li> <li>En tu factura de consumo de <b>energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b> </li> </ul>",
+            "open": false,
+            "requiresResponse": false,
+            "img": {
+                "url": "/assets/imgs/seccion2.png",
+                "height": 150
+            },
+            "img2": {
+                "url": "/assets/imgs/ardilla.png",
+                "height": 250
+            }
+        },
+        {
+            "content": "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
+            "content2": "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
+            "open": false,
+            "requiresResponse": true,
+            "response": {
+                "numSelected": 0,
+                "radioGroup": null,
+                "items": [
+                    {
+                        "image": "/assets/imgs/urbana.png",
+                        "label": "URBANA",
+                        "id": 1
+                    },
+                    {
+                        "image": "/assets/imgs/rural.png",
+                        "label": "RURAL",
+                        "id": 2
+                    }
+                ],
+                "completionFunction": "calculateFootprint"
+            }
+        },
+        {
+            "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+            "open": false,
+            "requiresResponse": true,
+            "response": {
+                "numSelected": 0,
+                "radioGroup": null,
+                "sliderValue": null,
+                "completionFunction": "calculateFootprint"
+            }
+        },
+        {
+            "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de gas al mes? en m3</h3>",
+            "open": false,
+            "requiresResponse": true,
+            "response": {
+                "numSelected": 0,
+                "radioGroup": null,
+                "sliderValue": null,
+                "completionFunction": "calculateFootprint"
+            }
+        },
+        {
+            "content": "<h3 class='text-center mb-3'>¿Qué tipo de transporte utilizas habitualmente?</h3>",
+            "content2": "<h3 class='text-center mb-3'>Transporte Urbano</h3>",
+            "open": false,
+            "requiresResponse": true,
+            "response": {
+                "numSelected": 0,
+                "radioGroup": null,
+                "items": [
+                    {
+                        "image": "/assets/imgs/coche.png",
+                        "label": "COCHE",
+                        "id": 1
+                    },
+                    {
+                        "image": "/assets/imgs/bici.png",
+                        "label": "BICI",
+                        "id": 2
+                    },
+                    {
+                        "image": "/assets/imgs/pie.png",
+                        "label": "A PIE",
+                        "id": 3
+                    }
+                ],
+                "completionFunction": "calculateFootprint"
+            }
+        }
+    ]
+}

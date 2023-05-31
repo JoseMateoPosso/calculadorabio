@@ -115,3 +115,7 @@ label.v-label.v-label--clickable {
     background: linear-gradient(45deg, #00b5e4, #60b343);
     border-radius: 10px;
 }
+
+label.v-label {
+    font-size: 12px;
+}

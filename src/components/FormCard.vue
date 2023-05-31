@@ -13,21 +13,20 @@
                 <img v-if="dialog.img" :src="dialog.img.url" :height="dialog.img.height" />
                 <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number"
                   v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
-                <v-btn v-if="dialog.skipAllowed" @click="changeDialog(index)">No aplica</v-btn>
+                <!--<v-btn v-if="dialog.skipAllowed" @click="changeDialog(index)">No aplica</v-btn>-->
               </v-col>
               <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
                 <p v-html="dialog.content2"></p>
                 <img v-if="dialog.img2" :src="dialog.img2.url" :height="dialog.img2.height" />
-                  <!--<RadioGroupCard v-if="dialog.requiresResponse" :response="dialog.response.radioGroup" />-->
-
-                  <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                <!--<RadioGroupCard v-if="dialog.requiresResponse" :response="dialog.response.radioGroup" />-->
+                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row class="justify-center">
                     <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
                       <v-card @click="dialog.response.radioGroup = item.id"
                         :class="{ 'selected-image': dialog.response.radioGroup === item.id }">
-                        <v-img height="50" :src="item.image"
-                          :class="{ 'image-filter': dialog.response.radioGroup === item.id }"></v-img>
                         <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
+                        <v-img v-if="item.image" height="50" :src="item.image"
+                          :class="{ 'image-filter': dialog.response.radioGroup === item.id }"></v-img>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -57,6 +56,17 @@ export default {
   data() {
     return {
       activeDialog: 0,
+      CarbonFootPrint: [
+        {
+          idZone: '',
+          numPeople: 0,
+          energyConsumption: 0,
+          fuelType: '',
+          fuelImage: '',
+          cubicMeters: 0,
+          propaneGas: 0
+        }
+      ],
       dialogs: [
         {
           content2: "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos a reducir tu <b>impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>",
@@ -98,10 +108,10 @@ export default {
             numSelected: 0,
             radioGroup: null,
             items: [
-              { image: require('@/assets/imgs/urbana.png'), label: 'URBANA', id: 1 },
-              { image: require('@/assets/imgs/rural.png'), label: 'RURAL', id: 2 }
+              { image: require('@/assets/imgs/urbana.png'), label: 'URBANA', id: 'Urbano' },
+              { image: require('@/assets/imgs/rural.png'), label: 'RURAL', id: 'Rural' }
             ],
-            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+            completionFunction: 'GetPeopleZone' // This function will be called when the dialog is completed
           },
         },
         {
@@ -113,7 +123,7 @@ export default {
           response: {
             numSelected: 0,
             electricityConsumption: 0,
-            completionFunction: 'calculateFootprintDo' // This function will be called when the dialog is completed
+            completionFunction: 'GetEnergyConsumption' // This function will be called when the dialog is completed
           },
         },
         {
@@ -124,10 +134,10 @@ export default {
           response: {
             numSelected: false,
             items: [
-              { image: require('@/assets/imgs/gaspropano.png'), label: 'GAS PROPANO', id: 1 },
-              { image: require('@/assets/imgs/gasnatural.png'), label: 'GAS NATURAL', id: 2 },
+              { image: require('@/assets/imgs/gaspropano.png'), label: 'GAS PROPANO', id: 'gaspropano' },
+              { image: require('@/assets/imgs/gasnatural.png'), label: 'GAS NATURAL', id: 'gasnatural' },
             ],
-            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+            completionFunction: 'GetFuelType' // This function will be called when the dialog is completed
           }
         },
         {
@@ -142,19 +152,36 @@ export default {
           content2: "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
           response: {
             numSelected: 0,
-            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+            completionFunction: 'GetCubicMmeters' // This function will be called when the dialog is completed
           }
         },
         {
-          content: "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>¿Cuántos cilindros consumes al mes?</p><br>",
+          content: "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
           open: false,
           requiresResponse: true,
           title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
           response: {
             numSelected: 0,
             electricityConsumption: 0,
-            completionFunction: 'calculateFootprintDo' // This function will be called when the dialog is completed
+            completionFunction: 'GetPropaneGas' // This function will be called when the dialog is completed
           },
+        },
+        {
+          content: "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
+          open: false,
+          requiresResponse: true,
+          title: "<h5>Cálculo de vivienda - Zona Rural<h5>",
+          response: {
+            numSelected: false,
+            items: [
+              { label: '45kg (100lb)', id: '45kg (100lb)' },
+              { label: '15kg (33lb)', id: '15kg (33lb)' },
+              { label: '30kg (77lb)', id: '30kg (77lb' },
+              { label: '18kg (40lb)', id: '18kg (40lb)' },
+              { label: '6 - 4,5kg (10lb)', id: '6 - 4,5kg (10lb)' }
+            ],
+            completionFunction: 'calculateFootprint' // This function will be called when the dialog is completed
+          }
         },
         {
           content: "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
@@ -232,24 +259,20 @@ export default {
       return (this.activeDialog / this.dialogs.length) * 100;
     },
     columnSize() {
-      if (this.activeDialog === 6) {
-        return 5;
-      } else {
-        return this.activeDialog >= 3 ? 12 : 5;
-      }
+      return this.activeDialog === 6 ? 5 : (this.activeDialog >= 3 ? 12 : 5);
     },
     columnSmSize() {
       return this.activeDialog >= 3 ? 12 : undefined;
     },
     backgroundClass() {
-      return { 'dialog-background': this.isFirstDialogOpen }
+      return { 'dialog-background': this.isFirstDialogOpen };
     },
     columnClass() {
-      return { 'popgray': this.isFirstDialogOpen }
+      return { 'popgray': this.isFirstDialogOpen };
     },
     headerImage() {
       return require('@/assets/imgs/Header.png');
-    }
+    },
   },
   methods: {
     validateResponse(dialog) {
@@ -257,21 +280,40 @@ export default {
       return dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null;
     },
     changeDialog(index, isGoingBack = false) {
-      // Check if a response is required
-      if (!isGoingBack && this.dialogs[index].requiresResponse) {
-        // If a response is required and none has been given, return early
-        /*if (this.dialogs[index].response.numSelected === 0 || this.dialogs[index].response.radioGroup === null) {
-          alert('Debe completar alguno de los campos.');
+      const dialog = this.dialogs[index];
+
+      if (!isGoingBack && this.dialogRequiresResponse(dialog)) {
+        if (!this.isValidResponse(dialog.response)) {
+          this.showError('Debe completar alguno de los campos.');
           return;
-        } else*/ if (this.dialogs[index].response.completionFunction) {
-          this[this.dialogs[index].response.completionFunction](
-            this.dialogs[index].response.numSelected,
-            this.dialogs[index].response.radioGroup
-          );
+        }
+
+        if (dialog.response.completionFunction) {
+          this.CarbonFootPrint = {
+            ...this.CarbonFootPrint,
+            ...this[dialog.response.completionFunction](
+              dialog.response.numSelected,
+              dialog.response.radioGroup
+            ),
+          };
         }
       }
 
+      this.updateDialogStatus(index, isGoingBack);
+    },
+    dialogRequiresResponse(dialog) {
+      return dialog.requiresResponse;
+    },
+    isValidResponse(response) {
+      return response.numSelected !== 0 && response.radioGroup !== null;
+    },
+    showError(message) {
+      // Implementa aquí tu lógica para mostrar el error.
+      alert(message);
+    },
+    updateDialogStatus(index, isGoingBack) {
       this.dialogs[index].open = false;
+
       if (!isGoingBack && index + 1 < this.dialogs.length) {
         this.dialogs[index + 1].open = true;
         this.activeDialog++;
@@ -280,15 +322,41 @@ export default {
         this.activeDialog--;
       }
     },
+    GetPeopleZone(numSelected, radioGroup) {
+      return {
+        idZone: radioGroup,
+        numPeople: numSelected,
+      };
+    },
+    GetEnergyConsumption(numSelected) {
+      return { energyConsumption: numSelected };
+    },
+    GetFuelType(numSelected, radioGroup) {
+      // Generar la ruta de la imagen en base al valor de radioGroup
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      const imgSrc = require(`@/assets/imgs/${radioGroup}.png`);
+      // Guardar la imagen en CarbonFootPrint
+      this.CarbonFootPrint.fuelImage = imgSrc;
+      // Si el siguiente diálogo existe, actualiza su imagen.
+      if (this.activeDialog + 1 < this.dialogs.length) {
+        this.dialogs[this.activeDialog + 1].img2.url = this.CarbonFootPrint.fuelImage;
+      }
+      return { fuelType: radioGroup };
+    },
+    GetCubicMmeters(numSelected) {
+      return { cubicMeters: numSelected };
+    },
+    GetPropaneGas(numSelected) {
+      return { propaneGas: numSelected };
+      //console.log("------finalhastaahora----", this.CarbonFootPrint);
+    },
     calculateFootprint(numSelected, radioGroup) {
-      // Your logic for calculating the carbon footprint goes here
-      // You can now use numSelected and radioGroup in this function
       console.log(numSelected, radioGroup);
     },
     calculateFootprintDo(numSelected) {
-      // Your logic for calculating the carbon footprint goes here
-      // You can now use numSelected in this function
-      console.log("numselected", numSelected);
+      console.log("calculateFootprintDo", numSelected);
     },
   }
 };
