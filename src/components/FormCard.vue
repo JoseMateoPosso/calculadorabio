@@ -367,8 +367,8 @@ export default {
     calculateFootprintDo(numSelected) {
       console.log("rayosientra", numSelected);
     },
-        // Cambia el estado de selección de un botón de opción
-        toggleSelected(response, id) {
+    // Cambia el estado de selección de un botón de opción
+    toggleSelected(response, id) {
       if (response.radioGroup === id) {
         response.radioGroup = null; // Desmarca el botón si ya estaba seleccionado
       } else {
@@ -379,7 +379,7 @@ export default {
     // Verifica si un botón de opción está seleccionado
     isSelected(response, id) {
       return response.radioGroup === id;
-    }
+    },
   },
 };
 </script>
