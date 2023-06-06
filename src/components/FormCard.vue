@@ -1,31 +1,98 @@
 <template>
+  <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250">
-    <v-dialog v-for="(dialog, index) in dialogs" :key="index" v-model="dialog.open" persistent max-width="900">
-      <v-card height="60vh" :class="{ 'fisrt-card': isFirstDialogOpen }">
-        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index, true)">mdi-arrow-left</v-icon>
+    <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
+    <img
+      v-if="!isFirstDialogOpen"
+      :src="headerImage"
+      alt="Imagen de descripción"
+      height="250"
+    />
+    <!-- Recorre todos los diálogos y los muestra en la aplicación -->
+    <v-dialog
+      v-for="(dialog, index) in dialogs"
+      :key="index"
+      v-model="dialog.open"
+      persistent
+      max-width="900"
+    >
+      <!-- Cada diálogo se muestra en una tarjeta -->
+      <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
+        <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
+        <v-icon
+          v-if="index > 0"
+          class="icon-back"
+          @click="changeDialog(index, true)"
+          >mdi-arrow-left</v-icon
+        >
+        <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle :title="dialog.title" :progress="progressValue" />
+        <!-- Contenido de la tarjeta -->
         <v-card-text>
+          <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
           <v-container>
             <v-row>
               <v-col>
+                <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
-                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number"
-                  v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
-                <!--<v-btn v-if="dialog.skipAllowed" @click="changeDialog(index)">No aplica</v-btn>-->
+                <img
+                  v-if="dialog.img"
+                  :src="imageMap[dialog.img.url]"
+                  :height="dialog.img.height"
+                />
+                <!-- Campo para ingresar una respuesta numérica, si es necesario -->
+                <v-text-field
+                  variant="solo"
+                  v-model="dialog.response.numSelected"
+                  type="number"
+                  v-if="
+                    dialog.requiresResponse &&
+                    dialog.response.numSelected !== false
+                  "
+                ></v-text-field>
               </v-col>
-              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
+              <v-col
+                :cols="columnSize"
+                class="text-center"
+                sm="columnSmSize"
+                :class="columnClass"
+              >
+                <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
-                <!--<RadioGroupCard v-if="dialog.requiresResponse" :response="dialog.response.radioGroup" />-->
-                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                <img
+                  v-if="dialog.img2"
+                  :src="imageMap[dialog.img2.url]"
+                  :height="dialog.img2.height"
+                />
+                <!-- Grupo de botones de opción, si es necesario -->
+                <v-radio-group
+                  v-if="dialog.requiresResponse"
+                  v-model="dialog.response.radioGroup"
+                >
                   <v-row class="justify-center">
-                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="dialog.response.radioGroup = item.id"
-                        :class="{ 'selected-image': dialog.response.radioGroup === item.id }">
-                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
-                        <img :src="imageMap[item.image]">
+                    <!-- Cada botón de opción se muestra en una tarjeta -->
+                    <v-col
+                      cols="2"
+                      v-for="(item, i) in dialog.response.items"
+                      :key="i"
+                    >
+                      <v-card
+                        @click="toggleSelected(dialog.response, item.id)"
+                        :class="{
+                          'selected-image': isSelected(
+                            dialog.response,
+                            item.id
+                          ),
+                        }"
+                      >
+                        <!-- Etiqueta y valor para el botón de opción -->
+                        <v-radio
+                          hide-details
+                          :label="item.label"
+                          :value="item.id"
+                        ></v-radio>
+                        <!-- Imagen para el botón de opción -->
+                        <img :src="imageMap[item.image]" />
                       </v-card>
                     </v-col>
                   </v-row>
@@ -34,9 +101,13 @@
             </v-row>
           </v-container>
         </v-card-text>
+        <!-- Acciones para la tarjeta -->
         <v-card-actions>
+          <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index)">Continuar</v-btn>
+          <v-btn color="green darken-1" dark @click="changeDialog(index)"
+            >Continuar</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -44,89 +115,143 @@
 </template>
 
 <script>
-import CardTitle from './CardTitle.vue'
-import data from './dialog.json';
-//import RadioGroupCard from './RadioGroupComponent.vue';
+// Importa los componentes necesarios
+import CardTitle from "./CardTitle.vue";
+import data from "./dialog.json";
 
+// Componente Vue principal
 export default {
   components: {
     CardTitle,
-    //RadioGroupCard
   },
+  // Datos iniciales del componente
   data() {
     return {
+      // Índice del diálogo activo
       activeDialog: 0,
+      // Array para almacenar la huella de carbono
       CarbonFootPrint: [
         {
-          idZone: '',
+          idZone: "",
           numPeople: 0,
           energyConsumption: 0,
-          fuelType: '',
-          fuelImage: '',
+          fuelType: "",
+          fuelImage: "",
           cubicMeters: 0,
-          propaneGas: 0
-        }
+          propaneGas: 0,
+        },
       ],
+      // Datos de los diálogos
       dialogs: data,
       imageMap: {
-        'texto': require('@/assets/imgs/texto.png'),
-        'ardilla': require('@/assets/imgs/ardilla.png'),
-        'seccion2': require('@/assets/imgs/seccion2.png'),
-        'urbana': require('@/assets/imgs/urbana.png'),
-        'rural': require('@/assets/imgs/rural.png'),
-        'gaspropano': require('@/assets/imgs/gaspropano.png'),
-        'gasnatural': require('@/assets/imgs/gasnatural.png'),
-        'bagazo': require('@/assets/imgs/bagazo.png'),
-        'carbon': require('@/assets/imgs/carbon.png'),
-        'leña': require('@/assets/imgs/leña.png'),
-        'madera': require('@/assets/imgs/madera.png'),
-        'fibrapalma': require('@/assets/imgs/fibrapalma.png'),
-        'transportemasivo': require('@/assets/imgs/transportemasivo.png'),
-        'vehiculo': require('@/assets/imgs/vehiculo.png'),
-        'moto': require('@/assets/imgs/moto.png'),
-        'bicicleta': require('@/assets/imgs/bicicleta.png'),
-        'apie': require('@/assets/imgs/apie.png')
-      }
+        texto: require("@/assets/imgs/texto.png"),
+        ardilla: require("@/assets/imgs/ardilla.png"),
+        seccion2: require("@/assets/imgs/seccion2.png"),
+        urbana: require("@/assets/imgs/urbana.png"),
+        rural: require("@/assets/imgs/rural.png"),
+        gaspropano: require("@/assets/imgs/gaspropano.png"),
+        gasnatural: require("@/assets/imgs/gasnatural.png"),
+        bagazo: require("@/assets/imgs/bagazo.png"),
+        carbon: require("@/assets/imgs/carbon.png"),
+        leña: require("@/assets/imgs/leña.png"),
+        madera: require("@/assets/imgs/madera.png"),
+        fibrapalma: require("@/assets/imgs/fibrapalma.png"),
+        transportemasivo: require("@/assets/imgs/transportemasivo.png"),
+        vehiculo: require("@/assets/imgs/vehiculo.png"),
+        moto: require("@/assets/imgs/moto.png"),
+        bicicleta: require("@/assets/imgs/bicicleta.png"),
+        apie: require("@/assets/imgs/apie.png"),
+      },
     };
   },
+  // Propiedades computadas del componente
   computed: {
+    // Determina si el primer diálogo está abierto
     isFirstDialogOpen() {
       return this.activeDialog === 0;
     },
+    // Calcula el valor de progreso en función del diálogo activo
     progressValue() {
       return (this.activeDialog / this.dialogs.length) * 100;
     },
+    // Determina el tamaño de las columnas en función del diálogo activo
     columnSize() {
-      return this.activeDialog === 6 ? 5 : (this.activeDialog >= 3 ? 12 : 5);
+      return this.activeDialog === 6 ? 5 : this.activeDialog >= 3 ? 12 : 5;
     },
+    // Determina el tamaño de las columnas en pantallas pequeñas
     columnSmSize() {
       return this.activeDialog >= 3 ? 12 : undefined;
     },
+    // Determina la clase de fondo en función de si el primer diálogo está abierto
     backgroundClass() {
-      return { 'dialog-background': this.isFirstDialogOpen };
+      return { "dialog-background": this.isFirstDialogOpen };
     },
+    // Determina la clase de columna en función de si el primer diálogo está abierto
     columnClass() {
-      return { 'popgray': this.isFirstDialogOpen };
+      return { popgray: this.isFirstDialogOpen };
     },
+    // Ruta a la imagen del encabezado
     headerImage() {
-      return require('@/assets/imgs/Header.png');
+      return require("@/assets/imgs/Header.png");
     },
   },
+  // Métodos del componente
   methods: {
-    validateResponse(dialog) {
-      if (!dialog.requiresResponse) return true;
-      return dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null;
+    isShowIfValid(dialog) {
+      // Si no hay showIf, entonces es válido
+      if (!dialog.showIf) return true;
+
+      // Obtén el diálogo anterior y verifica si coincide con la respuesta requerida
+      const previousDialog = this.dialogs.find(
+        (d) => d.id === dialog.showIf.previousDialogId
+      );
+
+      return (
+        previousDialog &&
+        (previousDialog.response.numSelected ===
+          dialog.showIf.previousResponse.numSelected ||
+          previousDialog.response.radioGroup ===
+            dialog.showIf.previousResponse.radioGroup)
+      );
     },
+
+    // Valida la respuesta del diálogo
+    validateResponse(dialog) {
+      // Si el diálogo no requiere una respuesta, entonces es válido
+      if (!dialog.requiresResponse) return true;
+      // En caso contrario, se requiere que se haya seleccionado al menos un elemento y un grupo de radio
+      return (
+        dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null
+      );
+    },
+    getNextDialogIndex(index) {
+      // Recorre los diálogos a partir del índice siguiente al actual
+      for (let i = index + 1; i < this.dialogs.length; i++) {
+        const dialog = this.dialogs[i];
+        // Verifica si el diálogo cumple con las condiciones de showIf
+        if (this.isShowIfValid(dialog)) {
+          return i;
+        }
+      }
+      return -1; // Si no se encuentra ningún diálogo válido, retorna -1
+    },
+    // Cambia al siguiente o al anterior diálogo
     changeDialog(index, isGoingBack = false) {
+      // Obtiene el diálogo actual
       const dialog = this.dialogs[index];
 
+      // Si se está yendo hacia adelante y el diálogo requiere una respuesta
       if (!isGoingBack && this.dialogRequiresResponse(dialog)) {
+        // Verifica si la respuesta es válida
         if (!this.isValidResponse(dialog.response)) {
-          this.showError('Debe completar alguno de los campos.');
+          // Si la respuesta no es válida, muestra un error
+          this.showError("Debe completar alguno de los campos.");
           return;
         }
 
+        // Si existe una función de completado para el diálogo
         if (dialog.response.completionFunction) {
+          // Ejecuta la función y guarda el resultado en CarbonFootPrint
           this.CarbonFootPrint = {
             ...this.CarbonFootPrint,
             ...this[dialog.response.completionFunction](
@@ -137,38 +262,75 @@ export default {
         }
       }
 
+      // Actualiza el estado de los diálogos
       this.updateDialogStatus(index, isGoingBack);
+
+      // Verifica si se está yendo hacia adelante y el diálogo es el 4
+      if (!isGoingBack && index === 3) {
+        const nextDialogIndex = this.getNextDialogIndex(index);
+        if (nextDialogIndex !== -1) {
+          this.dialogs[nextDialogIndex].open = true;
+          this.activeDialog = nextDialogIndex;
+        }
+      }
     },
+
+    // Determina si un diálogo requiere una respuesta
     dialogRequiresResponse(dialog) {
       return dialog.requiresResponse;
     },
+
+    // Determina si una respuesta es válida
     isValidResponse(response) {
       return response.numSelected !== 0 && response.radioGroup !== null;
     },
+
+    // Muestra un error
     showError(message) {
       // Implementa aquí tu lógica para mostrar el error.
       alert(message);
     },
+
+    // Actualiza el estado de los diálogos
     updateDialogStatus(index, isGoingBack) {
+      // Cierra el diálogo actual
       this.dialogs[index].open = false;
 
+      // Si se está yendo hacia adelante y existe un diálogo siguiente, lo abre
       if (!isGoingBack && index + 1 < this.dialogs.length) {
-        this.dialogs[index + 1].open = true;
-        this.activeDialog++;
-      } else if (isGoingBack && index - 1 >= 0) {
+        // Verifica el showIf antes de abrir el siguiente diálogo
+        if (this.isShowIfValid(this.dialogs[index + 1])) {
+          this.dialogs[index + 1].open = true;
+          this.activeDialog++;
+        } else {
+          // Si showIf no es válido, puedes decidir qué hacer. Quizás muestres un mensaje o avances al próximo diálogo válido.
+        }
+      }
+      // Si se está yendo hacia atrás y existe un diálogo anterior, lo abre
+      else if (isGoingBack && index - 1 >= 0) {
         this.dialogs[index - 1].open = true;
         this.activeDialog--;
       }
     },
+
+    // Actualiza la zona y la cantidad de personas
     GetPeopleZone(numSelected, radioGroup) {
-      return {
+      const result = {
         idZone: radioGroup,
         numPeople: numSelected,
       };
+      console.log(
+        "idZone: " + result.idZone + " numPeople: " + result.numPeople
+      );
+      return result;
     },
+
+    // Actualiza el consumo de energía
     GetEnergyConsumption(numSelected) {
       return { energyConsumption: numSelected };
     },
+
+    // Actualiza el tipo de combustible y su imagen
     GetFuelType(numSelected, radioGroup) {
       // Generar la ruta de la imagen en base al valor de radioGroup
       if (numSelected) {
@@ -179,27 +341,50 @@ export default {
       this.CarbonFootPrint.fuelImage = imgSrc;
       // Si el siguiente diálogo existe, actualiza su imagen.
       if (this.activeDialog + 1 < this.dialogs.length) {
-        this.dialogs[this.activeDialog + 1].img2.url = this.CarbonFootPrint.fuelImage;
+        this.dialogs[this.activeDialog + 1].img2.url =
+          this.CarbonFootPrint.fuelImage;
       }
       return { fuelType: radioGroup };
     },
+
+    // Actualiza la cantidad de metros cúbicos
     GetCubicMmeters(numSelected) {
       return { cubicMeters: numSelected };
     },
+
+    // Actualiza la cantidad de gas propano
     GetPropaneGas(numSelected) {
       return { propaneGas: numSelected };
     },
+
+    // Calcula la huella de carbono (función incompleta)
     calculateFootprint(numSelected, radioGroup) {
       console.log(numSelected, radioGroup);
-      console.log('------finalhastaahora----', this.CarbonFootPrint);
+      console.log("------finalhastaahora----", this.CarbonFootPrint);
     },
+
+    // Función de cálculo de huella de carbono (parece incompleta)
     calculateFootprintDo(numSelected) {
       console.log("rayosientra", numSelected);
     },
-  }
+        // Cambia el estado de selección de un botón de opción
+        toggleSelected(response, id) {
+      if (response.radioGroup === id) {
+        response.radioGroup = null; // Desmarca el botón si ya estaba seleccionado
+      } else {
+        response.radioGroup = id; // Marca el botón si no estaba seleccionado
+      }
+    },
+
+    // Verifica si un botón de opción está seleccionado
+    isSelected(response, id) {
+      return response.radioGroup === id;
+    }
+  },
 };
 </script>
 
+<!-- Estilos del componente -->
 <style scoped>
 @import url(../assets/formcard.css);
 </style>
