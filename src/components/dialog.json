@@ -1,279 +1,364 @@
 [
-    {
-        "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos a reducir tu <b>impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>",
-        "img": {
-            "url": "texto",
-            "height": 180
-        },
-        "open": true,
-        "requiresResponse": false
+  {"id": 1,
+    "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos a reducir tu <b>impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>",
+    "img": {
+      "url": "texto",
+      "height": 180
     },
-    {
-        "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de Gases de Efecto Invernadero (GEI) para contribuir a la lucha contra el cambio climático.",
-        "open": false,
-        "requiresResponse": false,
-        "img2": {
-            "url": "ardilla",
-            "height": 250
-        }
-    },
-    {
-        "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br> <ul> <li>Necesitas tus facturas de <b>gas y energía eléctrica.</b></li> <li>En tu factura de consumo de <b>gas</b>, te aparece tu consumo en <b>m3</b></li> <li>En tu factura de consumo de <b>energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b> </li> </ul>",
-        "open": false,
-        "requiresResponse": false,
-        "img": {
-            "url": "seccion2",
-            "height": 150
-        },
-        "img2": {
-            "url": "ardilla",
-            "height": 250
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
-        "content2": "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "response": {
-            "numSelected": 0,
-            "radioGroup": null,
-            "items": [
-                {
-                    "image": "urbana",
-                    "label": "URBANA",
-                    "id": "Urbano"
-                },
-                {
-                    "image": "rural",
-                    "label": "RURAL",
-                    "id": "Rural"
-                }
-            ],
-            "completionFunction": "GetPeopleZone"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "skipAllowed": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "response": {
-            "numSelected": 0,
-            "electricityConsumption": 0,
-            "completionFunction": "GetEnergyConsumption"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "response": {
-            "numSelected": false,
-            "items": [
-                {
-                    "image": "gaspropano",
-                    "label": "GAS PROPANO",
-                    "id": "gaspropano"
-                },
-                {
-                    "image": "gasnatural",
-                    "label": "GAS NATURAL",
-                    "id": "gasnatural"
-                }
-            ],
-            "completionFunction": "GetFuelType"
-        }
-    },
-    {
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "img2": {
-            "url": "gasnatural",
-            "height": 150
-        },
-        "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes? <br><br>",
-        "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
-        "response": {
-            "numSelected": 0,
-            "completionFunction": "GetCubicMmeters"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "response": {
-            "numSelected": 0,
-            "electricityConsumption": 0,
-            "completionFunction": "GetPropaneGas"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "response": {
-            "numSelected": false,
-            "items": [
-                {
-                    "label": "45kg (100lb)",
-                    "id": "45kg (100lb)"
-                },
-                {
-                    "label": "15kg (33lb)",
-                    "id": "15kg (33lb)"
-                },
-                {
-                    "label": "30kg (77lb)",
-                    "id": "30kg (77lb"
-                },
-                {
-                    "label": "18kg (40lb)",
-                    "id": "18kg (40lb)"
-                },
-                {
-                    "label": "6 - 4,5kg (10lb)",
-                    "id": "6 - 4,5kg (10lb)"
-                }
-            ],
-            "completionFunction": "calculateFootprint"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
-        "response": {
-            "numSelected": false,
-            "items": [
-                {
-                    "image": "bagazo",
-                    "label": "BAGAZO",
-                    "id": 1
-                },
-                {
-                    "image": "carbon",
-                    "label": "CARBÓN",
-                    "id": 2
-                },
-                {
-                    "image": "leña",
-                    "label": "LEÑA",
-                    "id": 3
-                },
-                {
-                    "image": "madera",
-                    "label": "MADERA",
-                    "id": 4
-                },
-                {
-                    "image": "fibrapalma",
-                    "label": "FIBRA PALMA",
-                    "id": 5
-                }
-            ],
-            "completionFunction": "calculateFootprint"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas?</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de Transporte<h5>",
-        "response": {
-            "numSelected": false,
-            "items": [
-                {
-                    "image": "transportemasivo",
-                    "label": "SISTEMA DE TRANSPORTE MASIVO",
-                    "id": 1
-                },
-                {
-                    "image": "vehiculo",
-                    "label": "VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO",
-                    "id": 2
-                },
-                {
-                    "image": "moto",
-                    "label": "MOTO",
-                    "id": 3
-                },
-                {
-                    "image": "bicicleta",
-                    "label": "BICICLETA",
-                    "id": 4
-                },
-                {
-                    "image": "apie",
-                    "label": "A PIE",
-                    "id": 5
-                }
-            ],
-            "completionFunction": "calculateFootprint"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Cálculo de Transporte<h5>",
-        "response": {
-            "numSelected": 0,
-            "items": [
-                {
-                    "image": "transportemasivo",
-                    "label": "SISTEMA DE TRANSPORTE MASIVO",
-                    "id": 1
-                },
-                {
-                    "image": "vehiculo",
-                    "label": "VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO",
-                    "id": 2
-                },
-                {
-                    "image": "moto",
-                    "label": "MOTO",
-                    "id": 3
-                },
-                {
-                    "image": "bicicleta",
-                    "label": "BICICLETA",
-                    "id": 4
-                },
-                {
-                    "image": "apie",
-                    "label": "A PIE",
-                    "id": 5
-                }
-            ],
-            "completionFunction": "calculateFootprint"
-        }
-    },
-    {
-        "content": "<h3 class='text-center mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
-        "open": false,
-        "requiresResponse": true,
-        "title": "<h5>Manejo de Residuos<h5>",
-        "response": {
-            "numSelected": false,
-            "items": [
-                {
-                    "label": "SI",
-                    "id": 1
-                },
-                {
-                    "label": "NO",
-                    "id": 2
-                }
-            ],
-            "completionFunction": "calculateFootprint"
-        }
+    "open": true,
+    "requiresResponse": false
+  },
+  {"id": 2,
+    "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de Gases de Efecto Invernadero (GEI) para contribuir a la lucha contra el cambio climático.",
+    "open": false,
+    "requiresResponse": false,
+    "img2": {
+      "url": "ardilla",
+      "height": 250
     }
+  },
+  {"id": 3,
+    "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br> <ul> <li>Necesitas tus facturas de <b>gas y energía eléctrica.</b></li> <li>En tu factura de consumo de <b>gas</b>, te aparece tu consumo en <b>m3</b></li> <li>En tu factura de consumo de <b>energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b> </li> </ul>",
+    "open": false,
+    "requiresResponse": false,
+    "img": {
+      "url": "seccion2",
+      "height": 150
+    },
+    "img2": {
+      "url": "ardilla",
+      "height": 250
+    }
+  },
+  {"id": 4,
+    "content": "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
+    "content2": "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "response": {
+      "numSelected": 0,
+      "radioGroup": null,
+      "items": [
+        {
+          "image": "urbana",
+          "label": "URBANA",
+          "id": "Urbano"
+        },
+        {
+          "image": "rural",
+          "label": "RURAL",
+          "id": "Rural"
+        }
+      ],
+      "completionFunction": "GetPeopleZone"
+    }
+  },
+  {"id": 5,
+    "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
+    "response": {
+      "numSelected": 0,
+      "electricityConsumption": 0,
+      "completionFunction": "GetEnergyConsumption"
+    },
+    "showIf": {
+        "previousDialogId": 4,
+        "previousResponse": {
+          "radioGroup": "Urbano"
+        }
+      }
+  },
+  {
+    "id": 6,
+    "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "response": {
+      "numSelected": 0,
+      "electricityConsumption": 0,
+      "completionFunction": "GetEnergyConsumption",
+      "items": [
+        {
+          "label": "No aplica",
+          "id": "NoAplica"
+        }
+      ]
+    },
+    "showIf": {
+      "previousDialogId": 4,
+      "previousResponse": {
+        "radioGroup": "Rural"
+      }
+    }
+  },
+  {"id": 7,
+    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "response": {
+      "numSelected": false,
+      "items": [
+        {
+          "image": "gaspropano",
+          "label": "GAS PROPANO",
+          "id": "gaspropano"
+        },
+        {
+          "image": "gasnatural",
+          "label": "GAS NATURAL",
+          "id": "gasnatural"
+        }
+      ],
+      "completionFunction": "GetFuelType"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 8,
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "img2": {
+      "url": "gasnatural",
+      "height": 150
+    },
+    "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes? <br><br>",
+    "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
+    "response": {
+      "numSelected": 0,
+      "completionFunction": "GetCubicMmeters"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 9,
+    "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "response": {
+      "numSelected": 0,
+      "electricityConsumption": 0,
+      "completionFunction": "GetPropaneGas"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 10,
+    "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "response": {
+      "numSelected": false,
+      "items": [
+        {
+          "label": "45kg (100lb)",
+          "id": "45kg (100lb)"
+        },
+        {
+          "label": "15kg (33lb)",
+          "id": "15kg (33lb)"
+        },
+        {
+          "label": "30kg (77lb)",
+          "id": "30kg (77lb"
+        },
+        {
+          "label": "18kg (40lb)",
+          "id": "18kg (40lb)"
+        },
+        {
+          "label": "6 - 4,5kg (10lb)",
+          "id": "6 - 4,5kg (10lb)"
+        }
+      ],
+      "completionFunction": "calculateFootprint"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 11,
+    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "response": {
+      "numSelected": false,
+      "items": [
+        {
+          "image": "bagazo",
+          "label": "BAGAZO",
+          "id": 1
+        },
+        {
+          "image": "carbon",
+          "label": "CARBÓN",
+          "id": 2
+        },
+        {
+          "image": "leña",
+          "label": "LEÑA",
+          "id": 3
+        },
+        {
+          "image": "madera",
+          "label": "MADERA",
+          "id": 4
+        },
+        {
+          "image": "fibrapalma",
+          "label": "FIBRA PALMA",
+          "id": 5
+        }
+      ],
+      "completionFunction": "calculateFootprint"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 12,
+    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de Transporte<h5>",
+    "response": {
+      "numSelected": false,
+      "items": [
+        {
+          "image": "transportemasivo",
+          "label": "SISTEMA DE TRANSPORTE MASIVO",
+          "id": 1
+        },
+        {
+          "image": "vehiculo",
+          "label": "VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO",
+          "id": 2
+        },
+        {
+          "image": "moto",
+          "label": "MOTO",
+          "id": 3
+        },
+        {
+          "image": "bicicleta",
+          "label": "BICICLETA",
+          "id": 4
+        },
+        {
+          "image": "apie",
+          "label": "A PIE",
+          "id": 5
+        }
+      ],
+      "completionFunction": "calculateFootprint"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 13,
+    "content": "<h3 class='text-center mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Cálculo de Transporte<h5>",
+    "response": {
+      "numSelected": 0,
+      "items": [
+        {
+          "image": "transportemasivo",
+          "label": "SISTEMA DE TRANSPORTE MASIVO",
+          "id": 1
+        },
+        {
+          "image": "vehiculo",
+          "label": "VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO",
+          "id": 2
+        },
+        {
+          "image": "moto",
+          "label": "MOTO",
+          "id": 3
+        },
+        {
+          "image": "bicicleta",
+          "label": "BICICLETA",
+          "id": 4
+        },
+        {
+          "image": "apie",
+          "label": "A PIE",
+          "id": 5
+        }
+      ],
+      "completionFunction": "calculateFootprint"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  },
+  {"id": 14,
+    "content": "<h3 class='text-center mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "title": "<h5>Manejo de Residuos<h5>",
+    "response": {
+      "numSelected": false,
+      "items": [
+        {
+          "label": "SI",
+          "id": 1
+        },
+        {
+          "label": "NO",
+          "id": 2
+        }
+      ],
+      "completionFunction": "calculateFootprint"
+    },
+    "showIf": {
+        "previousDialogId": 1,
+        "previousResponse": {
+          "numSelected": 2,
+          "radioGroup": "GroupA"
+        }
+      }
+  }
 ]
