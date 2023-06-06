@@ -10,13 +10,13 @@ import FormPrincipal from '../components/FormPrincipal.vue'
 const routes = [
   {
     path: '/',
-    name: 'HuellaCarbono',
-    component: HuellaCarbono
-  },
-  {
-    path: '/formcard',
     name: 'FormCard',
     component: FormCard
+  },
+  {
+    path: '/HuellaCarbono',
+    name: 'HuellaCarbono',
+    component: HuellaCarbono
   },
   {
     path: '/img',

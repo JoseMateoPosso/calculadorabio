@@ -1,9 +1,9 @@
 <template>
-  <FormCard />
-  <!-- <router-view /> -->
+  <!-- <FormCard /> -->
+  <router-view />
 </template>
 
-<script>
+<!-- <script>
 import FormCard from './components/FormCard.vue'
 
 export default {
@@ -11,4 +11,4 @@ export default {
     FormCard
   }
 }
-</script>
+</script> -->
