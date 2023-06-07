@@ -34,25 +34,25 @@ h5 {
     margin-top: 200px;
 }
 
-.v-card.fisrt-card .popgray {
+.v-card.first-card .popgray {
     background: #ffffffb0;
     border-radius: 20px;
     border: 2px solid #fff;
 }
 
-.v-card.fisrt-card .popgray.noborder-top {
+.v-card.first-card .popgray.noborder-top {
     border-top: none;
     border-top-right-radius: 0;
     border-top-left-radius: 0;
 }
 
-.v-card.fisrt-card .popgray.noborder-bottom {
+.v-card.first-card .popgray.noborder-bottom {
     border-bottom: none;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.v-card.fisrt-card button.v-btn {
+.v-card.first-card button.v-btn {
     margin: auto;
 }
 
