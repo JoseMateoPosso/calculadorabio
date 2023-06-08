@@ -332,7 +332,14 @@ export default {
 
     // Actualiza el consumo de energía
     GetEnergyConsumption(numSelected) {
-      return { energyConsumption: numSelected };
+      console.log(this.CarbonFootPrint);
+      const result = {
+        energyConsumption: numSelected,
+      };
+      console.log(
+        "energyConsumption: " + result.energyConsumption
+      );
+      return result;
     },
 
     // Actualiza el tipo de combustible y su imagen
