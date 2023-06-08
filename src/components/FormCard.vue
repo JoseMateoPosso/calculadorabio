@@ -155,23 +155,41 @@ export default {
         dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null
       );
     },
+    // Obtén el índice del próximo diálogo
+    getNextDialogIndex(currentDialogIndex) {
+      // Comprueba que 'response' y 'items' existen antes de intentar acceder a 'items'
+      if (
+        this.dialogs[currentDialogIndex] &&
+        this.dialogs[currentDialogIndex].response &&
+        this.dialogs[currentDialogIndex].response.items
+      ) {
+        // Obtenemos el próximo diálogo a abrir en base al item seleccionado
+        const selectedItem = this.dialogs[currentDialogIndex].response.items.find(
+          (item) => item.id === this.dialogs[currentDialogIndex].response.radioGroup
+        );
+
+        // Si el elemento seleccionado tiene una propiedad nextDialog, retornamos eso. Si no, simplemente incrementamos el índice.
+        return selectedItem && selectedItem.nextDialog !== undefined
+          ? selectedItem.nextDialog - 1
+          : currentDialogIndex + 1;
+      } else {
+        // Si 'response' o 'items' son indefinidos, simplemente incrementamos el índice
+        return currentDialogIndex + 1;
+      }
+    },
+
     // Cambia al siguiente o al anterior diálogo
     changeDialog(index, isGoingBack = false) {
       // Obtiene el diálogo actual
       const dialog = this.dialogs[index];
 
-      // Si se está yendo hacia adelante y el diálogo requiere una respuesta
       if (!isGoingBack && this.dialogRequiresResponse(dialog)) {
-        // Verifica si la respuesta es válida
         if (!this.isValidResponse(dialog.response)) {
-          // Si la respuesta no es válida, muestra un error
           this.showError("Debe completar alguno de los campos.");
           return;
         }
-
         // Si existe una función de completado para el diálogo
         if (dialog.response.completionFunction) {
-          // Ejecuta la función y guarda el resultado en CarbonFootPrint
           this.CarbonFootPrint = {
             ...this.CarbonFootPrint,
             ...this[dialog.response.completionFunction](
@@ -181,11 +199,26 @@ export default {
           };
         }
       }
-
       // Actualiza el estado de los diálogos
       this.updateDialogStatus(index, isGoingBack);
     },
+    // Actualiza el estado de los diálogos
+    updateDialogStatus(index, isGoingBack) {
+      // Cierra el diálogo actual
+      this.dialogs[index].open = false;
 
+      if (!isGoingBack) {
+        const nextDialogIndex = this.getNextDialogIndex(index);
+
+        if (nextDialogIndex < this.dialogs.length) {
+          this.dialogs[nextDialogIndex].open = true;
+          this.activeDialog = nextDialogIndex;
+        }
+      } else if (index - 1 >= 0) {
+        this.dialogs[index - 1].open = true;
+        this.activeDialog--;
+      }
+    },
     // Determina si un diálogo requiere una respuesta
     dialogRequiresResponse(dialog) {
       return dialog.requiresResponse;
@@ -200,20 +233,6 @@ export default {
     showError(message) {
       // Implementa aquí tu lógica para mostrar el error.
       alert(message);
-    },
-
-    // Actualiza el estado de los diálogos
-    updateDialogStatus(index, isGoingBack) {
-      // Si se está yendo hacia adelante y existe un diálogo siguiente, lo abre
-      this.dialogs[index].open = false;
-
-      if (!isGoingBack && index + 1 < this.dialogs.length) {
-        this.dialogs[index + 1].open = true;
-        this.activeDialog++;
-      } else if (isGoingBack && index - 1 >= 0) {
-        this.dialogs[index - 1].open = true;
-        this.activeDialog--;
-      }
     },
 
     // Actualiza la zona y la cantidad de personas

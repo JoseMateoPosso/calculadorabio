@@ -46,7 +46,8 @@
         {
           "image": "urbana",
           "label": "URBANA",
-          "id": "Urbano"
+          "id": "Urbano",
+          "nextDialog": 8
         },
         {
           "image": "rural",
