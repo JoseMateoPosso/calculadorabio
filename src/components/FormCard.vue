@@ -2,13 +2,29 @@
   <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
+    <img
+      v-if="!isFirstDialogOpen"
+      :src="headerImage"
+      alt="Imagen de descripción"
+      height="250"
+    />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog v-for="(dialog, index) in dialogs" :key="index" v-model="dialog.open" persistent max-width="900">
+    <v-dialog
+      v-for="(dialog, index) in dialogs"
+      :key="dialog.id"
+      v-model="dialog.open"
+      persistent
+      max-width="900"
+    >
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index, true)">mdi-arrow-left</v-icon>
+        <v-icon
+          v-if="index > 0"
+          class="icon-back"
+          @click="changeDialog(index, true)"
+          >mdi-arrow-left</v-icon
+        >
         <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
@@ -19,31 +35,68 @@
               <v-col>
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img
+                  v-if="dialog.img"
+                  :src="imageMap[dialog.img.url]"
+                  :height="dialog.img.height"
+                />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse &&
-                  dialog.response.numSelected !== false
-                  "></v-text-field>
+                <v-text-field
+                  variant="solo"
+                  v-model="dialog.response.numSelected"
+                  type="number"
+                  v-if="
+                    dialog.requiresResponse &&
+                    dialog.response.numSelected !== false
+                  "
+                ></v-text-field>
               </v-col>
-              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
+              <v-col
+                :cols="columnSize"
+                class="text-center"
+                sm="columnSmSize"
+                :class="columnClass"
+              >
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <img
+                  v-if="dialog.img2"
+                  :src="imageMap[dialog.img2.url]"
+                  :height="dialog.img2.height"
+                />
                 <!-- Grupo de botones de opción, si es necesario -->
-                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                <v-radio-group
+                  v-if="dialog.requiresResponse"
+                  v-model="dialog.response.radioGroup"
+                >
                   <v-row class="justify-center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="toggleSelected(dialog.response, item.id)" :class="{
-                        'selected-image': isSelected(
-                          dialog.response,
-                          item.id
-                        ),
-                      }">
+                    <v-col
+                      cols="2"
+                      v-for="(item, i) in dialog.response.items"
+                      :key="i"
+                    >
+                      <v-card
+                        @click="toggleSelected(dialog.response, item.id)"
+                        :class="{
+                          'selected-image': isSelected(
+                            dialog.response,
+                            item.id
+                          ),
+                        }"
+                      >
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
+                        <v-radio
+                          hide-details
+                          :label="item.label"
+                          :value="item.id"
+                        ></v-radio>
                         <!-- Imagen para el botón de opción -->
-                        <img v-if="item.image" :src="imageMap[item.image]" height="60" />
+                        <img
+                          v-if="item.image"
+                          :src="imageMap[item.image]"
+                          height="60"
+                        />
                       </v-card>
                     </v-col>
                   </v-row>
@@ -56,7 +109,9 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index)">Continuar</v-btn>
+          <v-btn color="green darken-1" dark @click="changeDialog(index)"
+            >Continuar</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -78,6 +133,8 @@ export default {
     return {
       // Índice del diálogo activo
       activeDialog: 0,
+      // Historial de diálogos visitados
+      dialogHistory: [],
       // Array para almacenar la huella de carbono
       CarbonFootPrint: [
         {
@@ -157,26 +214,21 @@ export default {
     },
     // Obtén el índice del próximo diálogo
     getNextDialogIndex(currentDialogIndex) {
-      // Comprueba que 'response' y 'items' existen antes de intentar acceder a 'items'
-      if (
-        this.dialogs[currentDialogIndex] &&
-        this.dialogs[currentDialogIndex].response &&
-        this.dialogs[currentDialogIndex].response.items
-      ) {
-        // Obtenemos el próximo diálogo a abrir en base al item seleccionado
-        const selectedItem = this.dialogs[currentDialogIndex].response.items.find(
-          (item) => item.id === this.dialogs[currentDialogIndex].response.radioGroup
+      const currentDialog = this.dialogs[currentDialogIndex];
+      if (currentDialog.nextDialog !== undefined) {
+        return currentDialog.nextDialog - 1; // Resta 1 porque los índices del array comienzan desde 0
+      } else if (currentDialog.response && currentDialog.response.radioGroup === null) {
+        return currentDialog.nextDialog - 1; // Resta 1 porque los índices del array comienzan desde 0
+      } else if (currentDialog.response && currentDialog.response.items) {
+        const selectedItem = currentDialog.response.items.find(
+          (item) => item.id === currentDialog.response.radioGroup
         );
-
-        // Si el elemento seleccionado tiene una propiedad nextDialog, retornamos eso. Si no, simplemente incrementamos el índice.
-        return selectedItem && selectedItem.nextDialog !== undefined
-          ? selectedItem.nextDialog - 1
-          : currentDialogIndex + 1;
-      } else {
-        // Si 'response' o 'items' son indefinidos, simplemente incrementamos el índice
-        return currentDialogIndex + 1;
+        if (selectedItem && selectedItem.nextDialog !== undefined) {
+          return selectedItem.nextDialog - 1; // Resta 1 porque los índices del array comienzan desde 0
+        }
       }
-    },
+      return currentDialogIndex + 1;
+},
 
     // Cambia al siguiente o al anterior diálogo
     changeDialog(index, isGoingBack = false) {
@@ -213,12 +265,17 @@ export default {
         if (nextDialogIndex < this.dialogs.length) {
           this.dialogs[nextDialogIndex].open = true;
           this.activeDialog = nextDialogIndex;
+          this.dialogHistory.push(index); // Agrega el diálogo actual al historial
         }
-      } else if (index - 1 >= 0) {
-        this.dialogs[index - 1].open = true;
-        this.activeDialog--;
+      } else {
+        const previousDialogIndex = this.dialogHistory.pop();
+        if (previousDialogIndex !== undefined) {
+          this.dialogs[previousDialogIndex].open = true;
+          this.activeDialog = previousDialogIndex;
+        }
       }
     },
+
     // Determina si un diálogo requiere una respuesta
     dialogRequiresResponse(dialog) {
       return dialog.requiresResponse;
@@ -301,7 +358,7 @@ export default {
     // Verifica si un botón de opción está seleccionado
     isSelected(response, id) {
       return response.radioGroup === id;
-    }
+    },
   },
 };
 </script>
