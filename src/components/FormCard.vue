@@ -22,7 +22,7 @@
         <v-icon
           v-if="index > 0"
           class="icon-back"
-          @click="changeDialog(index, true)"
+          @click="changeDialog(index + 1, true)"
           >mdi-arrow-left</v-icon
         >
         <!-- Título de la tarjeta y barra de progreso -->
@@ -109,7 +109,7 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index)"
+          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)"
             >Continuar</v-btn
           >
         </v-card-actions>
@@ -167,6 +167,7 @@ export default {
         moto: require("@/assets/imgs/moto.png"),
         bicicleta: require("@/assets/imgs/bicicleta.png"),
         apie: require("@/assets/imgs/apie.png"),
+        noaplica: require("@/assets/imgs/noaplica.png"),
       },
     };
   },
@@ -207,17 +208,28 @@ export default {
     validateResponse(dialog) {
       // Si el diálogo no requiere una respuesta, entonces es válido
       if (!dialog.requiresResponse) return true;
-      // En caso contrario, se requiere que se haya seleccionado al menos un elemento y un grupo de radio
-      return (
-        dialog.response.numSelected !== 0 && dialog.response.radioGroup !== null
-      );
+
+      // Verifica si se ha seleccionado un radioGroup
+      const hasSelectedRadioGroup = dialog.response.radioGroup !== null;
+
+      // Verifica si numSelected es igual o mayor a 0
+      const isValidNumSelected =
+        dialog.response.numSelected >= 0 ||
+        dialog.response.numSelected === null;
+
+      // Retorna true si se ha seleccionado un radioGroup o numSelected es válido
+      return hasSelectedRadioGroup || isValidNumSelected;
     },
+
     // Obtén el índice del próximo diálogo
     getNextDialogIndex(currentDialogIndex) {
       const currentDialog = this.dialogs[currentDialogIndex];
       if (currentDialog.nextDialog !== undefined) {
         return currentDialog.nextDialog - 1; // Resta 1 porque los índices del array comienzan desde 0
-      } else if (currentDialog.response && currentDialog.response.radioGroup === null) {
+      } else if (
+        currentDialog.response &&
+        currentDialog.response.radioGroup === null
+      ) {
         return currentDialog.nextDialog - 1; // Resta 1 porque los índices del array comienzan desde 0
       } else if (currentDialog.response && currentDialog.response.items) {
         const selectedItem = currentDialog.response.items.find(
@@ -228,18 +240,30 @@ export default {
         }
       }
       return currentDialogIndex + 1;
-},
+    },
 
     // Cambia al siguiente o al anterior diálogo
-    changeDialog(index, isGoingBack = false) {
+    changeDialog(dialogId, isGoingBack = false) {
+      // Encuentra el índice del diálogo en el array dialogs
+      const index = this.dialogs.findIndex((dialog) => dialog.id === dialogId);
+
+      // Verifica si el índice es válido
+      if (index === -1) {
+        console.error(`No se encontró el diálogo con el id: ${dialogId}`);
+        return;
+      }
+
       // Obtiene el diálogo actual
       const dialog = this.dialogs[index];
 
-      if (!isGoingBack && this.dialogRequiresResponse(dialog)) {
-        if (!this.isValidResponse(dialog.response)) {
+      // Verifica si el diálogo requiere una respuesta
+      if (this.dialogRequiresResponse(dialog)) {
+        // Valida la respuesta
+        if (!this.validateResponse(dialog)) {
           this.showError("Debe completar alguno de los campos.");
           return;
         }
+
         // Si existe una función de completado para el diálogo
         if (dialog.response.completionFunction) {
           this.CarbonFootPrint = {
@@ -251,9 +275,11 @@ export default {
           };
         }
       }
+
       // Actualiza el estado de los diálogos
       this.updateDialogStatus(index, isGoingBack);
     },
+
     // Actualiza el estado de los diálogos
     updateDialogStatus(index, isGoingBack) {
       // Cierra el diálogo actual
@@ -311,19 +337,27 @@ export default {
 
     // Actualiza el tipo de combustible y su imagen
     GetFuelType(numSelected, radioGroup) {
-      // Generar la ruta de la imagen en base al valor de radioGroup
-      if (numSelected) {
-        console.log(numSelected);
+      const dialog = this.dialogs[this.activeDialog];
+      // Verifica si el diálogo actual tiene la propiedad 'img2'
+      if (Object.prototype.hasOwnProperty.call(dialog, "img2")) {
+        // Generar la ruta de la imagen en base al valor de radioGroup
+        if (numSelected) {
+          console.log(numSelected);
+        }
+        const imgSrc = radioGroup;
+        // Guardar la imagen en CarbonFootPrint
+        this.CarbonFootPrint.fuelImage = imgSrc;
+        // Si el siguiente diálogo existe y tiene la propiedad 'img2', actualiza su imagen.
+        const nextDialog = this.dialogs[this.activeDialog + 1];
+        if (
+          nextDialog &&
+          Object.prototype.hasOwnProperty.call(nextDialog, "img2")
+        ) {
+          nextDialog.img2.url = this.CarbonFootPrint.fuelImage;
+        }
+        return { fuelType: radioGroup };
       }
-      const imgSrc = radioGroup;
-      // Guardar la imagen en CarbonFootPrint
-      this.CarbonFootPrint.fuelImage = imgSrc;
-      // Si el siguiente diálogo existe, actualiza su imagen.
-      if (this.activeDialog + 1 < this.dialogs.length) {
-        this.dialogs[this.activeDialog + 1].img2.url =
-          this.CarbonFootPrint.fuelImage;
-      }
-      return { fuelType: radioGroup };
+      return {}; // Devuelve un objeto vacío si 'img2' no está definida en el diálogo actual
     },
 
     // Actualiza la cantidad de metros cúbicos
