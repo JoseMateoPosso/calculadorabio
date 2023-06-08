@@ -68,7 +68,6 @@
     "nextDialog": 7,
     "response": {
       "numSelected": 0,
-      "electricityConsumption": 0,
       "completionFunction": "GetEnergyConsumption"
     }
   },
