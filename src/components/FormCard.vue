@@ -2,13 +2,29 @@
   <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
+    <img
+      v-if="!isFirstDialogOpen"
+      :src="headerImage"
+      alt="Imagen de descripción"
+      height="250"
+    />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
+    <v-dialog
+      v-for="(dialog, index) in dialogs"
+      :key="dialog.id"
+      v-model="dialog.open"
+      persistent
+      max-width="900"
+    >
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
+        <v-icon
+          v-if="index > 0"
+          class="icon-back"
+          @click="changeDialog(index + 1, true)"
+          >mdi-arrow-left</v-icon
+        >
         <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
@@ -19,31 +35,68 @@
               <v-col>
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img
+                  v-if="dialog.img"
+                  :src="imageMap[dialog.img.url]"
+                  :height="dialog.img.height"
+                />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse &&
-                  dialog.response.numSelected !== false
-                  "></v-text-field>
+                <v-text-field
+                  variant="solo"
+                  v-model="dialog.response.numSelected"
+                  type="number"
+                  v-if="
+                    dialog.requiresResponse &&
+                    dialog.response.numSelected !== false
+                  "
+                ></v-text-field>
               </v-col>
-              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
+              <v-col
+                :cols="columnSize"
+                class="text-center"
+                sm="columnSmSize"
+                :class="columnClass"
+              >
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <img
+                  v-if="dialog.img2"
+                  :src="imageMap[dialog.img2.url]"
+                  :height="dialog.img2.height"
+                />
                 <!-- Grupo de botones de opción, si es necesario -->
-                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                <v-radio-group
+                  v-if="dialog.requiresResponse"
+                  v-model="dialog.response.radioGroup"
+                >
                   <v-row class="justify-center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="toggleSelected(dialog.response, item.id)" :class="{
-                        'selected-image': isSelected(
-                          dialog.response,
-                          item.id
-                        ),
-                      }">
+                    <v-col
+                      cols="2"
+                      v-for="(item, i) in dialog.response.items"
+                      :key="i"
+                    >
+                      <v-card
+                        @click="toggleSelected(dialog.response, item.id)"
+                        :class="{
+                          'selected-image': isSelected(
+                            dialog.response,
+                            item.id
+                          ),
+                        }"
+                      >
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
+                        <v-radio
+                          hide-details
+                          :label="item.label"
+                          :value="item.id"
+                        ></v-radio>
                         <!-- Imagen para el botón de opción -->
-                        <img v-if="item.image" :src="imageMap[item.image]" height="50" />
+                        <img
+                          v-if="item.image"
+                          :src="imageMap[item.image]"
+                          height="50"
+                        />
                       </v-card>
                     </v-col>
                   </v-row>
@@ -56,7 +109,9 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)">Continuar</v-btn>
+          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)"
+            >Continuar</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,22 +205,41 @@ export default {
   // Métodos del componente
   methods: {
     // Valida la respuesta del diálogo
-    validateResponse(dialog) {
-      // Si el diálogo no requiere una respuesta, entonces es válido
-      if (!dialog.requiresResponse) return true;
+    validateResponse(dialogResponse) {
+      if (dialogResponse) {
+        // Validar responseType
+        if (dialogResponse.responseType === "both") {
+          // Si es "both", valida que radioGroup no sea null y que numselected sea mayor o igual a 1
+          if (
+            dialogResponse.radioGroup !== null &&
+            dialogResponse.numSelected >= 1
+          ) {
+            return true;
+          }
+        } else if (dialogResponse.responseType === "num") {
+          // Si es "num", valida que numSelected sea mayor o igual a 1
+          if (dialogResponse.numSelected >= 1) {
+            return true;
+          }
+        } else if (dialogResponse.responseType === "radio") {
+          // Si es "radio", valida que radioGroup no sea null
+          if (dialogResponse.radioGroup !== null) {
+            return true;
+          }
+        } else if (dialogResponse.responseType === "numOrRadio") {
+          // Si es "numOrRadio", valida que numSelected sea mayor a 1 o radioGroup no sea null
+          if (
+            dialogResponse.numSelected >= 1 ||
+            dialogResponse.radioGroup !== null
+          ) {
+            return true;
+          }
+        }
+      }
 
-      // Verifica si se ha seleccionado un radioGroup
-      const hasSelectedRadioGroup = dialog.response.radioGroup !== null;
-
-      // Verifica si numSelected es igual o mayor a 0
-      const isValidNumSelected =
-        dialog.response.numSelected >= 0 ||
-        dialog.response.numSelected === null;
-
-      // Retorna true si se ha seleccionado un radioGroup o numSelected es válido
-      return hasSelectedRadioGroup || isValidNumSelected;
+      // Si no pasa ninguna de las validaciones, retorna false
+      return false;
     },
-
     // Obtén el índice del próximo diálogo
     getNextDialogIndex(currentDialogIndex) {
       const currentDialog = this.dialogs[currentDialogIndex];
@@ -201,10 +275,10 @@ export default {
       // Obtiene el diálogo actual
       const dialog = this.dialogs[index];
 
-      // Verifica si el diálogo requiere una respuesta
-      if (this.dialogRequiresResponse(dialog)) {
+      // Si no estamos volviendo atrás y el diálogo requiere una respuesta
+      if (!isGoingBack && this.dialogRequiresResponse(dialog)) {
         // Valida la respuesta
-        if (!this.validateResponse(dialog)) {
+        if (!this.validateResponse(dialog.response)) {
           this.showError("Debe completar alguno de los campos.");
           return;
         }
@@ -277,40 +351,25 @@ export default {
 
     // Actualiza el consumo de energía
     GetEnergyConsumption(numSelected) {
-      console.log(this.CarbonFootPrint);
       const result = {
         energyConsumption: numSelected,
       };
-      console.log(
-        "energyConsumption: " + result.energyConsumption
-      );
+      console.log("energyConsumption: " + result.energyConsumption);
       return result;
     },
 
     // Actualiza el tipo de combustible y su imagen
     GetFuelType(numSelected, radioGroup) {
-      const dialog = this.dialogs[this.activeDialog];
-      // Verifica si el diálogo actual tiene la propiedad 'img2'
-      if (Object.prototype.hasOwnProperty.call(dialog, "img2")) {
-        // Generar la ruta de la imagen en base al valor de radioGroup
-        if (numSelected) {
+      if (numSelected) {
           console.log(numSelected);
-        }
-        const imgSrc = radioGroup;
-        // Guardar la imagen en CarbonFootPrint
-        this.CarbonFootPrint.fuelImage = imgSrc;
-        // Si el siguiente diálogo existe y tiene la propiedad 'img2', actualiza su imagen.
-        const nextDialog = this.dialogs[this.activeDialog + 1];
-        if (
-          nextDialog &&
-          Object.prototype.hasOwnProperty.call(nextDialog, "img2")
-        ) {
-          nextDialog.img2.url = this.CarbonFootPrint.fuelImage;
-        }
-        return { fuelType: radioGroup };
       }
-      return {}; // Devuelve un objeto vacío si 'img2' no está definida en el diálogo actual
+      const result = {
+        fuelType: radioGroup,
+      };
+      console.log("fuelType: " + result.fuelType);
+      return result;
     },
+
 
     // Actualiza la cantidad de metros cúbicos
     GetCubicMmeters(numSelected) {

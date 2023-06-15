@@ -40,6 +40,7 @@
     "open": false,
     "requiresResponse": true,
     "response": {
+      "responseType": "both",
       "numSelected": 0,
       "radioGroup": null,
       "items": [
@@ -67,6 +68,7 @@
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
     "nextDialog": 7,
     "response": {
+      "responseType": "num",
       "numSelected": 0,
       "completionFunction": "GetEnergyConsumption"
     }
@@ -79,6 +81,7 @@
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "nextDialog": 8,
     "response": {
+      "responseType": "numOrRadio",
       "numSelected": 0,
       "electricityConsumption": 0,
       "completionFunction": "GetEnergyConsumption",
@@ -92,6 +95,8 @@
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "response": {
+      "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -117,6 +122,8 @@
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "response": {
+      "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
