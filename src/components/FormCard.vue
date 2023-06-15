@@ -16,6 +16,7 @@
       persistent
       max-width="900"
     >
+      {{ dialog.id }}
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
@@ -142,9 +143,14 @@ export default {
           numPeople: 0,
           energyConsumption: 0,
           fuelType: "",
-          fuelImage: "",
+          numCylinders: 0,
           cubicMeters: 0,
-          propaneGas: 0,
+          solidFuel: "",
+          cylinderType: 0,
+          transportType: "",
+          transportFuelType: "",
+          numKilometers: 0,
+          recycle: 0,
         },
       ],
       // Datos de los diálogos
@@ -324,14 +330,10 @@ export default {
 
     // Actualiza la zona y la cantidad de personas
     GetPeopleZone(numSelected, radioGroup) {
-      const result = {
-        idZone: radioGroup,
-        numPeople: numSelected,
-      };
       console.log(
-        "idZone: " + result.idZone + " numPeople: " + result.numPeople
+        "idZone: " + radioGroup + " numPeople: " + numSelected
       );
-      return { idZone: result.idZone, numPeople: result.numPeople}
+      return { idZone: radioGroup, numPeople: numSelected}
     },
 
     // Actualiza el consumo de energía
