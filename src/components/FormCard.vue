@@ -207,36 +207,21 @@ export default {
     // Valida la respuesta del diálogo
     validateResponse(dialogResponse) {
       if (dialogResponse) {
-        // Validar responseType
-        if (dialogResponse.responseType === "both") {
-          // Si es "both", valida que radioGroup no sea null y que numselected sea mayor o igual a 1
-          if (
+        if (
+          (dialogResponse.responseType === "both" &&
             dialogResponse.radioGroup !== null &&
-            dialogResponse.numSelected >= 1
-          ) {
-            return true;
-          }
-        } else if (dialogResponse.responseType === "num") {
-          // Si es "num", valida que numSelected sea mayor o igual a 1
-          if (dialogResponse.numSelected >= 1) {
-            return true;
-          }
-        } else if (dialogResponse.responseType === "radio") {
-          // Si es "radio", valida que radioGroup no sea null
-          if (dialogResponse.radioGroup !== null) {
-            return true;
-          }
-        } else if (dialogResponse.responseType === "numOrRadio") {
-          // Si es "numOrRadio", valida que numSelected sea mayor a 1 o radioGroup no sea null
-          if (
-            dialogResponse.numSelected >= 1 ||
-            dialogResponse.radioGroup !== null
-          ) {
-            return true;
-          }
+            dialogResponse.numSelected >= 1) ||
+          (dialogResponse.responseType === "num" &&
+            dialogResponse.numSelected >= 1) ||
+          (dialogResponse.responseType === "radio" &&
+            dialogResponse.radioGroup !== null) ||
+          (dialogResponse.responseType === "numOrRadio" &&
+            (dialogResponse.numSelected >= 1 ||
+              dialogResponse.radioGroup !== null))
+        ) {
+          return true;
         }
       }
-
       // Si no pasa ninguna de las validaciones, retorna false
       return false;
     },
@@ -346,30 +331,32 @@ export default {
       console.log(
         "idZone: " + result.idZone + " numPeople: " + result.numPeople
       );
-      return result;
+      return { idZone: result.idZone, numPeople: result.numPeople}
     },
 
     // Actualiza el consumo de energía
-    GetEnergyConsumption(numSelected) {
+    GetEnergyConsumption(numSelected, radioGroup) {
+      console.log(this.CarbonFootPrint);
+      let selected = (radioGroup === 'NoAplica') ? 0 : numSelected;
       const result = {
-        energyConsumption: numSelected,
+        energyConsumption: selected,
       };
       console.log("energyConsumption: " + result.energyConsumption);
-      return result;
+      return { energyConsumption: result.energyConsumption }
     },
 
     // Actualiza el tipo de combustible y su imagen
     GetFuelType(numSelected, radioGroup) {
+      console.log(this.CarbonFootPrint);
       if (numSelected) {
-          console.log(numSelected);
+        console.log(numSelected);
       }
       const result = {
         fuelType: radioGroup,
       };
       console.log("fuelType: " + result.fuelType);
-      return result;
+      return { fuelType: result.fuelType };
     },
-
 
     // Actualiza la cantidad de metros cúbicos
     GetCubicMmeters(numSelected) {
