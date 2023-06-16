@@ -327,59 +327,6 @@ export default {
       // Implementa aquí tu lógica para mostrar el error.
       alert(message);
     },
-
-    // Actualiza la zona y la cantidad de personas
-    GetPeopleZone(numSelected, radioGroup) {
-      console.log(
-        "idZone: " + radioGroup + " numPeople: " + numSelected
-      );
-      return { idZone: radioGroup, numPeople: numSelected}
-    },
-
-    // Actualiza el consumo de energía
-    GetEnergyConsumption(numSelected, radioGroup) {
-      console.log(this.CarbonFootPrint);
-      let selected = (radioGroup === 'NoAplica') ? 0 : numSelected;
-      const result = {
-        energyConsumption: selected,
-      };
-      console.log("energyConsumption: " + result.energyConsumption);
-      return { energyConsumption: result.energyConsumption }
-    },
-
-    // Actualiza el tipo de combustible y su imagen
-    GetFuelType(numSelected, radioGroup) {
-      console.log(this.CarbonFootPrint);
-      if (numSelected) {
-        console.log(numSelected);
-      }
-      const result = {
-        fuelType: radioGroup,
-      };
-      console.log("fuelType: " + result.fuelType);
-      return { fuelType: result.fuelType };
-    },
-
-    // Actualiza la cantidad de metros cúbicos
-    GetCubicMmeters(numSelected) {
-      return { cubicMeters: numSelected };
-    },
-
-    // Actualiza la cantidad de gas propano
-    GetPropaneGas(numSelected) {
-      return { propaneGas: numSelected };
-    },
-
-    // Calcula la huella de carbono (función incompleta)
-    calculateFootprint(numSelected, radioGroup) {
-      console.log(numSelected, radioGroup);
-      console.log("------finalhastaahora----", this.CarbonFootPrint);
-    },
-
-    // Función de cálculo de huella de carbono (parece incompleta)
-    calculateFootprintDo(numSelected) {
-      console.log("rayosientra", numSelected);
-    },
     // Cambia el estado de selección de un botón de opción
     toggleSelected(response, id) {
       if (response.radioGroup === id) {
@@ -393,7 +340,84 @@ export default {
     isSelected(response, id) {
       return response.radioGroup === id;
     },
-  },
+
+    //Funciones para obtener datos de la huella de carbono
+
+    // Actualiza la zona y la cantidad de personas
+    GetPeopleZone(numSelected, radioGroup) {
+      console.log("idZone: " + radioGroup + " numPeople: " + numSelected);
+      return { idZone: radioGroup, numPeople: numSelected };
+    },
+
+    // Actualiza el consumo de energía
+    GetEnergyConsumption(numSelected) {
+      console.log("energyConsumption: " + numSelected);
+      return { energyConsumption: numSelected };
+    },
+
+    // Actualiza el tipo de combustible
+    GetFuelType(numSelected, radioGroup) {
+      console.log("fuelType: " + radioGroup + " numSelected: " + numSelected);
+      return { fuelType: radioGroup };
+    },
+    // Actualiza la cantidad de metros cúbicos
+    GetCylinders(numSelected) {
+      console.log("numCylinders: " + numSelected);
+      return { numCylinders: numSelected };
+    },
+    //Actualiza el tipo de combustible solido
+    GetSolidFuel(numSelected, radioGroup) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      console.log("solidFuel: " + radioGroup);
+      return { solidFuel: radioGroup };
+    },
+    // Actualiza la cantidad de metros cúbicos
+    GetCubicMeters(numSelected, radioGroup) {
+      if (this.CarbonFootPrint.fuelType === "gaspropano") {
+        let cylinders = this.CarbonFootPrint.numCylinders;
+        let density = 2.0;
+        let type = radioGroup;
+        let mass = type * cylinders;
+        let result = mass / density;
+        console.log("propaneCubicMeters: " + result);
+        return { cubicMeters: result };
+      } else if (this.CarbonFootPrint.fuelType === "gasnatural") {
+        console.log("naturalGasCubicMeters: " + numSelected);
+        return { cubicMeters: numSelected };
+      }
+    },
+    // Actualiza el tipo de transporte
+    GetTransportType(numSelected, radioGroup) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      console.log("transportType: " + radioGroup);
+      return { transportType: radioGroup };
+    },
+    // Actualiza el tipo de combustible del transporte
+    GetTransportFuelType(numSelected, radioGroup) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      console.log("transportFuelType: " + radioGroup);
+      return { transportFuelType: radioGroup };
+    },
+    // Actualiza la cantidad de kilómetros recorridos
+    GetNumKilometers(numSelected) {
+      console.log("numKilometers: " + numSelected);
+      return { numKilometers: numSelected };
+    },
+    // Actualiza si la persona recicla o no recicla
+    GetRecycle(numSelected, radioGroup) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+          console.log("recycle: " + radioGroup);
+          return { recycle: radioGroup };
+      }
+    },
 };
 </script>
 

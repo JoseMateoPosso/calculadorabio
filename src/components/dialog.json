@@ -148,7 +148,7 @@
     "response": {
       "responseType": "num",
       "numSelected": 0,
-      "completionFunction": "GetPropaneGas"
+      "completionFunction": "GetCylinders"
     }
   },
   {"id": 10,
@@ -165,7 +165,7 @@
     "response": {
       "responseType": "num",
       "numSelected": 0,
-      "completionFunction": "GetCubicMmeters"
+      "completionFunction": "GetCubicMeters"
     }
   },
   {"id": 11,
@@ -212,27 +212,28 @@
       "numSelected": false,
       "items": [
         {
-          "label": "45kg (100lb)",
-          "id": "45kg (100lb)"
+          "label": "6 - 4,5kg (10lb)",
+          "id": 6
         },
+
         {
           "label": "15kg (33lb)",
-          "id": "15kg (33lb)"
-        },
-        {
-          "label": "30kg (77lb)",
-          "id": "30kg (77lb"
+          "id": 15
         },
         {
           "label": "18kg (40lb)",
-          "id": "18kg (40lb)"
+          "id": 18
         },
         {
-          "label": "6 - 4,5kg (10lb)",
-          "id": "6 - 4,5kg (10lb)"
+          "label": "30kg (77lb)",
+          "id": 30
+        },
+        {
+          "label": "45kg (100lb)",
+          "id": 45
         }
       ],
-      "completionFunction": "calculateFootprint"
+      "completionFunction": "GetCubicMeters"
     }
   },
   {"id": 13,
@@ -270,14 +271,7 @@
           "id": 5
         }
       ],
-      "completionFunction": "calculateFootprint"
-    },
-    "showIf": {
-      "previousDialogId": 1,
-      "previousResponse": {
-        "numSelected": 2,
-        "radioGroup": "GroupA"
-      }
+      "completionFunction": "GetTransportType"
     }
   },
   {"id": 14,
@@ -315,7 +309,7 @@
           "id": 5
         }
       ],
-      "completionFunction": "calculateFootprint"
+      "completionFunction": "GetTransportFuelType"
     }
   },
   {"id": 15,
@@ -326,7 +320,7 @@
     "response": {
       "responseType": "num",
       "numSelected": 0,
-      "completionFunction": "calculateFootprint"
+      "completionFunction": "GetNumKilometers"
     }
   },
   {"id": 16,
@@ -344,10 +338,10 @@
         },
         {
           "label": "NO",
-          "id": 2
+          "id": 0
         }
       ],
-      "completionFunction": "calculateFootprint"
+      "completionFunction": "GetRecycle"
     }
   }
 ]
