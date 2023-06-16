@@ -223,7 +223,8 @@ export default {
             dialogResponse.radioGroup !== null) ||
           (dialogResponse.responseType === "numOrRadio" &&
             (dialogResponse.numSelected >= 1 ||
-              dialogResponse.radioGroup !== null))
+              dialogResponse.radioGroup !== null)) ||
+          dialogResponse.responseType === "none"
         ) {
           return true;
         }
@@ -366,7 +367,7 @@ export default {
       return { numCylinders: numSelected };
     },
     //Actualiza el tipo de combustible solido
-    GetSolidFuel(numSelected, radioGroup) {
+    GetSolidFuelType(numSelected, radioGroup) {
       if (numSelected) {
         console.log(numSelected);
       }
@@ -414,10 +415,90 @@ export default {
       if (numSelected) {
         console.log(numSelected);
       }
-          console.log("recycle: " + radioGroup);
-          return { recycle: radioGroup };
-      }
+      console.log("recycle: " + radioGroup);
+      return { recycle: radioGroup };
     },
+    // Obtiene la huella de carbono
+    CalculateFootprint(numSelected) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      //Variables huella de carbono
+      let idZone = this.CarbonFootPrint.idZone;
+      let numPeople = this.CarbonFootPrint.numPeople;
+      let energyConsumption = this.CarbonFootPrint.energyConsumption;
+      let fuelType = this.CarbonFootPrint.fuelType;
+      let numCylinders = this.CarbonFootPrint.numCylinders;
+      let solidFuel = this.CarbonFootPrint.solidFuel;
+      let cubicMeters = this.CarbonFootPrint.cubicMeters;
+      let transportType = this.CarbonFootPrint.transportType;
+      let transportFuelType = this.CarbonFootPrint.transportFuelType;
+      let numKilometers = this.CarbonFootPrint.numKilometers;
+      let recycle = this.CarbonFootPrint.recycle;
+      //Variables generales
+      let yearM = 12;
+      let yearD = 365;
+
+      //Calcular huella electrica
+      let electricFootPrint = 0;
+      let electricFactor = 0.126;
+      let totalElectricFootPrint =
+        energyConsumption * yearM * electricFactor * 0.001;
+      electricFootPrint = totalElectricFootPrint / numPeople;
+
+      //Calcular huella de transporte
+      let transportFootPrint = 0;
+      //Factores de emision
+      let acpmFactor = 10.15;
+      let gasoFactor = 8.15;
+      let gasFactor = 1.9801;
+      let electricCarFactor = 0.126;
+      let hibridFactor = (gasoFactor + electricCarFactor) / 2;
+      let masiveFactor = 1.0189;
+      //Rendimiento de combustible
+      acpmCarPerformance = 70;
+      gasoCarPerformance = 54;
+      gasoBikePerformance = 121;
+      gasCarPerformance = 22;
+      // Condicional que valida el tipo de transporte y asigna una función para calcular la huella de carbono del transporte
+      if (transportType === 1) {
+        masiveEmition = numKilometers * yearD * masiveFactor * 0.001;
+      } else if (transportType === 2) {
+        if (transportFuelType === 1) {
+          carEmition = numKilometers * yearD * (1 / acpmCarPerformance) * acpmFactor * 0.001;
+        } else if (transportFuelType === 2) {
+          carEmition = numKilometers * yearD * (1 / gasoCarPerformance) * gasoFactor * 0.001;
+        } else if (transportFuelType === 3) {
+          carEmition = numKilometers * yearD * (1 / gasCarPerformance) * gasFactor * 0.001;
+        } else if (transportFuelType === 4) {
+          carEmition = numKilometers * yearD * electricCarFactor * 0.001;
+        } else if (transportFuelType === 5) {
+          carEmition = numKilometers * yearD * hibridFactor * 0.001;
+        }
+      } else if (transportType === 3) {
+        if (transportFuelType === 2) {
+          motorBikeEmition = numKilometers * yearD * (1 / gasoBikePerformance) * gasoFactor * 0.001;
+        } else if (transportFuelType === 4) {
+          motorBikeEmition = numKilometers * yearD * electricCarFactor * 0.001;
+        } else {
+          motorBikeEmition = numKilometers * yearD * (1 / gasoBikePerformance) * gasoFactor * 0.001;
+        }
+      } else if (transportType === 4) {
+        bikeFootPrint = 0;
+      } else if (transportType === 5) {
+        walkingFootPrint = 0;
+      }
+      transportFootPrint = masiveEmition + carEmition + motorBikeEmition + bikeFootPrint + walkingFootPrint;
+
+      //Calcular huella de cocina
+      let kitchenFootPrint = 0;
+      //Calcular huella de reciclaje
+      let recycleFootPrint = 0;
+      //Calcular huella de carbono
+      let finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
+      console.log(finalCarbonFootPrint);
+    },
+  },
 };
 </script>
 
