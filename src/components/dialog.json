@@ -175,6 +175,7 @@
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "nextDialog": 13,
     "response": {
+      "numSelected": false,
       "responseType": "radio",
       "items": [
         {
@@ -343,5 +344,36 @@
       ],
       "completionFunction": "GetRecycle"
     }
+  },
+  {"id": 17,
+  "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><br> <p>Por favor espera un momento</p>",
+  "open": false,
+  "requiresResponse": true,
+  "nextDialog": 18,
+  "img2": {
+    "url": "ardilla",
+    "height": 250
+  },
+  "response": {
+    "responseType": "none",
+    "numSelected": false,
+    "completionFunction": "CalculateFootprint"
   }
+},
+{"id": 18,
+"content": "<b> <h3>Final</h3> </b><br> <p>del cuestionario</p>",
+"open": false,
+"requiresResponse": true,
+"nextDialog": 18,
+"img2": {
+  "url": "ardilla",
+  "height": 250
+},
+"response": {
+  "responseType": "none",
+  "numSelected": false,
+  "completionFunction": "CalculateFootprint"
+}
+}
 ]
+

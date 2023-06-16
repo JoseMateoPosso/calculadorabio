@@ -223,7 +223,8 @@ export default {
             dialogResponse.radioGroup !== null) ||
           (dialogResponse.responseType === "numOrRadio" &&
             (dialogResponse.numSelected >= 1 ||
-              dialogResponse.radioGroup !== null))
+              dialogResponse.radioGroup !== null)) ||
+          (dialogResponse.responseType === "none")
         ) {
           return true;
         }
@@ -366,7 +367,7 @@ export default {
       return { numCylinders: numSelected };
     },
     //Actualiza el tipo de combustible solido
-    GetSolidFuel(numSelected, radioGroup) {
+    GetSolidFuelType(numSelected, radioGroup) {
       if (numSelected) {
         console.log(numSelected);
       }
@@ -414,10 +415,17 @@ export default {
       if (numSelected) {
         console.log(numSelected);
       }
-          console.log("recycle: " + radioGroup);
-          return { recycle: radioGroup };
-      }
+      console.log("recycle: " + radioGroup);
+      return { recycle: radioGroup };
     },
+    // Obtiene la huella de carbono
+    CalculateFootprint(numSelected) {
+      if (numSelected) {
+        console.log(numSelected);
+      }
+      console.log(this.CarbonFootPrint);
+    },
+  },
 };
 </script>
 
