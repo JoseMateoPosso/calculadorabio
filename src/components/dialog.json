@@ -249,27 +249,32 @@
         {
           "image": "transportemasivo",
           "label": "SISTEMA DE TRANSPORTE MASIVO",
-          "id": 1
+          "id": 1,
+          "nextDialog": 14
         },
         {
           "image": "vehiculo",
           "label": "VEHÍCULO PARTICULAR Y/O DE SERVICIO PÚBLICO",
-          "id": 2
+          "id": 2,
+          "nextDialog": 14
         },
         {
           "image": "moto",
           "label": "MOTO",
-          "id": 3
+          "id": 3,
+          "nextDialog": 14
         },
         {
           "image": "bicicleta",
           "label": "BICICLETA",
-          "id": 4
+          "id": 4,
+          "nextDialog": 15
         },
         {
           "image": "apie",
           "label": "A PIE",
-          "id": 5
+          "id": 5,
+          "nextDialog": 15
         }
       ],
       "completionFunction": "GetTransportType"
@@ -349,7 +354,6 @@
   "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><br> <p>Por favor espera un momento</p>",
   "open": false,
   "requiresResponse": true,
-  "nextDialog": 18,
   "img2": {
     "url": "ardilla",
     "height": 250
@@ -364,7 +368,6 @@
 "content": "<b> <h3>Final</h3> </b><br> <p>del cuestionario</p>",
 "open": false,
 "requiresResponse": true,
-"nextDialog": 18,
 "img2": {
   "url": "ardilla",
   "height": 250
