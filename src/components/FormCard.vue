@@ -99,8 +99,12 @@ export default {
           transportFuelType: "",
           numKilometers: 0,
           recycle: 0,
+<<<<<<< HEAD
           finalCarbonFootPrint: 0,
           nivelCarbono: ""
+=======
+          finalCarbonFootPrint: 0
+>>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
         },
       ],
       // Datos de los diálogos
@@ -335,7 +339,11 @@ export default {
     //Actualiza el tipo de combustible solido
     GetSolidFuelType(numSelected, radioGroup) {
       console.log("solidFuel: " + radioGroup + " solidFuelWeight: " + numSelected);
+<<<<<<< HEAD
       return { solidFuel: radioGroup, solidFuelWeight: numSelected };
+=======
+      return { solidFuel: radioGroup, solidFuelWeight: numSelected};
+>>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
     },
     // Actualiza la cantidad de metros cúbicos
     GetCubicMeters(numSelected, radioGroup) {
@@ -475,6 +483,7 @@ export default {
       // Condicional que valida el tipo de combustible y asigna una función para calcular la huella de carbono de la cocina
       if (fuelType === "gasnatural") {
         kitchenFootPrint = cubicMeters * yearM * naturalFactor * 0.001;
+<<<<<<< HEAD
         kitchenFootPrint = kitchenFootPrint / numPeople;
       } else if (fuelType === "gaspropano") {
         kitchenFootPrint = cubicMeters * yearM * propaneFactor * 0.001;
@@ -495,6 +504,28 @@ export default {
         } else {
           kitchenFootPrint = solidFuelWeight * yearM * palmFactor * 0.001;
           kitchenFootPrint = kitchenFootPrint / numPeople;
+=======
+        kitchenFootPrint = kitchenFootPrint/numPeople;
+      } else if (fuelType === "gaspropano") {
+        kitchenFootPrint = cubicMeters * yearM * propaneFactor * 0.001;
+        kitchenFootPrint = kitchenFootPrint/numPeople;
+      } else if (fuelType === "combustiblesolido") {
+        if (solidFuel === 1) {
+          kitchenFootPrint = solidFuelWeight * yearM * bagazoFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint/numPeople;
+        } else if (solidFuel === 2) {
+          kitchenFootPrint = solidFuelWeight * yearM * carbonFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint/numPeople;
+        } else if (solidFuel === 3) {
+          kitchenFootPrint = solidFuelWeight * yearM * leñaFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint/numPeople;
+        } else if (solidFuel === 4) {
+          kitchenFootPrint = solidFuelWeight * yearM * woodFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint/numPeople;
+        } else {
+          kitchenFootPrint = solidFuelWeight * yearM * palmFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint/numPeople;
+>>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
         }
       }
 
@@ -506,6 +537,7 @@ export default {
       }
 
       // Calcular huella de carbono final
+<<<<<<< HEAD
       finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;        
       
       //calcular numero de arboles a plantar para compensar la huella de carbono
@@ -560,6 +592,12 @@ export default {
 
     SendMailFootprint() {
       console.log("entra al ultimo")
+=======
+      finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
+
+      console.log("final: " + finalCarbonFootPrint + " electric: " + electricFootPrint + " transport: " + transportFootPrint + " kitchen: " + kitchenFootPrint + " recycle: " + recycleFootPrint);
+      return { finalCarbonFootPrint: finalCarbonFootPrint };
+>>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
     }
   },
 };
