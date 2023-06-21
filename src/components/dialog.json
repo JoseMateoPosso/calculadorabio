@@ -450,21 +450,6 @@
       "numSelected": false,
       "completionFunction": "SendMailFootprint"
     }
-},
-{"id": 18,
-  "content": "<b> <h3>Tu huella de carbono es</h3> </b><br> <p>${this.CarbonFootPrint.finalCarbonFootPrint} toneladas de C02/año </p>",
-  "open": false,
-  "requiresResponse": true,
-  "img2": {
-    "url": "ardilla",
-    "height": 250
-  },
-  "response": {
-    "responseType": "none",
-    "numSelected": false,
-    "completionFunction": "CalculateFootprint"
-  }
 }
-
 ]
 
