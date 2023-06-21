@@ -315,27 +315,27 @@
       "numSelected": false,
       "items": [
         {
-          "image": "ACPM",
+          "image": "diesel",
           "label": "ACPM",
           "id": 1
         },
         {
-          "image": "vehiculo",
+          "image": "gasolina",
           "label": "GASOLINA",
           "id": 2
         },
         {
-          "image": "moto",
+          "image": "gas_natural",
           "label": "GAS NATURAL",
           "id": 3
         },
         {
-          "image": "bicicleta",
+          "image": "electrico",
           "label": "ELÉCTRICO",
           "id": 4
         },
         {
-          "image": "apie",
+          "image": "hibrido",
           "label": "HIBRIDO",
           "id": 5
         }

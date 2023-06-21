@@ -126,7 +126,12 @@ export default {
         noaplica: require("@/assets/imgs/noaplica.png"),
         huellaalta: require("@/assets/imgs/huellaalta.png"),
         huellamedia: require("@/assets/imgs/huellamedia.png"),
-        huellabaja: require("@/assets/imgs/huellabaja.png")
+        huellabaja: require("@/assets/imgs/huellabaja.png"),
+        diesel: require("@/assets/imgs/diesel.png"),
+        gasolina: require("@/assets/imgs/gasolina.png"),
+        gas_natural: require("@/assets/imgs/gas_natural.png"),
+        electrico: require("@/assets/imgs/electrico.png"),
+        hibrido: require("@/assets/imgs/hibrido.png")
       },
     };
   },
