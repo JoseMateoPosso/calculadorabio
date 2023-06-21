@@ -35,7 +35,7 @@
         <!-- Contenido de la tarjeta -->
         <v-card-text>
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
-          <v-container>
+          <v-container id="content">
             <v-row>
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
@@ -704,7 +704,19 @@ export default {
       console.log(
         `numSelected: ${numSelected}, radioGroup: ${radioGroup}, text: ${text}`
       );
-      html2pdf(document.getElementById("element-to-convert"));
+      let content = document.getElementById("content");
+      let options = {
+        margin: 1, 
+        filename: "certificado.pdf",
+        image: {
+          type: 'png'
+        },
+        jsPDF: { 
+          unit: "mm", 
+          format: "letter", 
+          orientation: "landscape"}
+      }
+      html2pdf(content, options);
     },
 
     SendMailFootprint() {
