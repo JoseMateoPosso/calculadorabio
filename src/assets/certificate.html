@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Embajador Ambiental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .certificate {
+            width: 1280px;
+            height: 720px;
+            background-color: aliceblue;
+            box-sizing: border-box;
+            padding: 20px 40px;
+        }
+        .title {
+            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+        }
+        .content {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .col-one {
+            width: 50%;
+            height: 100%;
+            text-align: center;
+        }
+        .embajador {
+            display: block;
+            font-weight: 700;
+            font-size: 24px;
+            color: #4CAF50;
+            padding: 8px 0px;
+        }
+        .nombre {
+            display: block;
+            font-weight: 500;
+            padding-bottom: 8px;
+            font-size: 14px;
+        }
+        .col-two {
+            display: flex;
+            width: 50%;
+            height: 100%;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="certificate">
+        <h1 class="title">Certificado de embajador ambiental</h1>
+        <div class="content">
+            <div class="col-one">
+                <p>
+                    <b>Avgust</b> concede el diploma de <span class="embajador">Embajador Ambiental</span> <span class="nombre">Nombre del embajador</span> Por contribuir satisfactoriamente a la reducción <span style="display: block;">de la <b>huella de carbono</b> en el planeta.</span>
+                </p>
+            </div>
+            <div class="col-two">
+                <img src="./imgs/ardilla.png" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

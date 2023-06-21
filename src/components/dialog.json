@@ -431,9 +431,10 @@
       "height": 250
     },
     "response": {
-      "responseType": "num",
-      "numSelected": 0,
-      "completionFunction": "SendMailFootprint"
+      "responseType": "text",
+      "text": "",
+      "numSelected": false,
+      "completionFunction": "exportToPDF"
     }
   },
   {
