@@ -2,51 +2,123 @@
   <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
+    <img
+      v-if="!isFirstDialogOpen"
+      :src="headerImage"
+      alt="Imagen de descripción"
+      height="250"
+    />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
+    <v-dialog
+      v-for="(dialog, index) in dialogs"
+      :key="dialog.id"
+      v-model="dialog.open"
+      persistent
+      max-width="900"
+    >
       {{ dialog.id }}
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
+        <v-icon
+          v-if="index > 0"
+          class="icon-back"
+          @click="changeDialog(index + 1, true)"
+          >mdi-arrow-left</v-icon
+        >
         <!-- Título de la tarjeta y barra de progreso -->
-        <CardTitle v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
+        <CardTitle
+          v-if="!isFirstDialogOpen"
+          :title="dialog.title"
+          :progress="progressValue"
+        />
         <!-- Contenido de la tarjeta -->
         <v-card-text>
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
-          <v-container>
+          <v-container id="content">
             <v-row>
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img
+                  v-if="dialog.img"
+                  :src="imageMap[dialog.img.url]"
+                  :height="dialog.img.height"
+                />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse &&
-                  dialog.response.numSelected !== false
-                  "></v-text-field>
+                <v-text-field
+                  variant="solo"
+                  v-model="dialog.response.numSelected"
+                  type="number"
+                  v-if="
+                    dialog.requiresResponse &&
+                    dialog.response.numSelected !== false
+                  "
+                ></v-text-field>
+                <!-- Campo para ingresar una respuesta de texto, si es necesario -->
+                <v-text-field
+                  variant="solo"
+                  v-model="dialog.response.text"
+                  type="text"
+                  v-if="
+                    dialog.requiresResponse &&
+                    dialog.response.responseType === 'text'
+                  "
+                ></v-text-field>
               </v-col>
-              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
+              <v-col
+                :cols="columnSize"
+                class="text-center"
+                sm="columnSmSize"
+                :class="columnClass"
+              >
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
-                <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
-                  @click="changeDialog(index + 1)">Empezar</v-btn>
+                <img
+                  v-if="dialog.img2"
+                  :src="imageMap[dialog.img2.url]"
+                  :height="dialog.img2.height"
+                />
+                <v-btn
+                  v-if="isFirstDialogOpen"
+                  color="green darken-1"
+                  dark
+                  @click="changeDialog(index + 1)"
+                  >Empezar</v-btn
+                >
                 <!-- Grupo de botones de opción, si es necesario -->
-                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
+                <v-radio-group
+                  v-if="dialog.requiresResponse"
+                  v-model="dialog.response.radioGroup"
+                >
                   <v-row class="justify-center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="toggleSelected(dialog.response, item.id)" :class="{
-                        'selected-image': isSelected(
-                          dialog.response,
-                          item.id
-                        ),
-                      }">
+                    <v-col
+                      cols="2"
+                      v-for="(item, i) in dialog.response.items"
+                      :key="i"
+                    >
+                      <v-card
+                        @click="toggleSelected(dialog.response, item.id)"
+                        :class="{
+                          'selected-image': isSelected(
+                            dialog.response,
+                            item.id
+                          ),
+                        }"
+                      >
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
+                        <v-radio
+                          hide-details
+                          :label="item.label"
+                          :value="item.id"
+                        ></v-radio>
                         <!-- Imagen para el botón de opción -->
-                        <img v-if="item.image" :src="imageMap[item.image]" height="50" />
+                        <img
+                          v-if="item.image"
+                          :src="imageMap[item.image]"
+                          height="50"
+                        />
                       </v-card>
                     </v-col>
                   </v-row>
@@ -59,7 +131,13 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn v-if="!isFirstDialogOpen" color="green darken-1" dark @click="changeDialog(index + 1)">Continuar</v-btn>
+          <v-btn
+            v-if="!isFirstDialogOpen"
+            color="green darken-1"
+            dark
+            @click="changeDialog(index + 1)"
+            >Continuar</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -70,6 +148,7 @@
 // Importa los componentes necesarios
 import CardTitle from "./CardTitle.vue";
 import data from "./dialog.json";
+import html2pdf from "html2pdf.js";
 
 // Componente Vue principal
 export default {
@@ -100,7 +179,8 @@ export default {
           numKilometers: 0,
           recycle: 0,
           finalCarbonFootPrint: 0,
-          nivelCarbono: ""
+          nivelCarbono: "",
+          name: "",
         },
       ],
       // Datos de los diálogos
@@ -131,7 +211,7 @@ export default {
         gasolina: require("@/assets/imgs/gasolina.png"),
         gas_natural: require("@/assets/imgs/gas_natural.png"),
         electrico: require("@/assets/imgs/electrico.png"),
-        hibrido: require("@/assets/imgs/hibrido.png")
+        hibrido: require("@/assets/imgs/hibrido.png"),
       },
     };
   },
@@ -190,6 +270,8 @@ export default {
           (dialogResponse.responseType === "numOrRadio" &&
             (dialogResponse.numSelected >= 1 ||
               dialogResponse.radioGroup !== null)) ||
+          (dialogResponse.responseType === "text" &&
+            dialogResponse.text !== "") ||
           dialogResponse.responseType === "none"
         ) {
           return true;
@@ -247,7 +329,8 @@ export default {
             ...this.CarbonFootPrint,
             ...this[dialog.response.completionFunction](
               dialog.response.numSelected,
-              dialog.response.radioGroup
+              dialog.response.radioGroup,
+              dialog.response.text
             ),
           };
         }
@@ -256,7 +339,6 @@ export default {
       // Actualiza el estado de los diálogos
       this.updateDialogStatus(index, isGoingBack);
     },
-
     // Actualiza el estado de los diálogos
     updateDialogStatus(index, isGoingBack) {
       // Cierra el diálogo actual
@@ -286,7 +368,11 @@ export default {
 
     // Determina si una respuesta es válida
     isValidResponse(response) {
-      return response.numSelected !== 0 && response.radioGroup !== null;
+      return (
+        response.numSelected !== 0 &&
+        response.radioGroup !== null &&
+        response.text !== ""
+      );
     },
 
     // Muestra un error
@@ -334,7 +420,9 @@ export default {
     },
     //Actualiza el tipo de combustible solido
     GetSolidFuelType(numSelected, radioGroup) {
-      console.log("solidFuel: " + radioGroup + " solidFuelWeight: " + numSelected);
+      console.log(
+        "solidFuel: " + radioGroup + " solidFuelWeight: " + numSelected
+      );
       return { solidFuel: radioGroup, solidFuelWeight: numSelected };
     },
     // Actualiza la cantidad de metros cúbicos
@@ -417,7 +505,8 @@ export default {
 
       // Calcular huella eléctrica
       let electricFactor = 0.126;
-      let totalElectricFootPrint = energyConsumption * yearM * electricFactor * 0.001;
+      let totalElectricFootPrint =
+        energyConsumption * yearM * electricFactor * 0.001;
       electricFootPrint = totalElectricFootPrint / numPeople;
 
       // Calcular huella de transporte
@@ -437,11 +526,22 @@ export default {
         masiveEmition = numKilometers * yearD * masiveFactor * 0.001;
       } else if (transportType === 2) {
         if (transportFuelType === 1) {
-          carEmition = numKilometers * yearD * (1 / acpmCarPerformance) * acpmFactor * 0.001;
+          carEmition =
+            numKilometers *
+            yearD *
+            (1 / acpmCarPerformance) *
+            acpmFactor *
+            0.001;
         } else if (transportFuelType === 2) {
-          carEmition = numKilometers * yearD * (1 / gasoCarPerformance) * gasoFactor * 0.001;
+          carEmition =
+            numKilometers *
+            yearD *
+            (1 / gasoCarPerformance) *
+            gasoFactor *
+            0.001;
         } else if (transportFuelType === 3) {
-          carEmition = numKilometers * yearD * (1 / gasCarPerformance) * gasFactor * 0.001;
+          carEmition =
+            numKilometers * yearD * (1 / gasCarPerformance) * gasFactor * 0.001;
         } else if (transportFuelType === 4) {
           carEmition = numKilometers * yearD * electricCarFactor * 0.001;
         } else if (transportFuelType === 5) {
@@ -449,11 +549,21 @@ export default {
         }
       } else if (transportType === 3) {
         if (transportFuelType === 2) {
-          motorBikeEmition = numKilometers * yearD * (1 / gasoBikePerformance) * gasoFactor * 0.001;
+          motorBikeEmition =
+            numKilometers *
+            yearD *
+            (1 / gasoBikePerformance) *
+            gasoFactor *
+            0.001;
         } else if (transportFuelType === 4) {
           motorBikeEmition = numKilometers * yearD * electricCarFactor * 0.001;
         } else {
-          motorBikeEmition = numKilometers * yearD * (1 / gasoBikePerformance) * gasoFactor * 0.001;
+          motorBikeEmition =
+            numKilometers *
+            yearD *
+            (1 / gasoBikePerformance) *
+            gasoFactor *
+            0.001;
         }
       } else if (transportType === 4) {
         bikeFootPrint = 0;
@@ -461,11 +571,16 @@ export default {
         walkingFootPrint = 0;
       }
 
-      transportFootPrint = masiveEmition + carEmition + motorBikeEmition + bikeFootPrint + walkingFootPrint;
+      transportFootPrint =
+        masiveEmition +
+        carEmition +
+        motorBikeEmition +
+        bikeFootPrint +
+        walkingFootPrint;
 
       // Calcular huella de cocina
       let naturalFactor = 1.9801;
-      let propaneFactor = 8.2100;
+      let propaneFactor = 8.21;
       let bagazoFactor = 1.68;
       let carbonFactor = 2.45;
       let palmFactor = 1.93;
@@ -500,67 +615,113 @@ export default {
 
       // Calcular huella de reciclaje
       if (recycle === 1) {
-        recycleFootPrint = -0.230;
+        recycleFootPrint = -0.23;
       } else {
         recycleFootPrint = 0;
       }
 
       // Calcular huella de carbono final
-      finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;        
-      
+      finalCarbonFootPrint =
+        electricFootPrint +
+        transportFootPrint +
+        kitchenFootPrint +
+        recycleFootPrint;
+
       //calcular numero de arboles a plantar para compensar la huella de carbono
-      let treePerTon = 6
-      let compensationTrees = finalCarbonFootPrint * treePerTon / 1
+      let treePerTon = 6;
+      let compensationTrees = (finalCarbonFootPrint * treePerTon) / 1;
 
       const finalCarbon = String(finalCarbonFootPrint).substring(0, 4);
       let resnivelCarbono;
       let content, imgUrl, content2;
 
       if (finalCarbonFootPrint > 1.8) {
-
-        resnivelCarbono = 'alta';
-        imgUrl = 'huellaalta';
-        content2 = `<p>Lamentablemente el resultado de tu huella es alto, te recomendamos que la reduzcas con los siguientes tips que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles.</p>`;
+        resnivelCarbono = "alta";
+        imgUrl = "huellaalta";
+        content2 = `<p>Lamentablemente el resultado de tu huella es alto, te recomendamos que la reduzcas con los siguientes tips que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${Math.round(
+          compensationTrees
+        )} árboles.</p>`;
       } else if (finalCarbonFootPrint >= 1.5 && finalCarbonFootPrint <= 1.7) {
-        resnivelCarbono = 'media';
-        imgUrl = 'huellamedia';
-        content2 = `<p>El resultado de tu huella es media, sabemos que puedes mejorar, para esto te queremos ayudar a que la reduzcas con los siguientes tips que tenemos preparados para ti <br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles</p>`;
+        resnivelCarbono = "media";
+        imgUrl = "huellamedia";
+        content2 = `<p>El resultado de tu huella es media, sabemos que puedes mejorar, para esto te queremos ayudar a que la reduzcas con los siguientes tips que tenemos preparados para ti <br> *Para compensar tu huella necesitas sembrar ${Math.round(
+          compensationTrees
+        )} árboles</p>`;
       } else if (finalCarbonFootPrint < 1.4) {
-        resnivelCarbono = 'baja';
-        imgUrl = 'huellabaja';
-        content2 = `<p>¡Felicidades!, el resultado de tu huella es baja, por lo tanto, Avgust te concede un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles. <br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa</p>`;
+        resnivelCarbono = "baja";
+        imgUrl = "huellabaja";
+        content2 = `<p>¡Felicidades!, el resultado de tu huella es baja, por lo tanto, Avgust te concede un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${Math.round(
+          compensationTrees
+        )} árboles. <br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa</p>`;
       } else {
-        resnivelCarbono = 'undefined';
+        resnivelCarbono = "undefined";
         console.log("Valor de huella de carbono no válido");
         // Resto de tu código
       }
 
-      content = `<b><h2>Tu huella de carbono es</h2></b><h5>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h5> <p class='txt-border text-center'>${finalCarbon} toneladas de CO2/año </p>`;
+      content = `<b><h2>Tu huella de carbono es</h2></b><h5>${
+        resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)
+      }</h5> <p class='txt-border text-center'>${finalCarbon} toneladas de CO2/año </p>`;
 
       this.dialogs[this.activeDialog + 1].content = content;
       this.dialogs[this.activeDialog + 1].img.url = imgUrl;
       this.dialogs[this.activeDialog + 1].content2 = content2;
-      resnivelCarbono === 'baja' ? this.dialogs[this.activeDialog + 1].nextDialog = 20 : this.dialogs[this.activeDialog + 1].nextDialog = 21    
+      resnivelCarbono === "baja"
+        ? (this.dialogs[this.activeDialog + 1].nextDialog = 20)
+        : (this.dialogs[this.activeDialog + 1].nextDialog = 21);
 
-      console.log("final: " + finalCarbonFootPrint + " electric: " + electricFootPrint + " transport: " + transportFootPrint + " kitchen: " + kitchenFootPrint + " recycle: " + recycleFootPrint);
-      return { finalCarbonFootPrint: finalCarbonFootPrint, nivelCarbono: resnivelCarbono };
+      console.log(
+        "final: " +
+          finalCarbonFootPrint +
+          " electric: " +
+          electricFootPrint +
+          " transport: " +
+          transportFootPrint +
+          " kitchen: " +
+          kitchenFootPrint +
+          " recycle: " +
+          recycleFootPrint
+      );
+      return {
+        finalCarbonFootPrint: finalCarbonFootPrint,
+        nivelCarbono: resnivelCarbono,
+      };
     },
-
     TipsFootprint() {
       const tip = {
-        'alta': '<h3>Electricidad</h3><p>El exceso de bolsas de plástico y empaques, así como mantener el congelador con hielo, hacen que tu refrigerador necesite más potencia para enfriar, y con ello se gasta más electricidad.</p><h3>Transporte</h3><p>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero.</p><h3>Combustible para cocinar</h3><p>Haz una inspección periódica del depósito de gas; revisar todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y valida que estos están completos y en óptimo estado.</p><h2>Gestión Integral de Residuos Sólidos (GIRS)</h2><p>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental.</p>',
-        'media': '<h3>Electricidad</h3><p>Aunque no estés usando el cargador, si lo dejas conectado sigue consumiendo energía y contribuyendo al cambio climático. </p> <p> <h3>Transporte</h3> Usa medios de transporte amigables con el medio ambiente como la bicicleta, transporte público, carro compartido, etc. </p> <p> <h3>Combustible para cocinar</h3> Los encendedores largos son una mejor alternativa para prender la estufa. Permite que el encendido sea más fácil y rápido. </p> <p> <h2>Gestión Integral de Residuos Sólidos (GIRS)</h2> En vez de desechar un objeto, arrégalo y busca otros usos para las cosas, como por ejemplo, utiliza las cáscaras y plantas muertas para fertilizar la tierra. </p>',
-        'baja':  '<h3>No tiene tips</h3>',
-        'undefined': '<h3>No entro en la condición</h3>',
+        alta: "<h3>Electricidad</h3><p>El exceso de bolsas de plástico y empaques, así como mantener el congelador con hielo, hacen que tu refrigerador necesite más potencia para enfriar, y con ello se gasta más electricidad.</p><h3>Transporte</h3><p>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero.</p><h3>Combustible para cocinar</h3><p>Haz una inspección periódica del depósito de gas; revisar todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y valida que estos están completos y en óptimo estado.</p><h2>Gestión Integral de Residuos Sólidos (GIRS)</h2><p>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental.</p>",
+        media:
+          "<h3>Electricidad</h3><p>Aunque no estés usando el cargador, si lo dejas conectado sigue consumiendo energía y contribuyendo al cambio climático. </p> <p> <h3>Transporte</h3> Usa medios de transporte amigables con el medio ambiente como la bicicleta, transporte público, carro compartido, etc. </p> <p> <h3>Combustible para cocinar</h3> Los encendedores largos son una mejor alternativa para prender la estufa. Permite que el encendido sea más fácil y rápido. </p> <p> <h2>Gestión Integral de Residuos Sólidos (GIRS)</h2> En vez de desechar un objeto, arrégalo y busca otros usos para las cosas, como por ejemplo, utiliza las cáscaras y plantas muertas para fertilizar la tierra. </p>",
+        baja: "<h3>No tiene tips</h3>",
+        undefined: "<h3>No entro en la condición</h3>",
       };
       if (this.activeDialog + 1 < this.dialogs.length) {
-        this.dialogs[this.activeDialog + 1].content = tip[this.CarbonFootPrint.nivelCarbono]
+        this.dialogs[this.activeDialog + 1].content =
+          tip[this.CarbonFootPrint.nivelCarbono];
       }
+    },
+    exportToPDF(numSelected, radioGroup, text) {
+      console.log(
+        `numSelected: ${numSelected}, radioGroup: ${radioGroup}, text: ${text}`
+      );
+      let content = document.getElementById("content");
+      let options = {
+        margin: 1, 
+        filename: "certificado.pdf",
+        image: {
+          type: 'png'
+        },
+        jsPDF: { 
+          unit: "mm", 
+          format: "letter", 
+          orientation: "landscape"}
+      }
+      html2pdf(content, options);
     },
 
     SendMailFootprint() {
-      console.log("entra al ultimo")
-    }
+      console.log("entra al ultimo");
+    },
   },
 };
 </script>
