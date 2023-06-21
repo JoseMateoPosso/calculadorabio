@@ -35,8 +35,8 @@
   },
   {
     "id": 4,
-    "content": "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
-    "content2": "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
+    "content": "<h3 class='mb-3'>¿Cuántas personas viven contigo?</h3>",
+    "content2": "<h3 class='mb-3'>Zona de Vivienda</h3>",
     "open": false,
     "requiresResponse": true,
     "response": {
@@ -62,7 +62,7 @@
   },
   {
     "id": 5,
-    "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+    "content": "<h3 class='mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
@@ -75,7 +75,7 @@
   },
   {
     "id": 6,
-    "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
+    "content": "<h3 class='mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -96,7 +96,7 @@
   },
   {
     "id": 7,
-    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
+    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -123,7 +123,7 @@
   },
   {
     "id": 8,
-    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
+    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -155,7 +155,7 @@
   },
   {
     "id": 9,
-    "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
+    "content": "<h3 class='mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -176,7 +176,7 @@
       "height": 150
     },
     "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes? <br><br>",
-    "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
+    "content2": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
     "nextDialog": 13,
     "response": {
       "responseType": "num",
@@ -186,8 +186,8 @@
   },
   {
     "id": 11,
-    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
-    "content2": "<h3 class='text-center mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar?</h3>",
+    "content": "<h3 class='mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
+    "content2": "<h3 class='mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -227,7 +227,7 @@
   },
   {
     "id": 12,
-    "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
+    "content": "<h3 class='mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -262,7 +262,7 @@
   },
   {
     "id": 13,
-    "content": "<h3 class='text-center mb-3'>¿Qué medio de transporte es el que más utilizas a la semana?</h3>",
+    "content": "<h3 class='mb-3'>¿Qué medio de transporte es el que más utilizas a la semana?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -306,7 +306,7 @@
   },
   {
     "id": 14,
-    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -345,7 +345,7 @@
   },
   {
     "id": 15,
-    "content": "<h3 class='text-center mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
+    "content": "<h3 class='mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -357,7 +357,7 @@
   },
   {
     "id": 16,
-    "content": "<h3 class='text-center mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
+    "content": "<h3 class='mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Manejo de Residuos<h5>",
@@ -394,7 +394,52 @@
   },
   {
     "id": 18,
-    "content": "<b> <h3>Tu huella de carbono es</h3> </b><br> <p>${this.CarbonFootPrint.finalCarbonFootPrint} toneladas de C02/año </p>",
+    "content": "<b> <h3>Tu huella de carbono</h3>",
+    "open": false,
+    "requiresResponse": true,
+    "img": {
+      "url": "ardilla",
+      "height": 60
+    },
+    "response": {
+      "responseType": "none",
+      "numSelected": false,
+      "completionFunction": "TipsFootprint"
+    }
+  },
+  {
+    "id": 19,
+    "content": "<b> <h3>Aqui se muesta los tips</h3> </b>",
+    "open": false,
+    "requiresResponse": false,
+    "img2": {
+      "url": "ardilla",
+      "height": 250
+    },
+    "response": {
+      "responseType": "none",
+      "numSelected": false
+    }
+  },
+  {
+    "id": 20,
+    "content": "<b> <h3>¡Felicidades!</h3> </b><p>Avgust quiere concederte un diploma de</p> <h3 class='txt-green'>Embajador Ambiental</p> ",
+    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la huella de carbono",
+    "open": false,
+    "requiresResponse": true,
+    "img2": {
+      "url": "ardilla",
+      "height": 250
+    },
+    "response": {
+      "responseType": "num",
+      "numSelected": 0,
+      "completionFunction": "SendMailFootprint"
+    }
+  },
+  {
+    "id": 21,
+    "content": "<b> <h3>Ultimo dialogo</p> ",
     "open": false,
     "requiresResponse": true,
     "img2": {
@@ -404,7 +449,7 @@
     "response": {
       "responseType": "none",
       "numSelected": false,
-      "completionFunction": "CalculateFootprint"
+      "completionFunction": "SendMailFootprint"
     }
   }
 ]

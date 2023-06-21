@@ -7,17 +7,17 @@
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
       {{ dialog.id }}
       <!-- Cada diálogo se muestra en una tarjeta -->
-      <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
+      <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
-        <CardTitle :title="dialog.title" :progress="progressValue" />
+        <CardTitle v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
         <v-card-text>
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
           <v-container>
             <v-row>
-              <v-col>
+              <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
@@ -30,6 +30,8 @@
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
                 <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
+                  @click="changeDialog(index + 1)">Empezar</v-btn>
                 <!-- Grupo de botones de opción, si es necesario -->
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row class="justify-center">
@@ -57,7 +59,7 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)">Continuar</v-btn>
+          <v-btn v-if="!isFirstDialogOpen" color="green darken-1" dark @click="changeDialog(index + 1)">Continuar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -97,7 +99,8 @@ export default {
           transportFuelType: "",
           numKilometers: 0,
           recycle: 0,
-          finalCarbonFootPrint: 0
+          finalCarbonFootPrint: 0,
+          nivelCarbono: ""
         },
       ],
       // Datos de los diálogos
@@ -121,6 +124,9 @@ export default {
         bicicleta: require("@/assets/imgs/bicicleta.png"),
         apie: require("@/assets/imgs/apie.png"),
         noaplica: require("@/assets/imgs/noaplica.png"),
+        huellaalta: require("@/assets/imgs/huellaalta.png"),
+        huellamedia: require("@/assets/imgs/huellamedia.png"),
+        huellabaja: require("@/assets/imgs/huellabaja.png")
       },
     };
   },
@@ -136,7 +142,15 @@ export default {
     },
     // Determina el tamaño de las columnas en función del diálogo activo
     columnSize() {
-      return this.activeDialog === 9 ? 5 : this.activeDialog >= 3 ? 12 : 5;
+      if (this.activeDialog === 18) {
+        return 5; // Cambiar a 5 columnas si el diálogo está en la posición 18
+      } else if (this.activeDialog === 9) {
+        return 5; // Mantener 5 columnas si el diálogo está en la posición 9
+      } else if (this.activeDialog >= 3) {
+        return 12; // Cambiar a 12 columnas si el diálogo está en la posición 3 o posterior
+      } else {
+        return 5; // Mantener 5 columnas por defecto
+      }
     },
     // Determina el tamaño de las columnas en pantallas pequeñas
     columnSmSize() {
@@ -487,10 +501,60 @@ export default {
       }
 
       // Calcular huella de carbono final
-      finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
+      finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;        
+      
+      //calcular numero de arboles a plantar para compensar la huella de carbono
+      let treePerTon = 6
+      let compensationTrees = finalCarbonFootPrint * treePerTon / 1
+
+      const finalCarbon = String(finalCarbonFootPrint).substring(0, 4);
+      let resnivelCarbono;
+      let content, imgUrl, content2;
+
+      if (finalCarbonFootPrint > 1.8) {
+
+        resnivelCarbono = 'alta';
+        imgUrl = 'huellaalta';
+        content2 = `<p>Lamentablemente el resultado de tu huella es alto, te recomendamos que la reduzcas con los siguientes tips que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles.</p>`;
+      } else if (finalCarbonFootPrint >= 1.5 && finalCarbonFootPrint <= 1.7) {
+        resnivelCarbono = 'media';
+        imgUrl = 'huellamedia';
+        content2 = `<p>El resultado de tu huella es media, sabemos que puedes mejorar, para esto te queremos ayudar a que la reduzcas con los siguientes tips que tenemos preparados para ti <br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles</p>`;
+      } else if (finalCarbonFootPrint < 1.4) {
+        resnivelCarbono = 'baja';
+        imgUrl = 'huellabaja';
+        content2 = `<p>¡Felicidades!, el resultado de tu huella es baja, por lo tanto, Avgust te concede un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${Math.round(compensationTrees)} árboles. <br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa</p>`;
+      } else {
+        resnivelCarbono = 'undefined';
+        console.log("Valor de huella de carbono no válido");
+        // Resto de tu código
+      }
+
+      content = `<b><h2>Tu huella de carbono es</h2></b><h5>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h5> <p class='txt-border text-center'>${finalCarbon} toneladas de CO2/año </p>`;
+
+      this.dialogs[this.activeDialog + 1].content = content;
+      this.dialogs[this.activeDialog + 1].img.url = imgUrl;
+      this.dialogs[this.activeDialog + 1].content2 = content2;
+      resnivelCarbono === 'baja' ? this.dialogs[this.activeDialog + 1].nextDialog = 20 : this.dialogs[this.activeDialog + 1].nextDialog = 21    
 
       console.log("final: " + finalCarbonFootPrint + " electric: " + electricFootPrint + " transport: " + transportFootPrint + " kitchen: " + kitchenFootPrint + " recycle: " + recycleFootPrint);
-      return { finalCarbonFootPrint: finalCarbonFootPrint };
+      return { finalCarbonFootPrint: finalCarbonFootPrint, nivelCarbono: resnivelCarbono };
+    },
+
+    TipsFootprint() {
+      const tip = {
+        'alta': '<h3>Electricidad</h3><p>El exceso de bolsas de plástico y empaques, así como mantener el congelador con hielo, hacen que tu refrigerador necesite más potencia para enfriar, y con ello se gasta más electricidad.</p><h3>Transporte</h3><p>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero.</p><h3>Combustible para cocinar</h3><p>Haz una inspección periódica del depósito de gas; revisar todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y valida que estos están completos y en óptimo estado.</p><h2>Gestión Integral de Residuos Sólidos (GIRS)</h2><p>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental.</p>',
+        'media': '<h3>Electricidad</h3><p>Aunque no estés usando el cargador, si lo dejas conectado sigue consumiendo energía y contribuyendo al cambio climático. </p> <p> <h3>Transporte</h3> Usa medios de transporte amigables con el medio ambiente como la bicicleta, transporte público, carro compartido, etc. </p> <p> <h3>Combustible para cocinar</h3> Los encendedores largos son una mejor alternativa para prender la estufa. Permite que el encendido sea más fácil y rápido. </p> <p> <h2>Gestión Integral de Residuos Sólidos (GIRS)</h2> En vez de desechar un objeto, arrégalo y busca otros usos para las cosas, como por ejemplo, utiliza las cáscaras y plantas muertas para fertilizar la tierra. </p>',
+        'baja':  '<h3>No tiene tips</h3>',
+        'undefined': '<h3>No entro en la condición</h3>',
+      };
+      if (this.activeDialog + 1 < this.dialogs.length) {
+        this.dialogs[this.activeDialog + 1].content = tip[this.CarbonFootPrint.nivelCarbono]
+      }
+    },
+
+    SendMailFootprint() {
+      console.log("entra al ultimo")
     }
   },
 };
