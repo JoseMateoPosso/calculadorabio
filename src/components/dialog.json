@@ -184,16 +184,9 @@
       "completionFunction": "GetCubicMeters"
     }
   },
-<<<<<<< HEAD
-  {
-    "id": 11,
-    "content": "<h3 class='mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
-    "content2": "<h3 class='mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar?</h3>",
-=======
   {"id": 11,
     "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
     "content2": "<h3 class='text-center mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar?</h3>",
->>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -457,10 +450,6 @@
       "numSelected": false,
       "completionFunction": "SendMailFootprint"
     }
-  }
-<<<<<<< HEAD
-]
-=======
 },
 {"id": 18,
   "content": "<b> <h3>Tu huella de carbono es</h3> </b><br> <p>${this.CarbonFootPrint.finalCarbonFootPrint} toneladas de C02/año </p>",
@@ -479,4 +468,3 @@
 
 ]
 
->>>>>>> 24a6882 (funcion CalculateFootPrint terminada)
