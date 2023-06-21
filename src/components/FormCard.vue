@@ -2,30 +2,14 @@
   <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img
-      v-if="!isFirstDialogOpen"
-      :src="headerImage"
-      alt="Imagen de descripción"
-      height="250"
-    />
+    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog
-      v-for="(dialog, index) in dialogs"
-      :key="dialog.id"
-      v-model="dialog.open"
-      persistent
-      max-width="900"
-    >
+    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
       {{ dialog.id }}
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="60vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon
-          v-if="index > 0"
-          class="icon-back"
-          @click="changeDialog(index + 1, true)"
-          >mdi-arrow-left</v-icon
-        >
+        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
@@ -36,68 +20,31 @@
               <v-col>
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
-                <img
-                  v-if="dialog.img"
-                  :src="imageMap[dialog.img.url]"
-                  :height="dialog.img.height"
-                />
+                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field
-                  variant="solo"
-                  v-model="dialog.response.numSelected"
-                  type="number"
-                  v-if="
-                    dialog.requiresResponse &&
-                    dialog.response.numSelected !== false
-                  "
-                ></v-text-field>
+                <v-text-field variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse &&
+                  dialog.response.numSelected !== false
+                  "></v-text-field>
               </v-col>
-              <v-col
-                :cols="columnSize"
-                class="text-center"
-                sm="columnSmSize"
-                :class="columnClass"
-              >
+              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <p v-html="dialog.content2"></p>
-                <img
-                  v-if="dialog.img2"
-                  :src="imageMap[dialog.img2.url]"
-                  :height="dialog.img2.height"
-                />
+                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
                 <!-- Grupo de botones de opción, si es necesario -->
-                <v-radio-group
-                  v-if="dialog.requiresResponse"
-                  v-model="dialog.response.radioGroup"
-                >
+                <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row class="justify-center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col
-                      cols="2"
-                      v-for="(item, i) in dialog.response.items"
-                      :key="i"
-                    >
-                      <v-card
-                        @click="toggleSelected(dialog.response, item.id)"
-                        :class="{
-                          'selected-image': isSelected(
-                            dialog.response,
-                            item.id
-                          ),
-                        }"
-                      >
+                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
+                      <v-card @click="toggleSelected(dialog.response, item.id)" :class="{
+                        'selected-image': isSelected(
+                          dialog.response,
+                          item.id
+                        ),
+                      }">
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio
-                          hide-details
-                          :label="item.label"
-                          :value="item.id"
-                        ></v-radio>
+                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
                         <!-- Imagen para el botón de opción -->
-                        <img
-                          v-if="item.image"
-                          :src="imageMap[item.image]"
-                          height="50"
-                        />
+                        <img v-if="item.image" :src="imageMap[item.image]" height="50" />
                       </v-card>
                     </v-col>
                   </v-row>
@@ -110,9 +57,7 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)"
-            >Continuar</v-btn
-          >
+          <v-btn color="green darken-1" dark @click="changeDialog(index + 1)">Continuar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -146,11 +91,13 @@ export default {
           numCylinders: 0,
           cubicMeters: 0,
           solidFuel: "",
+          solidFuelWeight: 0,
           cylinderType: 0,
           transportType: "",
           transportFuelType: "",
           numKilometers: 0,
           recycle: 0,
+          finalCarbonFootPrint: 0
         },
       ],
       // Datos de los diálogos
@@ -368,11 +315,8 @@ export default {
     },
     //Actualiza el tipo de combustible solido
     GetSolidFuelType(numSelected, radioGroup) {
-      if (numSelected) {
-        console.log(numSelected);
-      }
-      console.log("solidFuel: " + radioGroup);
-      return { solidFuel: radioGroup };
+      console.log("solidFuel: " + radioGroup + " solidFuelWeight: " + numSelected);
+      return { solidFuel: radioGroup, solidFuelWeight: numSelected };
     },
     // Actualiza la cantidad de metros cúbicos
     GetCubicMeters(numSelected, radioGroup) {
@@ -423,43 +367,52 @@ export default {
       if (numSelected) {
         console.log(numSelected);
       }
-      //Variables huella de carbono
-      let idZone = this.CarbonFootPrint.idZone;
+
+      // Variables huella de carbono
       let numPeople = this.CarbonFootPrint.numPeople;
       let energyConsumption = this.CarbonFootPrint.energyConsumption;
       let fuelType = this.CarbonFootPrint.fuelType;
-      let numCylinders = this.CarbonFootPrint.numCylinders;
+      let solidFuelWeight = this.CarbonFootPrint.solidFuelWeight;
       let solidFuel = this.CarbonFootPrint.solidFuel;
       let cubicMeters = this.CarbonFootPrint.cubicMeters;
       let transportType = this.CarbonFootPrint.transportType;
       let transportFuelType = this.CarbonFootPrint.transportFuelType;
       let numKilometers = this.CarbonFootPrint.numKilometers;
       let recycle = this.CarbonFootPrint.recycle;
-      //Variables generales
+
+      // Variables generales
       let yearM = 12;
       let yearD = 365;
 
-      //Calcular huella electrica
+      // Variables para el cálculo de la huella de carbono
       let electricFootPrint = 0;
+      let transportFootPrint = 0;
+      let masiveEmition = 0;
+      let carEmition = 0;
+      let motorBikeEmition = 0;
+      let bikeFootPrint = 0;
+      let walkingFootPrint = 0;
+      let kitchenFootPrint = 0;
+      let recycleFootPrint = 0;
+      let finalCarbonFootPrint = 0;
+
+      // Calcular huella eléctrica
       let electricFactor = 0.126;
-      let totalElectricFootPrint =
-        energyConsumption * yearM * electricFactor * 0.001;
+      let totalElectricFootPrint = energyConsumption * yearM * electricFactor * 0.001;
       electricFootPrint = totalElectricFootPrint / numPeople;
 
-      //Calcular huella de transporte
-      let transportFootPrint = 0;
-      //Factores de emision
+      // Calcular huella de transporte
       let acpmFactor = 10.15;
       let gasoFactor = 8.15;
       let gasFactor = 1.9801;
       let electricCarFactor = 0.126;
       let hibridFactor = (gasoFactor + electricCarFactor) / 2;
       let masiveFactor = 1.0189;
-      //Rendimiento de combustible
-      acpmCarPerformance = 70;
-      gasoCarPerformance = 54;
-      gasoBikePerformance = 121;
-      gasCarPerformance = 22;
+      let acpmCarPerformance = 70;
+      let gasoCarPerformance = 54;
+      let gasoBikePerformance = 121;
+      let gasCarPerformance = 22;
+
       // Condicional que valida el tipo de transporte y asigna una función para calcular la huella de carbono del transporte
       if (transportType === 1) {
         masiveEmition = numKilometers * yearD * masiveFactor * 0.001;
@@ -488,16 +441,57 @@ export default {
       } else if (transportType === 5) {
         walkingFootPrint = 0;
       }
+
       transportFootPrint = masiveEmition + carEmition + motorBikeEmition + bikeFootPrint + walkingFootPrint;
 
-      //Calcular huella de cocina
-      let kitchenFootPrint = 0;
-      //Calcular huella de reciclaje
-      let recycleFootPrint = 0;
-      //Calcular huella de carbono
-      let finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
-      console.log(finalCarbonFootPrint);
-    },
+      // Calcular huella de cocina
+      let naturalFactor = 1.9801;
+      let propaneFactor = 8.2100;
+      let bagazoFactor = 1.68;
+      let carbonFactor = 2.45;
+      let palmFactor = 1.93;
+      let woodFactor = 1.84;
+      let leñaFactor = 1.15;
+
+      // Condicional que valida el tipo de combustible y asigna una función para calcular la huella de carbono de la cocina
+      if (fuelType === "gasnatural") {
+        kitchenFootPrint = cubicMeters * yearM * naturalFactor * 0.001;
+        kitchenFootPrint = kitchenFootPrint / numPeople;
+      } else if (fuelType === "gaspropano") {
+        kitchenFootPrint = cubicMeters * yearM * propaneFactor * 0.001;
+        kitchenFootPrint = kitchenFootPrint / numPeople;
+      } else if (fuelType === "combustiblesolido") {
+        if (solidFuel === 1) {
+          kitchenFootPrint = solidFuelWeight * yearM * bagazoFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint / numPeople;
+        } else if (solidFuel === 2) {
+          kitchenFootPrint = solidFuelWeight * yearM * carbonFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint / numPeople;
+        } else if (solidFuel === 3) {
+          kitchenFootPrint = solidFuelWeight * yearM * leñaFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint / numPeople;
+        } else if (solidFuel === 4) {
+          kitchenFootPrint = solidFuelWeight * yearM * woodFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint / numPeople;
+        } else {
+          kitchenFootPrint = solidFuelWeight * yearM * palmFactor * 0.001;
+          kitchenFootPrint = kitchenFootPrint / numPeople;
+        }
+      }
+
+      // Calcular huella de reciclaje
+      if (recycle === 1) {
+        recycleFootPrint = -0.230;
+      } else {
+        recycleFootPrint = 0;
+      }
+
+      // Calcular huella de carbono final
+      finalCarbonFootPrint = electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
+
+      console.log("final: " + finalCarbonFootPrint + " electric: " + electricFootPrint + " transport: " + transportFootPrint + " kitchen: " + kitchenFootPrint + " recycle: " + recycleFootPrint);
+      return { finalCarbonFootPrint: finalCarbonFootPrint };
+    }
   },
 };
 </script>

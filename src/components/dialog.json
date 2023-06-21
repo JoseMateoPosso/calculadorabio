@@ -1,5 +1,6 @@
 [
-  {"id": 1,
+  {
+    "id": 1,
     "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos a reducir tu <b>impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>",
     "img": {
       "url": "texto",
@@ -8,7 +9,8 @@
     "open": true,
     "requiresResponse": false
   },
-  {"id": 2,
+  {
+    "id": 2,
     "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de Gases de Efecto Invernadero (GEI) para contribuir a la lucha contra el cambio climático.",
     "open": false,
     "requiresResponse": false,
@@ -17,7 +19,8 @@
       "height": 250
     }
   },
-  {"id": 3,
+  {
+    "id": 3,
     "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br> <ul> <li>Necesitas tus facturas de <b>gas y energía eléctrica.</b></li> <li>En tu factura de consumo de <b>gas</b>, te aparece tu consumo en <b>m3</b></li> <li>En tu factura de consumo de <b>energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b> </li> </ul>",
     "open": false,
     "requiresResponse": false,
@@ -30,7 +33,8 @@
       "height": 250
     }
   },
-  {"id": 4,
+  {
+    "id": 4,
     "content": "<h3 class='text-center mb-3'>¿Cuántas personas viven contigo?</h3>",
     "content2": "<h3 class='text-center mb-3'>Zona de Vivienda</h3>",
     "open": false,
@@ -56,7 +60,8 @@
       "completionFunction": "GetPeopleZone"
     }
   },
-  {"id": 5,
+  {
+    "id": 5,
     "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
     "open": false,
     "requiresResponse": true,
@@ -68,7 +73,8 @@
       "completionFunction": "GetEnergyConsumption"
     }
   },
-  {"id": 6,
+  {
+    "id": 6,
     "content": "<h3 class='text-center mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
     "open": false,
     "requiresResponse": true,
@@ -79,10 +85,17 @@
       "numSelected": 0,
       "electricityConsumption": 0,
       "completionFunction": "GetEnergyConsumption",
-      "items": [{ "image": "noaplica", "label": "No aplica", "id": "NoAplica" }]
+      "items": [
+        {
+          "image": "noaplica",
+          "label": "No aplica",
+          "id": "NoAplica"
+        }
+      ]
     }
   },
-  {"id": 7,
+  {
+    "id": 7,
     "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
@@ -108,7 +121,8 @@
       "completionFunction": "GetFuelType"
     }
   },
-  {"id": 8,
+  {
+    "id": 8,
     "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
@@ -139,7 +153,8 @@
       "completionFunction": "GetFuelType"
     }
   },
-  {"id": 9,
+  {
+    "id": 9,
     "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3> <br> <p class='text-center'>• ¿Cuántos cilindros consumes al mes?</p><br>",
     "open": false,
     "requiresResponse": true,
@@ -151,7 +166,8 @@
       "completionFunction": "GetCylinders"
     }
   },
-  {"id": 10,
+  {
+    "id": 10,
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -168,15 +184,17 @@
       "completionFunction": "GetCubicMeters"
     }
   },
-  {"id": 11,
+  {
+    "id": 11,
     "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
+    "content2": "<h3 class='text-center mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "nextDialog": 13,
     "response": {
-      "numSelected": false,
-      "responseType": "radio",
+      "numSelected": 0,
+      "responseType": "both",
       "items": [
         {
           "image": "bagazo",
@@ -197,12 +215,18 @@
           "image": "madera",
           "label": "MADERA",
           "id": 4
+        },
+        {
+          "image": "fibraPalma",
+          "label": "Fibra palma de aceite",
+          "id": 5
         }
       ],
       "completionFunction": "GetSolidFuelType"
     }
   },
-  {"id": 12,
+  {
+    "id": 12,
     "content": "<h3 class='text-center mb-3'>Consumo de gas propano mensual</h3><br>• ¿De que tamaño es tu cilindro de gas?",
     "open": false,
     "requiresResponse": true,
@@ -216,7 +240,6 @@
           "label": "6 - 4,5kg (10lb)",
           "id": 6
         },
-
         {
           "label": "15kg (33lb)",
           "id": 15
@@ -237,7 +260,8 @@
       "completionFunction": "GetCubicMeters"
     }
   },
-  {"id": 13,
+  {
+    "id": 13,
     "content": "<h3 class='text-center mb-3'>¿Qué medio de transporte es el que más utilizas a la semana?</h3>",
     "open": false,
     "requiresResponse": true,
@@ -280,7 +304,8 @@
       "completionFunction": "GetTransportType"
     }
   },
-  {"id": 14,
+  {
+    "id": 14,
     "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible utilizas?</h3>",
     "open": false,
     "requiresResponse": true,
@@ -318,7 +343,8 @@
       "completionFunction": "GetTransportFuelType"
     }
   },
-  {"id": 15,
+  {
+    "id": 15,
     "content": "<h3 class='text-center mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
     "open": false,
     "requiresResponse": true,
@@ -329,7 +355,8 @@
       "completionFunction": "GetNumKilometers"
     }
   },
-  {"id": 16,
+  {
+    "id": 16,
     "content": "<h3 class='text-center mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
     "open": false,
     "requiresResponse": true,
@@ -350,33 +377,34 @@
       "completionFunction": "GetRecycle"
     }
   },
-  {"id": 17,
-  "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><br> <p>Por favor espera un momento</p>",
-  "open": false,
-  "requiresResponse": true,
-  "img2": {
-    "url": "ardilla",
-    "height": 250
+  {
+    "id": 17,
+    "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><br> <p>Por favor espera un momento</p>",
+    "open": false,
+    "requiresResponse": true,
+    "img2": {
+      "url": "ardilla",
+      "height": 250
+    },
+    "response": {
+      "responseType": "none",
+      "numSelected": false,
+      "completionFunction": "CalculateFootprint"
+    }
   },
-  "response": {
-    "responseType": "none",
-    "numSelected": false,
-    "completionFunction": "CalculateFootprint"
+  {
+    "id": 18,
+    "content": "<b> <h3>Tu huella de carbono es</h3> </b><br> <p>${this.CarbonFootPrint.finalCarbonFootPrint} toneladas de C02/año </p>",
+    "open": false,
+    "requiresResponse": true,
+    "img2": {
+      "url": "ardilla",
+      "height": 250
+    },
+    "response": {
+      "responseType": "none",
+      "numSelected": false,
+      "completionFunction": "CalculateFootprint"
+    }
   }
-},
-{"id": 18,
-"content": "<b> <h3>Final</h3> </b><br> <p>del cuestionario</p>",
-"open": false,
-"requiresResponse": true,
-"img2": {
-  "url": "ardilla",
-  "height": 250
-},
-"response": {
-  "responseType": "none",
-  "numSelected": false,
-  "completionFunction": "CalculateFootprint"
-}
-}
 ]
-
