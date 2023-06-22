@@ -107,11 +107,14 @@ label.v-label.v-label--clickable {
     padding: 0.5em 1em !important;
     min-height: 20px !important;
     text-align: center;
-    color: #fff;
     font-weight: 700;
 }
 
-.v-field {
+.input-green .v-text-field input {
+    color: #fff;
+}
+
+.input-green .v-field {
     background: linear-gradient(45deg, #00b5e4, #60b343);
     border-radius: 10px;
 }
@@ -126,4 +129,8 @@ p.txt-border {
     width: 60%;
     border-radius: 20px;
     margin: 1em auto;
+}
+
+.txt-green {
+    color: #4caf50
 }

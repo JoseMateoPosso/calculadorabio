@@ -422,8 +422,8 @@
   },
   {
     "id": 20,
-    "content": "<b> <h3>¡Felicidades!</h3> </b><p>Avgust quiere concederte un diploma de</p> <h3 class='txt-green'>Embajador Ambiental</p> ",
-    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la huella de carbono",
+    "content": "<b> <h2>¡Felicidades!</h2><br></b><b><p>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green'>Embajador Ambiental</p><br><br>",
+    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b>", 
     "open": false,
     "requiresResponse": true,
     "img2": {
