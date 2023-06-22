@@ -37,6 +37,7 @@
     "id": 4,
     "content": "<h3 class='mb-3'>¿Cuántas personas viven contigo?</h3>",
     "content2": "<h3 class='mb-3'>Zona de Vivienda</h3>",
+    "infoText": "Aquí encontrarás información sobre cómo calcular tu huella de carbono.",
     "open": false,
     "requiresResponse": true,
     "response": {
@@ -64,6 +65,7 @@
     "id": 5,
     "content": "<h3 class='mb-3'>¿Cuánto consumes de electricidad al mes? en kWh</h3>",
     "open": false,
+    "infoText": "Info urbana.",
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
     "nextDialog": 7,
@@ -216,7 +218,7 @@
           "id": 4
         },
         {
-          "image": "fibraPalma",
+          "image": "fibrapalma",
           "label": "Fibra palma de aceite",
           "id": 5
         }
@@ -439,16 +441,20 @@
   },
   {
     "id": 21,
-    "content": "<b> <h3>Ultimo dialogo</p> ",
+    "content": "<b> <h3>Si quieres recibir tus resultados, pon tu correo electrónico.</h3> </b><br>",
+    "content2": "<b> <h3>Si quieres sembrar un árbol, oprime este botón.</h3> </b><br>",
     "open": false,
     "requiresResponse": true,
-    "img2": {
-      "url": "ardilla",
-      "height": 250
-    },
     "response": {
-      "responseType": "none",
+      "responseType": "text",
       "numSelected": false,
+      "items": [
+        {
+          "label": "SEMBRAR",
+          "id": 1,
+          "image": "arbol"
+        }
+      ],
       "completionFunction": "SendMailFootprint"
     }
 }

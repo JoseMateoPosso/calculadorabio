@@ -5,7 +5,6 @@
     <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
-      {{ dialog.id }}
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
@@ -20,21 +19,25 @@
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <p v-html="dialog.content"></p>
+                <!-- Botón de información -->
+                <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true" @mouseout="showInfoTooltip = false">ℹ️</button>
+                <!-- Tooltip de información adicional -->
+                <div v-if="showInfoTooltip" class="info-tooltip">
+                  <!-- Contenido del tooltip -->
+                  <p><i>{{ dialog.infoText }}</i></p>
+                </div>
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
-
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field class="input-green" variant="solo" v-model="dialog.response.numSelected" type="number" v-if="dialog.requiresResponse &&
-                  dialog.response.numSelected !== false
-                  "></v-text-field>
+                <v-text-field class="input-green" variant="solo" v-model="dialog.response.numSelected" type="number"
+                  v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
                 <!-- Campo para ingresar una respuesta de texto, si es necesario -->
-                <v-text-field variant="solo" placeholder="Nombre" v-model="dialog.response.text" type="text" v-if="dialog.requiresResponse &&
-                  dialog.response.responseType === 'text'
-                  "></v-text-field>
+                <v-text-field variant="solo" placeholder="Nombre" v-model="dialog.response.text" type="text"
+                  v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 19" v-html="dialog.content2"></p>
               </v-col>
               <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
                 <!-- Contenido adicional y otra imagen, si existe -->
-                <p v-html="dialog.content2"></p>
+                <p v-if="activeDialog != 19" v-html="dialog.content2"></p>
                 <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
                   @click="changeDialog(index + 1)">Empezar</v-btn>
@@ -43,12 +46,8 @@
                   <v-row class="justify-center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
                     <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="toggleSelected(dialog.response, item.id)" :class="{
-                        'selected-image': isSelected(
-                          dialog.response,
-                          item.id
-                        ),
-                      }">
+                      <v-card @click="toggleSelected(dialog.response, item.id)"
+                        :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
                         <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
                         <!-- Imagen para el botón de opción -->
@@ -71,7 +70,6 @@
     </v-dialog>
   </div>
 </template>
-
 <script>
 // Importa los componentes necesarios
 import CardTitle from "./CardTitle.vue";
@@ -90,6 +88,7 @@ export default {
       activeDialog: 0,
       // Historial de diálogos visitados
       dialogHistory: [],
+      showInfoTooltip: false,
       // Array para almacenar la huella de carbono
       CarbonFootPrint: [
         {
@@ -121,6 +120,7 @@ export default {
         rural: require("@/assets/imgs/rural.png"),
         gaspropano: require("@/assets/imgs/gaspropano.png"),
         gasnatural: require("@/assets/imgs/gasnatural.png"),
+        combustible: require("@/assets/imgs/combustible.png"),
         bagazo: require("@/assets/imgs/bagazo.png"),
         carbon: require("@/assets/imgs/carbon.png"),
         leña: require("@/assets/imgs/leña.png"),
@@ -140,6 +140,7 @@ export default {
         gas_natural: require("@/assets/imgs/gas_natural.png"),
         electrico: require("@/assets/imgs/electrico.png"),
         hibrido: require("@/assets/imgs/hibrido.png"),
+        arbol: require("@/assets/imgs/arbol.png")
       },
     };
   },
@@ -658,6 +659,4 @@ export default {
 </script>
 
 <!-- Estilos del componente -->
-<style scoped>
-@import url(../assets/formcard.css);
-</style>
+<style scoped>@import url(../assets/formcard.css);</style>

@@ -110,7 +110,7 @@ label.v-label.v-label--clickable {
     font-weight: 700;
 }
 
-.input-green .v-text-field input {
+.input-green input {
     color: #fff;
 }
 
@@ -134,3 +134,29 @@ p.txt-border {
 .txt-green {
     color: #4caf50
 }
+
+.info-button {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 70px;
+    width: 25px;
+    color: #fff;
+    border-radius: 50%;
+    right: 10%;
+    cursor: help;
+    background-color: #f2a905;
+}
+
+.info-tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    padding: 8px;
+    z-index: 1;
+    border: none; /* Eliminar el borde */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: agregar una sombra */
+}
+  
