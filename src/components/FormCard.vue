@@ -581,7 +581,7 @@ export default {
     // Obtiene la huella de carbono
     generateResults(finalCarbonFootPrint) {
       const treePerTon = 6;
-      const compensationTrees = Math.round(finalCarbonFootPrint * treePerTon);
+      const compensationTrees = Math.round(treePerTon / finalCarbonFootPrint);
 
       // Determinar el nivel de carbono y la imagen correspondiente
       const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint >= 1.5 && finalCarbonFootPrint <= 1.7) ? "media" : finalCarbonFootPrint < 1.4 ? "baja" : "undefined";
