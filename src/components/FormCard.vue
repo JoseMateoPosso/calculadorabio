@@ -1,10 +1,9 @@
 <template>
-  <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
     <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
+    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900" class="dialog">
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="90vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
@@ -57,11 +56,10 @@
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
-                      <v-card @click="toggleSelected(dialog.response, item.id)"
-                        :class="{ 'selected-image': isSelected(dialog.response, item.id) }" :disabled="item.id==='NoAplica' && dialog.response.numSelected > 0">
+                    <v-col cols="2" class="option-btn"  @click="toggleSelected(dialog.response, item.id)" v-for="(item, i) in dialog.response.items" :key="i">
+                      <v-card :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id" ></v-radio>
+                        <v-radio hide-details :label="item.label" :value="item.id" @click="toggleSelected(dialog.response, item.id)"></v-radio>
                         <!-- Imagen para el botón de opción -->
                         <img v-if="item.image" :src="imageMap[item.image]" height="50" />
                       </v-card>
