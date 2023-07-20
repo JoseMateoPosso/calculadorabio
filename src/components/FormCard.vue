@@ -1,5 +1,4 @@
 <template>
-  <!-- El div principal que contiene la aplicación -->
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
     <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
