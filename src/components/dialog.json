@@ -81,7 +81,7 @@
     "id": 6,
     "content": "<h3>¿Cuánto consumes de energía al mes? Este consumo es en kWh</h3><br>",
     "open": false,
-    "infoText": "Puedes encontrar  esta  información  en tu factura de energía.",
+    "infoText": "Puedes encontrar  esta  información  en tu factura de energía. Si no cuentas con el servicio de energía, selecciona la opción de 'NO APLICA'",
     "infoImg": "recibo",
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -94,7 +94,7 @@
       "items": [
         {
           "image": "noaplica",
-          "label": "No aplica",
+          "label": "NO APLICA",
           "id": "NoAplica"
         }
       ]
@@ -105,7 +105,6 @@
     "content": "<h3>¿Qué tipo de combustible utilizas para cocinar?</h3><br>",
     "open": false,
     "requiresResponse": true,
-    "infoText": "Info urbana.",
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
     "response": {
       "responseType": "radio",
@@ -130,7 +129,7 @@
   },
   {
     "id": 8,
-    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3><br>",
+    "content": "<h3>¿Qué tipo de combustible utilizas para cocinar?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -139,16 +138,16 @@
       "numSelected": false,
       "items": [
         {
-          "image": "gaspropano",
-          "label": "GAS PROPANO",
-          "id": "gaspropano",
-          "nextDialog": 11
-        },
-        {
           "image": "gasnatural",
           "label": "GAS NATURAL",
           "id": "gasnatural",
           "nextDialog": 9
+        },
+        {
+          "image": "gaspropano",
+          "label": "GAS PROPANO",
+          "id": "gaspropano",
+          "nextDialog": 11
         },
         {
           "image": "combustible",
@@ -164,13 +163,15 @@
     "id": 9,
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
+    "title": "<h5>Cálculo de vivienda - Consumo de gas natural<h5>",
+    "infoText": "Puedes encontrar  esta  información  en tu factura de energía.",
+    "infoImg": "recibo",
     "img2": {
       "url": "gasnatural",
       "height": 150
     },
-    "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes? <br><br>",
-    "content2": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas para cocinar?</h3> <br> <p>GAS NATURAL</p>",
+    "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes?",
+    "content2": "<p class='text-center mb-5'>GAS NATURAL</p>",
     "nextDialog": 12,
     "response": {
       "responseType": "num",
@@ -178,9 +179,11 @@
       "completionFunction": "GetCubicMeters"
     }
   },
-  {"id": 10,
-    "content": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3>",
-    "content2": "<h3 class='text-center mb-3'>¿Qué cantidad de combustible solido utilizas para cocinar cada día?</h3>",
+  {
+    "id": 10,
+    "content": "<h3 class='text-center mb-3'>¿Qué cantidad en kilogramos (kg) utilizas <b>al día</b>?</h3>",
+    "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3><br>",
+    "infoText": "<p>Pregunta 1: (i) El combustible sólido se reﬁere a diversas formas de material sólido que se pueden quemar para liberar energía, proporcionando calor y luz como la madera, el papel, el carbón, el bagazo, entre otros.<br>Bagazo: Se usa entre 3-5 Kg de leña para 1 hora de cocción.<br>Carbón: Por lo general un bulto de carbón contiene 20 kilogramos.<br>Leña: Un atado de leña pesa aproximadamente 4 kg.<br>Madera: Se usa entre 2 a 3 kg de madera para 1 hora de cocción.</p>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -208,11 +211,6 @@
           "image": "madera",
           "label": "MADERA",
           "id": 4
-        },
-        {
-          "image": "fibrapalma",
-          "label": "Fibra palma de aceite",
-          "id": 5
         }
       ],
       "completionFunction": "GetSolidFuelType"
@@ -220,10 +218,12 @@
   },
   {
     "id": 11,
-    "content": "<h3>Consumo de gas propano mensual</h3>¿De que tamaño es tu cilindro de gas?</h3><br><br>",
+    "content": "<h3>Consumo de gas propano mensual</h3>¿De qué tamaño es tu cilindro de gas?</h3><br><br>",
     "content2": "<h3>Consumo de gas propano mensual</h3> ¿Cuántos cilindros consumes al mes?<br><br>",
     "open": false,
     "requiresResponse": true,
+    "infoText": "En el cuello del cilindro, encontrarás la información técnica como capacidad y peso.",
+    "infoImg": "cilindros",
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
     "nextDialog": 12,
     "response": {
@@ -256,7 +256,7 @@
   },
   {
     "id": 12,
-    "content": "<h3 class='mb-3'>¿Qué medio de transporte es el que más utilizas a la semana?</h3>",
+    "content": "<h3>¿Qué medio de transporte es el que más utilizas a la semana?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -300,7 +300,7 @@
   },
   {
     "id": 13,
-    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -340,7 +340,7 @@
   },
   {
     "id": 14,
-    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3>¿Qué tipo de combustible utilizas?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -365,7 +365,7 @@
   },
   {
     "id": 15,
-    "content": "<h3 class='mb-3'>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3>¿Qué tipo de combustible utilizas?</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -389,7 +389,7 @@
   },
   {
     "id": 16,
-    "content": "<h3 class='mb-3'>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
+    "content": "<h3>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -401,7 +401,7 @@
   },
   {
     "id": 17,
-    "content": "<h3 class='mb-3'>¿Reciclas, Reduces, o Reutilizas?</h3>",
+    "content": "<h3>¿Reciclas, Reduces, o Reutilizas?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Manejo de Residuos<h5>",
@@ -468,7 +468,7 @@
   {
     "id": 21,
     "content": "<b> <h2>¡Felicidades!</h2><br></b><b><p>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green'>Embajador Ambiental</p><br><br>",
-    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b>", 
+    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b>",
     "open": false,
     "requiresResponse": true,
     "img2": {
@@ -500,6 +500,5 @@
       ],
       "completionFunction": "SendMailFootprint"
     }
-}
+  }
 ]
-

@@ -6,7 +6,7 @@
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent max-width="900">
       <!-- Cada diálogo se muestra en una tarjeta -->
-      <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
+      <v-card height="90vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
@@ -16,7 +16,7 @@
         <v-card-text>
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
           <v-container id="content">
-            <v-row>
+            <v-row align="center">
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
@@ -32,7 +32,7 @@
                 <div v-else-if="showInfoTooltip" class="info-tooltip">
                   <!-- Contenido del tooltip2 -->
                   <p><i v-html="dialog.infoText"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="600" alt="">
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="600" width="600" alt="">
                 </div>
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
@@ -55,13 +55,13 @@
                   @click="changeDialog(index + 1)">Empezar</v-btn>
                 <!-- Grupo de botones de opción, si es necesario -->
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
-                  <v-row class="justify-center">
+                  <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
                     <v-col cols="2" v-for="(item, i) in dialog.response.items" :key="i">
                       <v-card @click="toggleSelected(dialog.response, item.id)"
-                        :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
+                        :class="{ 'selected-image': isSelected(dialog.response, item.id) }" :disabled="item.id==='NoAplica' && dialog.response.numSelected > 0">
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id"></v-radio>
+                        <v-radio hide-details :label="item.label" :value="item.id" ></v-radio>
                         <!-- Imagen para el botón de opción -->
                         <img v-if="item.image" :src="imageMap[item.image]" height="50" />
                       </v-card>
@@ -129,6 +129,7 @@ export default {
         ardilla: require("@/assets/imgs/ardilla.png"),
         ardilla2: require("@/assets/imgs/ardilla2.png"),
         recibo: require("@/assets/imgs/recibo.png"),
+        cilindros: require("@/assets/imgs/cilindros.png"),
         seccion2: require("@/assets/imgs/seccion2.png"),
         urbana: require("@/assets/imgs/urbana.png"),
         rural: require("@/assets/imgs/rural.png"),
