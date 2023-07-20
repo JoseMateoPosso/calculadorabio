@@ -26,7 +26,7 @@ h5 {
 }
 .v-card.card-option , .v-card {
     border-radius: 30px !important;
-    padding: 1em;
+    padding: .5em;
 }
 
 .v-card.first-card {
@@ -119,7 +119,7 @@ label.v-label.v-label--clickable {
 }
 
 label.v-label {
-    font-size: 10px;
+    font-size: 12px;
 }
 
 p.txt-border {
