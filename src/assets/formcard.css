@@ -14,7 +14,9 @@ h5 {
 h5 {
     @apply font-normal
 }
-
+.dialog {
+    @apply h-4/5 w-5/6
+}
 .dialog-background {
     background-image: url(../assets/imgs/fondo-01.png);
     @apply bg-cover h-screen
@@ -150,4 +152,13 @@ padding: 1em;
 z-index: 1;
 border: none;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-btn {
+    @apply w-6 h-fit text-white bg-yellow-600;
+    background: none;
+    border: none;
+    margin: 1px 1em;
+    border-radius: 50%;
+    cursor: pointer;
 }
