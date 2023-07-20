@@ -10,6 +10,7 @@
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
+        {{ index + 1 }}
         <CardTitle v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
         <v-card-text>
@@ -18,26 +19,37 @@
             <v-row>
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
-                <p v-html="dialog.content"></p>
-                <!-- Botón de información -->
-                <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true" @mouseout="showInfoTooltip = false">ℹ️</button>
+                <v-row justify="center">
+                  <p class="text-left" v-html="dialog.content"></p>
+                  <!-- Botón de información -->
+                  <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true" @mouseout="showInfoTooltip = false">ℹ️</button>
+                </v-row>
                 <!-- Tooltip de información adicional -->
-                <div v-if="showInfoTooltip" class="info-tooltip">
+                <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
                   <!-- Contenido del tooltip -->
-                  <p><i>{{ dialog.infoText }}</i></p>
+                  <p><i v-html="dialog.infoText2"></i></p>
+                </div>
+                <div v-else-if="showInfoTooltip" class="info-tooltip">
+                  <!-- Contenido del tooltip2 -->
+                  <p><i v-html="dialog.infoText"></i></p>
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="600" alt="">
                 </div>
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field class="input-green" variant="solo" v-model="dialog.response.numSelected" type="number"
+                <v-text-field class="input-green mt-3" variant="solo" v-model="dialog.response.numSelected" type="number"
                   v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
                 <!-- Campo para ingresar una respuesta de texto, si es necesario -->
-                <v-text-field variant="solo" placeholder="Nombre" v-model="dialog.response.text" type="text"
+                <v-text-field variant="solo" class="mt-3" placeholder="Nombre" v-model="dialog.response.text" type="text"
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
-                <p v-if="activeDialog === 19" v-html="dialog.content2"></p>
+                <p v-if="activeDialog === 19" class="text-left" v-html="dialog.content2"></p>
               </v-col>
               <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
                 <!-- Contenido adicional y otra imagen, si existe -->
-                <p v-if="activeDialog != 19" v-html="dialog.content2"></p>
+                <v-row justify="center">
+                  <p v-if="activeDialog != 19" class="text-left" v-html="dialog.content2"></p>
+                  <!-- Botón de información -->
+                  <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'" @mouseout="showInfoTooltip = false">ℹ️</button>
+                </v-row>
                 <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
                   @click="changeDialog(index + 1)">Empezar</v-btn>
@@ -115,6 +127,8 @@ export default {
       imageMap: {
         texto: require("@/assets/imgs/texto.png"),
         ardilla: require("@/assets/imgs/ardilla.png"),
+        ardilla2: require("@/assets/imgs/ardilla2.png"),
+        recibo: require("@/assets/imgs/recibo.png"),
         seccion2: require("@/assets/imgs/seccion2.png"),
         urbana: require("@/assets/imgs/urbana.png"),
         rural: require("@/assets/imgs/rural.png"),
@@ -156,9 +170,9 @@ export default {
     },
     // Determina el tamaño de las columnas en función del diálogo activo
     columnSize() {
-      if (this.activeDialog === 18) {
+      if (this.activeDialog === 20) {
         return 5; // Cambiar a 5 columnas si el diálogo está en la posición 18
-      } else if (this.activeDialog === 9) {
+      } else if (this.activeDialog === 8) {
         return 5; // Mantener 5 columnas si el diálogo está en la posición 9
       } else if (this.activeDialog === 19) {
         return 5; // Mantener 5 columnas si el diálogo está en la posición 19
@@ -348,11 +362,11 @@ export default {
       return { fuelType: radioGroup };
     },
 
-    // Actualiza la cantidad de metros cúbicos
+    /* Actualiza la cantidad de metros cúbicos
     GetCylinders(numSelected) {
       console.log("numCylinders: " + numSelected);
       return { numCylinders: numSelected };
-    },
+    },*/
 
     //Actualiza el tipo de combustible solido
     GetSolidFuelType(numSelected, radioGroup) {
@@ -365,7 +379,7 @@ export default {
     // Actualiza la cantidad de metros cúbicos
     GetCubicMeters(numSelected, radioGroup) {
       if (this.CarbonFootPrint.fuelType === "gaspropano") {
-        let cylinders = this.CarbonFootPrint.numCylinders;
+        let cylinders = numSelected;
         let density = 2.0;
         let type = radioGroup;
         let mass = type * cylinders;
@@ -462,6 +476,7 @@ export default {
         cubicMeters,
         numPeople,
         yearM,
+        yearD,
         solidFuel,
         solidFuelWeight
       );
@@ -498,21 +513,23 @@ export default {
 
     calculateTransportFootPrint(transportType, transportFuelType, numKilometers, yearD) {
       const factors = {
-        1: { factor: 1.0189, name: "Masive" }, // Factor para transporte masivo
+        1: { factor: 0.0304, name: "Masive" }, // Factor para transporte masivo
         2: {
           1: { performance: 70, factor: 10.15, name: "ACPM Car" }, // Factor para automóviles de ACPM
           2: { performance: 54, factor: 8.15, name: "Gaso Car" }, // Factor para automóviles a gasolina
           3: { performance: 22, factor: 1.9801, name: "Gas Car" }, // Factor para automóviles a gas
-          4: { performance: 0, factor: 0.126, name: "Electric Car" }, // Factor para automóviles eléctricos
-          5: { performance: null, factor: null, name: "Hybrid Car" } // Factor para automóviles híbridos
+          4: { performance: 0, factor: 0.1260, name: "Electric Car" }, // Factor para automóviles eléctricos
+          5: { performance: 0, factor: 0, name: "Hybrid Car" } // Factor para automóviles híbridos
         },
         3: {
           2: { performance: 121, factor: 8.15, name: "Gaso Bike" }, // Factor para motocicletas a gasolina
-          4: { performance: 0, factor: 0.126, name: "Electric Bike" }, // Factor para motocicletas eléctricas
-          default: { performance: 121, factor: 8.15, name: "Default Bike" } // Factor predeterminado para motocicletas
+          4: { performance: 0, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
         },
-        4: { factor: 0, name: "No Bike" }, // Factor para no utilizar motocicleta
-        5: { factor: 0, name: "No Walk" } // Factor para no caminar
+        4: {
+          0: { performance: 0, factor: 0, name: "Conventional Bicycle" }, // Factor para bicicletas a gasolina
+          4: { performance: 0, factor: 0.1260, name: "Electric Bicycle" } // Factor para bicicletas eléctricas
+        },
+        5: { factor: 0.0205, name: "Walk" }
       };
 
       let transportFootPrint = 0;
@@ -530,7 +547,16 @@ export default {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         // Cálculo de huella de carbono para motocicletas
         transportFootPrint = numKilometers * yearD * (1 / fuelType.performance) * fuelType.factor * 0.001;
-      } else {
+      } else if (transportType === 4){
+        const fuelType = factors[transportType][transportFuelType];
+        if (fuelType === 4) {
+          // Cálculo de huella de carbono para bicicletas
+          transportFootPrint = numKilometers * yearD  * fuelType.factor * 0.001;
+        } else {
+          transportFootPrint = 0
+        }
+      }
+      else {
         // Cálculo de huella de carbono para otros tipos de transporte
         transportFootPrint = factors[transportType].factor;
       }
@@ -538,15 +564,15 @@ export default {
       return transportFootPrint;
     },
 
-    calculateKitchenFootPrint(fuelType, cubicMeters, numPeople, yearM, solidFuel, solidFuelWeight) {
+    calculateKitchenFootPrint(fuelType, cubicMeters, numPeople, yearM, yearD, solidFuel, solidFuelWeight) {
       const factors = {
         gasnatural: { factor: 1.9801, name: "Gas Natural" }, // Factor para cocina de gas natural
         gaspropano: { factor: 8.21, name: "Gas Propano" }, // Factor para cocina de gas propano
         combustiblesolido: {
           1: { factor: 1.68, name: "Bagazo" }, // Factor para combustible sólido de tipo Bagazo
           2: { factor: 2.45, name: "Carbón" }, // Factor para combustible sólido de tipo Carbón
-          3: { factor: 1.15, name: "Leña" }, // Factor para combustible sólido de tipo Leña
-          4: { factor: 1.84, name: "Madera" }, // Factor para combustible sólido de tipo Madera
+          3: { factor: 1.84, name: "Leña" }, // Factor para combustible sólido de tipo Leña
+          4: { factor: 1.15, name: "Madera" }, // Factor para combustible sólido de tipo Madera
           default: { factor: 1.93, name: "Palm" } // Factor predeterminado para combustible sólido
         }
       };
@@ -562,7 +588,7 @@ export default {
       } else if (fuelType === "combustiblesolido") {
         const solidFuelType = factors[fuelType][solidFuel] || factors[fuelType].default;
         // Cálculo de huella de carbono para combustible sólido
-        kitchenFootPrint = solidFuelWeight * yearM * solidFuelType.factor * 0.001;
+        kitchenFootPrint = solidFuelWeight * yearD * solidFuelType.factor * 0.001;
       }
 
       return kitchenFootPrint / numPeople;
@@ -581,7 +607,7 @@ export default {
     // Obtiene la huella de carbono
     generateResults(finalCarbonFootPrint) {
       const treePerTon = 6;
-      const compensationTrees = Math.round(finalCarbonFootPrint * treePerTon);
+      let compensationTrees = Math.round(finalCarbonFootPrint * treePerTon / 1)
 
       // Determinar el nivel de carbono y la imagen correspondiente
       const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint >= 1.5 && finalCarbonFootPrint <= 1.7) ? "media" : finalCarbonFootPrint < 1.4 ? "baja" : "undefined";
