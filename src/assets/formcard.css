@@ -9,22 +9,32 @@ h3,
 li,
 h5 {
     font-family: 'Montserrat-Italic';
+    color: #4b4d48;
+}
+
+h3 {
+    font-size: 20px;
 }
 
 h5 {
     @apply font-normal
 }
+
 .dialog {
     @apply h-4/5 w-5/6
 }
+
 .dialog-background {
     background-image: url(../assets/imgs/fondo-01.png);
     @apply bg-cover h-screen
 }
+
 .v-card {
     @apply h-3/4;
 }
-.v-card.card-option , .v-card {
+
+.v-card.card-option,
+.v-card {
     border-radius: 30px !important;
     padding: .5em;
 }
@@ -55,6 +65,10 @@ h5 {
 
 .v-card.first-card button.v-btn {
     @apply m-auto;
+}
+
+.option-btn {
+    margin: 0px !important;
 }
 
 .v-card.first-card button {
@@ -126,7 +140,7 @@ p.txt-border {
     border: 1px solid gray;
     border-radius: 20px;
     margin: 1em auto;
-    @apply p-2 w-3/5;
+    @apply p-2 w-full;
 }
 
 .txt-green {
@@ -135,23 +149,24 @@ p.txt-border {
 
 .info-button {
     @apply w-6 h-6 text-white bg-yellow-600;
-    background: none;
+    background: #ffda00;
     border: none;
     margin: 1px 1em;
     border-radius: 50%;
-    cursor: help;
+    cursor: help;  
 }
 
 .info-tooltip {
-@apply fixed bg-white font-semibold;
-left: 50%;
-top: -15%;
-transform: translateX(-50%);
-border-radius: 11px;
-padding: 1em;
-z-index: 1;
-border: none;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    @apply fixed bg-white font-semibold;
+    left: 50%;
+    top: -15%;
+    transform: translateX(-50%);
+    border-radius: 11px;
+    padding: 1em;
+    z-index: 1;
+    border: none;
+     text-align: justify;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .option-btn {
@@ -161,4 +176,16 @@ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 1px 1em;
     border-radius: 50%;
     cursor: pointer;
+}
+
+.v-card-text.active-dialog-11 .v-selection-control-group .v-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 150px;
+}
+
+h2.txt-gratula {
+    font-size: 30px;
 }

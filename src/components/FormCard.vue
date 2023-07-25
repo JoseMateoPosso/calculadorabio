@@ -1,9 +1,10 @@
 <template>
   <div :class="backgroundClass" id="app">
     <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="250" />
+    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="200" style="width:100%" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
-    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900" class="dialog">
+    <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900"
+      class="dialog">
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="90vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
@@ -12,16 +13,21 @@
         {{ index + 1 }}
         <CardTitle v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
-        <v-card-text>
+        <v-card-text :class="'active-dialog-' + activeDialog">
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
           <v-container id="content">
+            <!--Logo de avgust para el diploma-->
+            <div class="text-right" v-if="activeDialog === 21">
+              <img :src="imageMap['logoavgust']" alt="" height="50">
+            </div>
             <v-row align="center">
               <v-col class="text-center">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
-                  <p class="text-left" v-html="dialog.content"></p>
+                  <p class="text-justify" v-html="dialog.content"></p>
                   <!-- Botón de información -->
-                  <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true" @mouseout="showInfoTooltip = false">ℹ️</button>
+                  <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true"
+                    @mouseout="showInfoTooltip = false">ℹ️</button>
                 </v-row>
                 <!-- Tooltip de información adicional -->
                 <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
@@ -40,14 +46,15 @@
                 <!-- Campo para ingresar una respuesta de texto, si es necesario -->
                 <v-text-field variant="solo" class="mt-3" placeholder="Nombre" v-model="dialog.response.text" type="text"
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
-                <p v-if="activeDialog === 19" class="text-left" v-html="dialog.content2"></p>
+                <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
               <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
-                  <p v-if="activeDialog != 19" class="text-left" v-html="dialog.content2"></p>
+                  <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
                   <!-- Botón de información -->
-                  <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'" @mouseout="showInfoTooltip = false">ℹ️</button>
+                  <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'"
+                    @mouseout="showInfoTooltip = false">ℹ️</button>
                 </v-row>
                 <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
@@ -56,10 +63,12 @@
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" class="option-btn"  @click="toggleSelected(dialog.response, item.id)" v-for="(item, i) in dialog.response.items" :key="i">
+                    <v-col cols="2" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
+                      v-for="(item, i) in dialog.response.items" :key="i">
                       <v-card :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
-                        <v-radio hide-details :label="item.label" :value="item.id" @click="toggleSelected(dialog.response, item.id)"></v-radio>
+                        <v-radio hide-details :label="item.label" :value="item.id"
+                          @click="toggleSelected(dialog.response, item.id)"></v-radio>
                         <!-- Imagen para el botón de opción -->
                         <img v-if="item.image" :src="imageMap[item.image]" height="50" />
                       </v-card>
@@ -153,6 +162,7 @@ export default {
         gas_natural: require("@/assets/imgs/gas_natural.png"),
         electrico: require("@/assets/imgs/electrico.png"),
         hibrido: require("@/assets/imgs/hibrido.png"),
+        logoavgust: require("@/assets/imgs/logoavgust.png"),
         arbol: require("@/assets/imgs/arbol.png")
       },
     };
@@ -169,17 +179,22 @@ export default {
     },
     // Determina el tamaño de las columnas en función del diálogo activo
     columnSize() {
-      if (this.activeDialog === 20) {
-        return 5; // Cambiar a 5 columnas si el diálogo está en la posición 18
-      } else if (this.activeDialog === 8) {
-        return 5; // Mantener 5 columnas si el diálogo está en la posición 9
-      } else if (this.activeDialog === 19) {
-        return 5; // Mantener 5 columnas si el diálogo está en la posición 19
-      } else if (this.activeDialog >= 3) {
-        return 12; // Cambiar a 12 columnas si el diálogo está en la posición 3 o posterior
-      } else {
-        return 5; // Mantener 5 columnas por defecto
+      switch (this.activeDialog) {
+        case 21:
+          return 8; // Cambiar a 5 columnas si el diálogo está en la posición 21
+        case 20:
+          return 5; // Cambiar a 5 columnas si el diálogo está en la posición 20
+        case 8:
+        case 19:
+          return 5; // Mantener 5 columnas si el diálogo está en la posición 8 o 19
+        default:
+          if (this.activeDialog >= 3) {
+            return 12; // Cambiar a 12 columnas si el diálogo está en la posición 3 o posterior
+          } else {
+            return 5; // Mantener 5 columnas por defecto
+          }
       }
+
     },
     // Determina el tamaño de las columnas en pantallas pequeñas
     columnSmSize() {
@@ -542,19 +557,19 @@ export default {
         if (fuelType.name === "Electric Car") {
           //Cálculo de huella de carbono para automóviles eléctricos
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor) * 0.001;
-          } else {
+        } else {
           // Cálculo de huella de carbono para automóviles no electricos
-          transportFootPrint = (numKilometers * yearD * (1/fuelType.performance) * fuelType.factor) * 0.001;
+          transportFootPrint = (numKilometers * yearD * (1 / fuelType.performance) * fuelType.factor) * 0.001;
         }
       } else if (transportType === 3) {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         // Cálculo de huella de carbono para motocicletas
-        transportFootPrint = (numKilometers * yearD * (1/fuelType.performance) * fuelType.factor) * 0.001;
-      } else if (transportType === 4){
+        transportFootPrint = (numKilometers * yearD * (1 / fuelType.performance) * fuelType.factor) * 0.001;
+      } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
         if (fuelType === 4) {
           // Cálculo de huella de carbono para bicicletas
-          transportFootPrint = (numKilometers * yearD  * fuelType.factor) * 0.001;
+          transportFootPrint = (numKilometers * yearD * fuelType.factor) * 0.001;
         } else {
           transportFootPrint = 0
         }
@@ -617,12 +632,12 @@ export default {
       const imgUrl = resnivelCarbono === "alta" ? "huellaalta" : resnivelCarbono === "media" ? "huellamedia" : resnivelCarbono === "baja" ? "huellabaja" : "";
 
       // Generar el contenido correspondiente al nivel de carbono
-      const content2 = resnivelCarbono === "alta" ? `<p>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles.</p>` :
-        resnivelCarbono === "media" ? `<p>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles</p>` :
-          resnivelCarbono === "baja" ? `<p>¡Felicidades! El resultado de tu huella es baja, por lo tanto, te concedemos un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles. <br>Si te gusta, por favor ayúdanos a compartir esta calculadora para que más personas se sumen a esta iniciativa</p>` : "";
+      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles.</p>` :
+        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles</p>` :
+          resnivelCarbono === "baja" ? `<p class='text-center'>¡Felicidades! El resultado de tu huella es baja, por lo tanto, te concedemos un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles. <br>Si te gusta, por favor ayúdanos a compartir esta calculadora para que más personas se sumen a esta iniciativa</p>` : "";
 
       // Generar el contenido general
-      const content = `<b><h2>Tu huella de carbono es</h2></b><h5>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h5> <p class='txt-border text-center'>${finalCarbonFootPrint.toFixed(2)} toneladas de CO2/año </p>`;
+      const content = `<b><h2>Tu huella de carbono es</h2></b><h3 class='text-center'>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h3> <p class='txt-border text-center'>${finalCarbonFootPrint.toFixed(2)} toneladas de CO2/año </p>`;
 
       // Devolver los valores
       return {
@@ -630,7 +645,7 @@ export default {
         imgUrl,
         content2,
         resnivelCarbono,
-        nextDialog: resnivelCarbono === "baja" ? 20 : 21
+        nextDialog: resnivelCarbono === "baja" ? 21 : 22
       };
     },
 
@@ -650,9 +665,14 @@ export default {
       }
     },
 
-    exportToPDF(numSelected, radioGroup, text) {
+    GetName(numSelected, radioGroup, text) {
       console.log(`numSelected: ${numSelected}, radioGroup: ${radioGroup}, text: ${text}`);
 
+      // Retorna un objeto con el nombre del archivo
+      return { name: text };
+    },
+
+    exportToPDF() {
       // Obtiene el contenido del elemento con el id "content"
       let content = document.getElementById("content");
 
@@ -672,9 +692,6 @@ export default {
 
       // Genera el PDF usando html2pdf
       html2pdf(content, options);
-
-      // Retorna un objeto con el nombre del archivo
-      return { name: text };
     },
 
     SendMailFootprint() {
@@ -688,4 +705,6 @@ export default {
 </script>
 
 <!-- Estilos del componente -->
-<style scoped>@import url(../assets/formcard.css);</style>
+<style scoped>
+@import url(../assets/formcard.css);
+</style>

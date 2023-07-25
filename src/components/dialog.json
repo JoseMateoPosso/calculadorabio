@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!</b>.",
+    "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!.</b><br><br>",
     "img": {
       "url": "texto",
       "height": 180
@@ -16,12 +16,12 @@
     "requiresResponse": false,
     "img2": {
       "url": "ardilla2",
-      "height": 250
+      "height": 300
     }
   },
   {
     "id": 3,
-    "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br>-Necesitas tus facturas de <b>gas y energía eléctrica.</b><br>-En tu factura de <b>consumo de gas</b>, te aparece tu consumo en <b>m3</b> <br>-En tu factura de <b>consumo de energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b><br> - Al avanzar en la calculadora veras este icono (i) que te ayudara a entender mejor las preguntas",
+    "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br>-Necesitas tus facturas de <b>gas y energía eléctrica.</b><br>-En tu factura de <b>consumo de gas</b>, te aparece tu consumo en <b>m3</b> <br>-En tu factura de <b>consumo de energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b><br> - Al avanzar en la calculadora veras este icono (i) que te ayudara a entender mejor las preguntas.<br><br>",
     "open": false,
     "requiresResponse": false,
     "img": {
@@ -30,7 +30,7 @@
     },
     "img2": {
       "url": "ardilla2",
-      "height": 250
+      "height": 300
     }
   },
   {
@@ -183,7 +183,7 @@
     "id": 10,
     "content": "<h3 class='text-center mb-3'>¿Qué cantidad en kilogramos (kg) utilizas <b>al día</b>?</h3>",
     "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3><br>",
-    "infoText": "<p>Pregunta 1: (i) El combustible sólido se reﬁere a diversas formas de material sólido que se pueden quemar para liberar energía, proporcionando calor y luz como la madera, el papel, el carbón, el bagazo, entre otros.<br>Bagazo: Se usa entre 3-5 Kg de leña para 1 hora de cocción.<br>Carbón: Por lo general un bulto de carbón contiene 20 kilogramos.<br>Leña: Un atado de leña pesa aproximadamente 4 kg.<br>Madera: Se usa entre 2 a 3 kg de madera para 1 hora de cocción.</p>",
+    "infoText": "<p>Pregunta 1: (i) El combustible sólido se reﬁere a diversas formas de material sólido que se pueden quemar para liberar energía, proporcionando calor y luz como la madera, el papel, el carbón, el bagazo, entre otros.<br><br>Bagazo: Se usa entre 3-5 Kg de leña para 1 hora de cocción.<br><br>Carbón: Por lo general un bulto de carbón contiene 20 kilogramos.<br><br>Leña: Un atado de leña pesa aproximadamente 4 kg.<br><br>Madera: Se usa entre 2 a 3 kg de madera para 1 hora de cocción.</p>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
@@ -258,6 +258,7 @@
     "id": 12,
     "content": "<h3>¿Qué medio de transporte es el que más utilizas a la semana?</h3><br>",
     "open": false,
+    "infoText": "Selecciona únicamente el medio de transporte que más días utilizas a la semana.",
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
     "response": {
@@ -389,8 +390,9 @@
   },
   {
     "id": 16,
-    "content": "<h3>¿Cuántos kilometros recorres al día aproximadamente? en km</h3>",
+    "content": "<h3>¿Cuántos kilómetros (km) recorres al día aproximadamente?</h3><br>",
     "open": false,
+    "infoText": "En términos Urbanísticos un 1 kilómetro son 10 cuadras",
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
     "response": {
@@ -403,6 +405,7 @@
     "id": 17,
     "content": "<h3>¿Reciclas, Reduces, o Reutilizas?</h3><br>",
     "open": false,
+    "infoText": "<p>Si realizas alguna de estas 3 acciones, selecciona la opción 'SI':<br>- Reciclaje: Proceso de recolección y transformación de materiales para convertirlos en nuevos productos.<br>- Reducción: Menor consumo de productos para generar menos residuos.<br>- Reutilizar: Dar una segunda vida a los materiales u objetos antes de desecharlos.</p><p>Si no realizas ninguna acción, selecciona la opción 'NO'.</p>",
     "requiresResponse": true,
     "title": "<h5>Manejo de Residuos<h5>",
     "response": {
@@ -428,7 +431,7 @@
     "requiresResponse": true,
     "img2": {
       "url": "ardilla2",
-      "height": 250
+      "height": 300
     },
     "response": {
       "responseType": "none",
@@ -438,12 +441,13 @@
   },
   {
     "id": 19,
-    "content": "<b> <h3>Tu huella de carbono</h3>",
+    "content": "<b> <h3>Tu huella de carbono es</h3>",
     "open": false,
+    "infoText": "<p>Un Colombiano promedio puede emitir al año 1.6 toneladas de CO2/año<br>Alto:Mayor a 1.8<br>Medio:Entre 1.5-1.7<br>Bajo:Menor 1.4</p>",
     "requiresResponse": true,
     "img": {
       "url": "ardilla2",
-      "height": 60
+      "height": 80
     },
     "response": {
       "responseType": "none",
@@ -458,7 +462,7 @@
     "requiresResponse": false,
     "img2": {
       "url": "ardilla2",
-      "height": 250
+      "height": 300
     },
     "response": {
       "responseType": "none",
@@ -467,23 +471,38 @@
   },
   {
     "id": 21,
-    "content": "<b> <h2>¡Felicidades!</h2><br></b><b><p>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green'>Embajador Ambiental</p><br><br>",
-    "content2": "Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b>",
+    "content": "<b> <h2 class='txt-gratula txt-center'>¡Felicidades!</h2><br></b><b><p class='txt-center'>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green text-center'>Embajador Ambiental</p><br><br>",
+    "content2": "<p class='text-center'>Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b><p>",
     "open": false,
     "requiresResponse": true,
     "img2": {
       "url": "ardilla2",
-      "height": 250
+      "height": 300
     },
     "response": {
       "responseType": "text",
       "text": "",
       "numSelected": false,
-      "completionFunction": "exportToPDF"
+      "completionFunction": "GetName"
     }
   },
   {
     "id": 22,
+    "content2": "<h2 class='txt-gratula txt-green'>¡Felicidades!</h2><h2>Sandra Escobar</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.",
+    "open": false,
+    "requiresResponse": true,
+    "img": {
+      "url": "ardilla2",
+      "height": 300
+    },
+    "response": {
+      "responseType": "none",
+      "numSelected": false,
+      "completionFunction": "exportToPDF"
+    }
+  },
+  {
+    "id": 23,
     "content": "<b> <h3>Si quieres recibir tus resultados, pon tu correo electrónico.</h3> </b><br>",
     "content2": "<b> <h3>Si quieres sembrar un árbol, oprime este botón.</h3> </b><br>",
     "open": false,
