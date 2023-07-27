@@ -11,7 +11,7 @@
   },
   {
     "id": 2,
-    "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de Gases de Efecto Invernadero (GEI) para contribuir a la lucha contra el cambio climático.",
+    "content": "<b> <h3>¿Qué es la huella de carbono?</h3> </b><br> La huella de carbono representa el volumen total de <b>Gases de Efecto Invernadero (GEI)</b> que producen las actividades económicas y cotidianas del ser humano. <br><br> <b> <h3>¿Para qué se calcula?</h3> </b><br> Es importante entender la huella de carbono como un primer paso en el camino a la mejora y el compromiso de reducción de emisiones de <b>Gases de Efecto Invernadero (GEI)</b> para contribuir a la lucha contra el cambio climático.",
     "open": false,
     "requiresResponse": false,
     "img2": {
@@ -88,6 +88,7 @@
     "nextDialog": 8,
     "response": {
       "responseType": "numOrRadio",
+      "radioGroup": null,
       "numSelected": 0,
       "electricityConsumption": 0,
       "completionFunction": "GetEnergyConsumption",
@@ -135,6 +136,7 @@
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "response": {
       "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -170,7 +172,7 @@
       "url": "gasnatural",
       "height": 150
     },
-    "content": "¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes?",
+    "content": "<p class='text-center'>¿Cuántos metros cúbicos (m3) aparece en tu recibo de consumo de gas natural al mes?</p>",
     "content2": "<p class='text-center mb-5'>GAS NATURAL</p>",
     "nextDialog": 12,
     "response": {
@@ -189,6 +191,7 @@
     "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
     "nextDialog": 12,
     "response": {
+      "radioGroup": null,
       "numSelected": 0,
       "responseType": "both",
       "items": [
@@ -227,8 +230,9 @@
     "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
     "nextDialog": 12,
     "response": {
-      "responseType": "radio",
+      "responseType": "both",
       "numSelected": 0,
+      "radioGroup": null,
       "items": [
         {
           "label": "6 - 4,5kg (10lb)",
@@ -263,6 +267,7 @@
     "title": "<h5>Cálculo de Transporte<h5>",
     "response": {
       "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -308,6 +313,7 @@
     "nextDialog": 16,
     "response": {
       "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -341,13 +347,14 @@
   },
   {
     "id": 14,
-    "content": "<h3>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
     "nextDialog": 16,
     "response": {
       "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -366,12 +373,13 @@
   },
   {
     "id": 15,
-    "content": "<h3>¿Qué tipo de combustible utilizas?</h3>",
+    "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
     "response": {
       "responseType": "radio",
+      "radioGroup": null,
       "numSelected": false,
       "items": [
         {
@@ -409,6 +417,7 @@
     "requiresResponse": true,
     "title": "<h5>Manejo de Residuos<h5>",
     "response": {
+      "radioGroup": null,
       "numSelected": false,
       "responseType": "radio",
       "items": [
@@ -426,7 +435,7 @@
   },
   {
     "id": 18,
-    "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><br> <p>Por favor espera un momento</p>",
+    "content": "<b> <h3>Estamos calculando tu huella...</h3> </b><p>Por favor espera un momento...</p><br><br>",
     "open": false,
     "requiresResponse": true,
     "img2": {
@@ -471,7 +480,7 @@
   },
   {
     "id": 21,
-    "content": "<b> <h2 class='txt-gratula txt-center'>¡Felicidades!</h2><br></b><b><p class='txt-center'>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green text-center'>Embajador Ambiental</p><br><br>",
+    "content": "<b> <h2 class='txt-gratula text-center'>¡Felicidades!</h2><br></b><b><p class='txt-center'>Avgust</b> quiere concederte un diploma de</p> <br><h3 class='txt-green text-center'>Embajador Ambiental</p><br><br>",
     "content2": "<p class='text-center'>Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b><p>",
     "open": false,
     "requiresResponse": true,
@@ -488,7 +497,7 @@
   },
   {
     "id": 22,
-    "content2": "<h2 class='txt-gratula txt-green'>¡Felicidades!</h2><h2>Sandra Escobar</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.",
+    "content2": "<h2 class='txt-gratula txt-green text-center'>¡Felicidades!</h2><h2>Sandra Escobar</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.",
     "open": false,
     "requiresResponse": true,
     "img": {
@@ -519,5 +528,9 @@
       ],
       "completionFunction": "SendMailFootprint"
     }
+  },
+  {
+    "id": 24,
+    "content": "<table id='list'><tr><th>Nombre de entidad</th><th>Link web</th></tr><tr><td>Jardín Botánico</td><td><a href='https://bogota.gov.co/mi-ciudad/ambiente/plantacion-de-arboles-en-bogota-campana-del-jardin-botanico' target='_blank'>https://bogota.gov.co/mi-ciudad/ambiente/plantacion-de-arboles-en-bogota-campana-del-jardin-botanico</a></td></tr><tr><td>Fundación Humedales de Bogotá</td><td><a href='https://humedalesbogota.com/plantacion-de-arboles/' target='_blank'>https://humedalesbogota.com/plantacion-de-arboles/</a></td></tr><tr><td>Caminatas Ecológicas Bogotá</td><td><a href='https://caminatasecologicasbogota.com/siembra-de-arboles/' target='_blank'>https://caminatasecologicasbogota.com/siembra-de-arboles/</a></td></tr><tr><td>Colombia Potencia de la Vida</td><td><a href='https://www.minambiente.gov.co/bosques-biodiversidad-y-servicios-ecosistemicos/los-10-municipios-que-mas-han-sembrado-arboles-en-colombia/' target='_blank'>https://www.minambiente.gov.co/bosques-biodiversidad-y-servicios-ecosistemicos/los-10-municipios-que-mas-han-sembrado-arboles-en-colombia/</a></td></tr></table>"
   }
 ]

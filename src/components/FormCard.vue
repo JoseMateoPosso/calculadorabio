@@ -10,8 +10,7 @@
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
-        {{ index + 1 }}
-        <CardTitle v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
+        <CardTitle class="mt-5" v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
         <v-card-text :class="'active-dialog-' + activeDialog">
           <!-- El contenido de la tarjeta se organiza en una cuadrícula -->
@@ -21,7 +20,7 @@
               <img :src="imageMap['logoavgust']" alt="" height="50">
             </div>
             <v-row align="center">
-              <v-col class="text-center">
+              <v-col class="text-center columa1">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
@@ -218,6 +217,7 @@ export default {
     // Valida la respuesta del diálogo
     validateResponse(dialogResponse) {
       if (dialogResponse) {
+        console.log("condicion", dialogResponse)
         if (
           (dialogResponse.responseType === "both" &&
             dialogResponse.radioGroup !== null &&
@@ -399,6 +399,7 @@ export default {
         let mass = type * cylinders;
         let result = mass / density;
         console.log("propaneCubicMeters: " + result);
+        console.log("num: " + numSelected + " radio" + radioGroup);
         return { cubicMeters: result };
       } else if (this.CarbonFootPrint.fuelType === "gasnatural") {
         console.log("naturalGasCubicMeters: " + numSelected);
@@ -509,7 +510,6 @@ export default {
       this.dialogs[this.activeDialog + 1].content = results.content;
       this.dialogs[this.activeDialog + 1].img.url = results.imgUrl;
       this.dialogs[this.activeDialog + 1].content2 = results.content2;
-      this.dialogs[this.activeDialog + 1].nextDialog = results.nextDialog;
 
       console.log(`final: ${finalCarbonFootPrint} electric: ${electricFootPrint} transport: ${transportFootPrint} kitchen: ${kitchenFootPrint} recycle: ${recycleFootPrint}`);
 
@@ -628,33 +628,32 @@ export default {
       let compensationTrees = Math.round(finalCarbonFootPrint * treePerTon / 1)
 
       // Determinar el nivel de carbono y la imagen correspondiente
-      const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint >= 1.5 && finalCarbonFootPrint <= 1.7) ? "media" : finalCarbonFootPrint < 1.4 ? "baja" : "undefined";
+      const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint > 1.5 && finalCarbonFootPrint < 1.8) ? "media" : finalCarbonFootPrint <= 1.5 ? "baja": "undefined";
       const imgUrl = resnivelCarbono === "alta" ? "huellaalta" : resnivelCarbono === "media" ? "huellamedia" : resnivelCarbono === "baja" ? "huellabaja" : "";
 
       // Generar el contenido correspondiente al nivel de carbono
-      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles.</p>` :
-        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles</p>` :
+      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
+        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
           resnivelCarbono === "baja" ? `<p class='text-center'>¡Felicidades! El resultado de tu huella es baja, por lo tanto, te concedemos un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles. <br>Si te gusta, por favor ayúdanos a compartir esta calculadora para que más personas se sumen a esta iniciativa</p>` : "";
 
       // Generar el contenido general
-      const content = `<b><h2>Tu huella de carbono es</h2></b><h3 class='text-center'>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h3> <p class='txt-border text-center'>${finalCarbonFootPrint.toFixed(2)} toneladas de CO2/año </p>`;
+      const content = `<b><h2>Tu huella de carbono es</h2></b><h3 class='text-center'>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h3> <p class='txt-border text-center'>${finalCarbonFootPrint.toFixed(2)} toneladas de CO2/año </p><br>`;
 
       // Devolver los valores
       return {
         content,
         imgUrl,
         content2,
-        resnivelCarbono,
-        nextDialog: resnivelCarbono === "baja" ? 21 : 22
+        resnivelCarbono
       };
     },
 
     TipsFootprint() {
       // Objeto con consejos según el nivel de carbono
       const tip = {
-        alta: "<h3>Electricidad</h3><p>El exceso de bolsas de plástico y empaques, así como mantener el congelador con hielo, hacen que tu refrigerador necesite más potencia para enfriar, y con ello se gasta más electricidad.</p><h3>Transporte</h3><p>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero.</p><h3>Combustible para cocinar</h3><p>Haz una inspección periódica del depósito de gas; revisa todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y valida que estos estén completos y en óptimo estado.</p><h2>Gestión Integral de Residuos Sólidos (GIRS)</h2><p>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental.</p>",
-        media: "<h3>Electricidad</h3><p>Aunque no estés usando el cargador, si lo dejas conectado sigue consumiendo energía y contribuyendo al cambio climático.</p><p><h3>Transporte</h3>Usa medios de transporte amigables con el medio ambiente como la bicicleta, transporte público, carro compartido, etc.</p><p><h3>Combustible para cocinar</h3>Los encendedores largos son una mejor alternativa para prender la estufa. Permite que el encendido sea más fácil y rápido.</p><p><h2>Gestión Integral de Residuos Sólidos (GIRS)</h2>En vez de desechar un objeto, arrégalo y busca otros usos para las cosas, como por ejemplo, utiliza las cáscaras y plantas muertas para fertilizar la tierra.</p>",
-        baja: "<h3>No tiene tips</h3>",
+        alta: "<p><b>-Utiliza bombillos de bajo consumo:</b> ahorran hasta un 75% de energía. <br><br>-<b>Apaga la luz de los ambientes que no estés utilizando.</b><br><br><b>-Usa la luz natural el tiempo que más puedas.</b><br><br>-<b>Emplea la lavadora con carga completa:</b> ahorrarás agua y electricidad. <br><br>-<b>Apaga el computador cuando no lo estés utilizando.</b><br><br>-<b>Desconecta todos los aparatos eléctricos que no estés utilizando.</b> <br><br>-<b>Sustituye la estufa eléctrica por estufa de gas.</b><br><br>-<b>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero. </b><br><br>-<b>Haz una inspección periódica del depósito de gas</b>; revisa todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y válida que estos estén completos y en óptimo estado. <br><br>-<b>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental</b>.</p>",
+        media: "<p>-Desconecta todos los aparatos eléctricos que no estés utilizando. <br><br>-Mantén limpios todos los gasodomésticos de tu hogar. Los gasodomésticos son los aparatos de tu casa que funcionan con gas (calentador, estufa, horno, calefactores, entre otros). <br><br>-Utiliza bolsas de tela cuando hagas tus compras. <br><br>-Comprar botellas plásticas con líquido cada que tienes sed es poco amigable con el planeta, mejor compra un termo y lleva en éste tus bebidas. <br><br>-Puedes reducir los residuos alimentarios si cultivas tus verduras, haces compostaje o compras productos a granel para evitar o reducir embalajes innecesarios. <br><br>-Si es posible, opta por los ventiladores de techo antes que los aires acondicionados. <br><br>-Ve de vacaciones cerca de casa. Cuanto más lejos viajes, más alta será tu huella de carbono. <br><br>-Recicla las hojas de papel. Reciclando papel ayudas a proteger las selvas tropicales, ya que por 1 tonelada de papel evitamos que talen 17 árboles, preservando así el hábitat de muchos animales.</p>",
+        baja: "<p><b><h3>-Consume responsable:</h3><br></b> Elige productos y alimentos que sean producidos de manera sostenible, como productos orgánicos y de comercio justo. También puedes reducir tu consumo de carne y optar por una dieta más basada en plantas. <br><br><b><h3>-Recolecta agua de lluvia para utilizarla en el riego de plantas. </b></h3><br><br><b><h3>-Adopta plantas endémicas:</b></h3><br> Las plantas propias de la localidad donde vives no requieren demasiado uso de agua, y sus beneficios son mayores al absorber el CO2 del aire.</p>",
         undefined: "<h3>No entra en la condición</h3>",
       };
 
@@ -662,12 +661,17 @@ export default {
       if (this.activeDialog + 1 < this.dialogs.length) {
         // Asigna los consejos correspondientes al contenido del siguiente diálogo
         this.dialogs[this.activeDialog + 1].content = tip[this.CarbonFootPrint.nivelCarbono];
+        this.dialogs[this.activeDialog + 1].nextDialog = this.CarbonFootPrint.nivelCarbono === "baja" ? 21 : 23 
       }
     },
 
     GetName(numSelected, radioGroup, text) {
       console.log(`numSelected: ${numSelected}, radioGroup: ${radioGroup}, text: ${text}`);
-
+      if (this.activeDialog + 1 < this.dialogs.length) {
+        // Asigna los consejos correspondientes al contenido del siguiente diálogo
+        this.dialogs[this.activeDialog + 1].content2 = `<h2 class='txt-gratula txt-green'>¡Felicidades!</h2><h2>${text}</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.`;
+      }
+     
       // Retorna un objeto con el nombre del archivo
       return { name: text };
     },

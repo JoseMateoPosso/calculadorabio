@@ -14,6 +14,7 @@ h5 {
 
 h3 {
     font-size: 20px;
+    text-align: left;
 }
 
 h5 {
@@ -153,7 +154,7 @@ p.txt-border {
     border: none;
     margin: 1px 1em;
     border-radius: 50%;
-    cursor: help;  
+    cursor: help;
 }
 
 .info-tooltip {
@@ -165,7 +166,7 @@ p.txt-border {
     padding: 1em;
     z-index: 1;
     border: none;
-     text-align: justify;
+    text-align: justify;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -178,6 +179,10 @@ p.txt-border {
     cursor: pointer;
 }
 
+/*.v-dialog > .v-overlay__content > .v-card > .v-card-text {
+    padding: 2em 5em 0em;
+}*/
+
 .v-card-text.active-dialog-11 .v-selection-control-group .v-card {
     display: flex;
     justify-content: center;
@@ -186,6 +191,46 @@ p.txt-border {
     min-height: 150px;
 }
 
+.active-dialog-10 .text-center.columa1 {
+    order: 1;
+}
+
+/*.v-card-text.active-dialog-21 .v-card-title {
+    display: none;
+}
+
+.v-card-text.active-dialog-21 div#content {
+    background: linear-gradient(white, white) padding-box, linear-gradient(to right, #01b5e5, #62b33a, #fab500) border-box;
+    border-radius: 20px;
+    border: 3px solid transparent;
+    padding: 1.5em;
+}*/
+
 h2.txt-gratula {
     font-size: 30px;
+}
+
+table#list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table#list th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table#list th {
+    background-color: #f2f2f2;
+}
+
+table#list tr:hover {
+    background-color: #f5f5f5;
+}
+
+table#list a {
+    text-decoration: none;
+    color: #007bff;
 }
