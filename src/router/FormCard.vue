@@ -8,7 +8,7 @@
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon v-if="index > 0 && !shouldWait" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
+        <v-icon v-if="index > 0" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle class="mt-5" v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
@@ -36,15 +36,15 @@
                 <div v-else-if="showInfoTooltip" class="info-tooltip">
                   <!-- Contenido del tooltip2 -->
                   <p><i v-html="dialog.infoText"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="600" width="600" alt="">
                 </div>
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
-                <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
-                  type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
+                <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected" type="number"
+                  v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
                 <!-- Campo para ingresar una respuesta de texto, si es necesario -->
-                <v-text-field variant="solo" class="inputlabel mt-3" placeholder="Nombre" v-model="dialog.response.text"
-                  type="text" v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
+                <v-text-field variant="solo" class="inputlabel mt-3" placeholder="Nombre" v-model="dialog.response.text" type="text"
+                  v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
               <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass" offset="1">
@@ -82,8 +82,7 @@
         <v-card-actions>
           <!-- Botón para continuar al siguiente diálogo -->
           <v-spacer></v-spacer>
-          <v-btn v-if="!isFirstDialogOpen && activeDialog != 17" color="green darken-1" dark
-            @click="changeDialog(index + 1)">Siguiente</v-btn>
+          <v-btn v-if="!isFirstDialogOpen" color="green darken-1" dark @click="changeDialog(index + 1)">Siguiente</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -103,8 +102,6 @@ export default {
   // Datos iniciales del componente
   data() {
     return {
-      isGoinB: false, //Variable globas si se devuelve
-      shouldWait: false, // Indicador para evitar la repetición de la espera en el diálogo 17
       // Índice del diálogo activo
       activeDialog: 0,
       // Historial de diálogos visitados
@@ -183,7 +180,7 @@ export default {
     columnSize() {
       switch (this.activeDialog) {
         case 21:
-          return 7; // Cambiar a 5 columnas si el diálogo está en la posición 21
+          return 8; // Cambiar a 5 columnas si el diálogo está en la posición 21
         case 20:
           return 4; // Cambiar a 5 columnas si el diálogo está en la posición 20
         case 8:
@@ -213,16 +210,6 @@ export default {
     // Ruta a la imagen del encabezado
     headerImage() {
       return require("@/assets/imgs/Header.png");
-    },
-  },
-  // Watcher para activeDialog
-  watch: {
-    activeDialog(newVal) {
-      if (newVal === 17 && !this.shouldWait && !this.isGoinB) {
-        this.waitBeforeNextDialog();
-      } else if (newVal === 17 && this.isGoinB) {
-        this.changeDialog(newVal + 1, true)
-      }
     },
   },
   // Métodos del componente
@@ -274,14 +261,8 @@ export default {
       return currentDialogIndex + 1;
     },
 
-    onNextButtonClick() {
-      this.changeDialog(this.activeDialog + 1);
-    },
-
     // Cambia al siguiente o al anterior diálogo
     changeDialog(dialogId, isGoingBack = false) {
-
-      this.isGoinB = isGoingBack 
       // Encuentra el índice del diálogo en el array dialogs
       const index = this.dialogs.findIndex((dialog) => dialog.id === dialogId);
 
@@ -317,24 +298,6 @@ export default {
 
       // Actualiza el estado de los diálogos
       this.updateDialogStatus(index, isGoingBack);
-
-      // Reinicia el indicador shouldWait después de la espera
-      if (this.shouldWait && dialogId !== 17) {
-        this.shouldWait = false;
-      }
-    },
-
-    async waitBeforeNextDialog() {
-      // Establece shouldWait a true para evitar la repetición de la espera en el diálogo 17
-      this.shouldWait = true;
-
-      // Espera 2 segundos antes de avanzar al siguiente diálogo
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
-
-      // Avanza al siguiente diálogo después de la espera
-      this.onNextButtonClick();
     },
 
     // Actualiza el estado de los diálogos
@@ -665,7 +628,7 @@ export default {
       let compensationTrees = Math.round(finalCarbonFootPrint * treePerTon / 1)
 
       // Determinar el nivel de carbono y la imagen correspondiente
-      const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint > 1.5 && finalCarbonFootPrint < 1.8) ? "media" : finalCarbonFootPrint <= 1.5 ? "baja" : "undefined";
+      const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint > 1.5 && finalCarbonFootPrint < 1.8) ? "media" : finalCarbonFootPrint <= 1.5 ? "baja": "undefined";
       const imgUrl = resnivelCarbono === "alta" ? "huellaalta" : resnivelCarbono === "media" ? "huellamedia" : resnivelCarbono === "baja" ? "huellabaja" : "";
 
       // Generar el contenido correspondiente al nivel de carbono
@@ -690,7 +653,7 @@ export default {
       const tip = {
         alta: "<p><b>-Utiliza bombillos de bajo consumo:</b> ahorran hasta un 75% de energía. <br><br>-<b>Apaga la luz de los ambientes que no estés utilizando.</b><br><br><b>-Usa la luz natural el tiempo que más puedas.</b><br><br>-<b>Emplea la lavadora con carga completa:</b> ahorrarás agua y electricidad. <br><br>-<b>Apaga el computador cuando no lo estés utilizando.</b><br><br>-<b>Desconecta todos los aparatos eléctricos que no estés utilizando.</b> <br><br>-<b>Sustituye la estufa eléctrica por estufa de gas.</b><br><br>-<b>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero. </b><br><br>-<b>Haz una inspección periódica del depósito de gas</b>; revisa todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y válida que estos estén completos y en óptimo estado. <br><br>-<b>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental</b>.</p>",
         media: "<p>-Desconecta todos los aparatos eléctricos que no estés utilizando. <br><br>-Mantén limpios todos los gasodomésticos de tu hogar. Los gasodomésticos son los aparatos de tu casa que funcionan con gas (calentador, estufa, horno, calefactores, entre otros). <br><br>-Utiliza bolsas de tela cuando hagas tus compras. <br><br>-Comprar botellas plásticas con líquido cada que tienes sed es poco amigable con el planeta, mejor compra un termo y lleva en éste tus bebidas. <br><br>-Puedes reducir los residuos alimentarios si cultivas tus verduras, haces compostaje o compras productos a granel para evitar o reducir embalajes innecesarios. <br><br>-Si es posible, opta por los ventiladores de techo antes que los aires acondicionados. <br><br>-Ve de vacaciones cerca de casa. Cuanto más lejos viajes, más alta será tu huella de carbono. <br><br>-Recicla las hojas de papel. Reciclando papel ayudas a proteger las selvas tropicales, ya que por 1 tonelada de papel evitamos que talen 17 árboles, preservando así el hábitat de muchos animales.</p>",
-        baja: "<p><h3>-Consume responsable:</h3><br> Elige productos y alimentos que sean producidos de manera sostenible, como productos orgánicos y de comercio justo. También puedes reducir tu consumo de carne y optar por una dieta más basada en plantas. <br><br><h3>-Recolecta agua de lluvia para utilizarla en el riego de plantas. </h3><br><br><h3>-Adopta plantas endémicas:</h3><br> Las plantas propias de la localidad donde vives no requieren demasiado uso de agua, y sus beneficios son mayores al absorber el CO2 del aire.</p>",
+        baja: "<p><b><h3>-Consume responsable:</h3><br></b> Elige productos y alimentos que sean producidos de manera sostenible, como productos orgánicos y de comercio justo. También puedes reducir tu consumo de carne y optar por una dieta más basada en plantas. <br><br><b><h3>-Recolecta agua de lluvia para utilizarla en el riego de plantas. </b></h3><br><br><b><h3>-Adopta plantas endémicas:</b></h3><br> Las plantas propias de la localidad donde vives no requieren demasiado uso de agua, y sus beneficios son mayores al absorber el CO2 del aire.</p>",
         undefined: "<h3>No entra en la condición</h3>",
       };
 
@@ -698,7 +661,7 @@ export default {
       if (this.activeDialog + 1 < this.dialogs.length) {
         // Asigna los consejos correspondientes al contenido del siguiente diálogo
         this.dialogs[this.activeDialog + 1].content = tip[this.CarbonFootPrint.nivelCarbono];
-        this.dialogs[this.activeDialog + 1].nextDialog = this.CarbonFootPrint.nivelCarbono === "baja" ? 21 : 23
+        this.dialogs[this.activeDialog + 1].nextDialog = this.CarbonFootPrint.nivelCarbono === "baja" ? 21 : 23 
       }
     },
 
@@ -706,9 +669,9 @@ export default {
       console.log(`numSelected: ${numSelected}, radioGroup: ${radioGroup}, text: ${text}`);
       if (this.activeDialog + 1 < this.dialogs.length) {
         // Asigna los consejos correspondientes al contenido del siguiente diálogo
-        this.dialogs[this.activeDialog + 1].content2 = `<h2 class='txt-gratula txt-green'>¡Felicidades!</h2><br><h2>${text}</h2><br>Avgust quiere concederte el diploma de<br><h2 class='txt-gratula txt-green'>Embajador Ambiental</h2><br> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.`;
+        this.dialogs[this.activeDialog + 1].content2 = `<h2 class='txt-gratula txt-green'>¡Felicidades!</h2><h2>${text}</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.`;
       }
-
+     
       // Retorna un objeto con el nombre del archivo
       return { name: text };
     },
@@ -737,7 +700,6 @@ export default {
 
     SendMailFootprint() {
       console.log("Entra al último", this.CarbonFootPrint);
-      window.location.reload();
       // Implementa aquí la lógica para enviar el correo con los datos de la huella de carbono
     },
 
