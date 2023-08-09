@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "content2": "En <b>Avgust </b> queremos ayudar al planeta, por eso, te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>¡Calculando tu huella de carbono ahora!.</b><br><br>",
+    "content2": "En <b>Avgust </b>, queremos ayudar al planeta, por eso te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>Calculando tu huella de carbono ahora.</b><br><br>",
     "img": {
       "url": "texto",
       "height": 180
@@ -21,7 +21,7 @@
   },
   {
     "id": 3,
-    "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br>- Necesitas tus facturas de <b>gas y energía eléctrica.</b><br>- En tu factura de <b>consumo de gas</b>, te aparece tu consumo en <b>m3</b> <br>- En tu factura de <b>consumo de energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b><br> - Al avanzar en la calculadora veras este icono (i) que te ayudara a entender mejor las preguntas.<br><br>",
+    "content": "<b> <h3>¿Qué necesitas para calcular tu huella?</h3> </b><br>- Necesitas tus facturas de <b>gas y energía eléctrica.</b><br>- En tu factura de <b>consumo de gas</b>, te aparece tu consumo en <b>m3</b> <br>- En tu factura de <b>consumo de energía eléctrica</b>, te aparece tu consumo en <b>kw/h</b><br> - Al avanzar en la calculadora veras este icono <button class='info-button' id='firstInfoBtn'> ℹ️ </button> que te ayudara a entender mejor las preguntas.<br><br>",
     "open": false,
     "requiresResponse": false,
     "img": {
@@ -35,10 +35,10 @@
   },
   {
     "id": 4,
-    "content": "<h3>¿Cuántas personas viven contigo?</h3><br>",
-    "content2": "<br><h3>¿En que zona de vivienda resides?</h3><br><br>",
+    "content": "<h3>¿Cuántas personas viven contigo?</h3><br><br>",
+    "content2": "<h3>¿En qué zona de vivienda resides?</h3><br><br>",
     "infoText": "Indica la cantidad de personas que viven contigo, incluyéndote.",
-    "infoText2": "Zona urbana: Hace referencia a las ciudades y se encuentra una gran concentración de la población. <br><br> Zona rural: Hace referencia a la poblacion que vive en el campo y/o zonas alejadas de la ciudad.",
+    "infoText2": "Zona urbana: Hace referencia a las ciudades y se encuentra una gran concentración de la población. <br> <br> Zona rural: Hace referencia a la poblacion que vive en el campo y/o zonas alejadas de la ciudad.",
     "open": false,
     "requiresResponse": true,
     "response": {
@@ -64,12 +64,12 @@
   },
   {
     "id": 5,
-    "content": "<h3>¿Cuánto consumes de energía al mes? Este consumo es en kWh</h3><br>",
+    "content": "<h3>¿Cuánto consumes de energía al mes?<br> Este consumo es en kWh</h3><br>",
     "open": false,
     "infoText": "Puedes encontrar  esta  información  en tu factura de energía.",
     "infoImg": "recibo",
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
+    "title": "<h5>Cálculo de Vivienda - Zona Urbana | Consumo de electricidad<h5>",
     "nextDialog": 7,
     "response": {
       "responseType": "num",
@@ -79,12 +79,12 @@
   },
   {
     "id": 6,
-    "content": "<h3>¿Cuánto consumes de energía al mes? Este consumo es en kWh</h3><br>",
+    "content": "<h3>¿Cuánto consumes de energía al mes?<br> Este consumo es en kWh</h3><br>",
     "open": false,
     "infoText": "Puedes encontrar  esta  información  en tu factura de energía. Si no cuentas con el servicio de energía, selecciona la opción de 'NO APLICA'",
     "infoImg": "recibo",
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "title": "<h5>Cálculo de Vivienda - Zona Rural | Consumo de electricidad<h5>",
     "nextDialog": 8,
     "response": {
       "responseType": "numOrRadio",
@@ -106,7 +106,7 @@
     "content": "<h3>¿Qué tipo de combustible utilizas para cocinar?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
+    "title": "<h5>Cálculo de Vivienda - Zona Urbana | Combustible de cocina<h5>",
     "response": {
       "responseType": "radio",
       "radioGroup": null,
@@ -130,10 +130,10 @@
   },
   {
     "id": 8,
-    "content": "<h3>¿Qué tipo de combustible utilizas para cocinar?</h3><br>",
+    "content": "<h3>¿Qué tipo de combustible utilizas para cocinar?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "title": "<h5>Cálculo de Vivienda - Zona Rural | Combustible de cocina<h5>",
     "response": {
       "responseType": "radio",
       "radioGroup": null,
@@ -183,12 +183,12 @@
   },
   {
     "id": 10,
-    "content": "<h3 class='text-center mb-3'>¿Qué cantidad en kilogramos (kg) utilizas <b>al día</b>?</h3>",
+    "content": "<h3 class='text-center mb-3'>¿Qué cantidad en kilogramos (kg) utilizas al día?</h3>",
     "content2": "<h3 class='text-center mb-3'>¿Qué tipo de combustible solido utilizas para cocinar?</h3><br>",
     "infoText": "<p>Pregunta 1: (i) El combustible sólido se reﬁere a diversas formas de material sólido que se pueden quemar para liberar energía, proporcionando calor y luz como la madera, el papel, el carbón, el bagazo, entre otros.<br><br>Bagazo: Se usa entre 3-5 Kg de leña para 1 hora de cocción.<br><br>Carbón: Por lo general un bulto de carbón contiene 20 kilogramos.<br><br>Leña: Un atado de leña pesa aproximadamente 4 kg.<br><br>Madera: Se usa entre 2 a 3 kg de madera para 1 hora de cocción.</p>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de vivienda - Zona Rural<h5>",
+    "title": "<h5>Cálculo de vivienda - Consumo de combustible sólido<h5>",
     "nextDialog": 12,
     "response": {
       "radioGroup": null,
@@ -221,13 +221,13 @@
   },
   {
     "id": 11,
-    "content": "<h3>¿Cuántos cilindros consumes al mes?</h3></h3><br><br>",
-    "content2": "<h3>¿De qué tamaño es tu cilindro de gas?</h3><br><br>",
+    "content": "<h3>¿Cuántos cilindros de gas propano consumes al mes?</h3></h3><br>",
+    "content2": "<h3>¿De qué tamaño es tu cilindro de gas propano?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
     "infoText": "En el cuello del cilindro, encontrarás la información técnica como capacidad y peso.",
     "infoImg": "cilindros",
-    "title": "<h5>Cálculo de vivienda - Zona Urbana<h5>",
+    "title": "<h5>Cálculo de Vivienda - Consumo de gas propano<h5>",
     "nextDialog": 12,
     "response": {
       "responseType": "both",
@@ -264,7 +264,7 @@
     "open": false,
     "infoText": "Selecciona únicamente el medio de transporte que más días utilizas a la semana.",
     "requiresResponse": true,
-    "title": "<h5>Cálculo de Transporte<h5>",
+    "title": "<h5>Cálculo de Transporte | Medio de transporte<h5>",
     "response": {
       "responseType": "radio",
       "radioGroup": null,
@@ -309,7 +309,7 @@
     "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de Transporte<h5>",
+    "title": "<h5>Cálculo de Transporte | Vehículo particular<h5>",
     "nextDialog": 16,
     "response": {
       "responseType": "radio",
@@ -335,11 +335,6 @@
           "image": "electrico",
           "label": "ELÉCTRICO",
           "id": 4
-        },
-        {
-          "image": "hibrido",
-          "label": "HIBRIDO",
-          "id": 5
         }
       ],
       "completionFunction": "GetTransportFuelType"
@@ -350,7 +345,7 @@
     "content": "<h3>¿Qué tipo de moto conduces?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de Transporte<h5>",
+    "title": "<h5>Cálculo de Transporte | Moto<h5>",
     "nextDialog": 16,
     "response": {
       "responseType": "radio",
@@ -376,7 +371,7 @@
     "content": "<h3>¿Qué tipo de bicicleta o patineta conduces?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "title": "<h5>Cálculo de Transporte<h5>",
+    "title": "<h5>Cálculo de Transporte | Bicicleta o patineta<h5>",
     "response": {
       "responseType": "radio",
       "radioGroup": null,
@@ -402,7 +397,7 @@
     "open": false,
     "infoText": "En términos Urbanísticos un 1 kilómetro son 10 cuadras",
     "requiresResponse": true,
-    "title": "<h5>Cálculo de Transporte<h5>",
+    "title": "<h5>Cálculo de Transporte | Distancia recorrida<h5>",
     "response": {
       "responseType": "num",
       "numSelected": 0,
@@ -413,7 +408,7 @@
     "id": 17,
     "content": "<h3>¿Reciclas, Reduces, o Reutilizas?</h3><br>",
     "open": false,
-    "infoText": "<p>Si realizas alguna de estas 3 acciones, selecciona la opción 'SI':<br>- Reciclaje: Proceso de recolección y transformación de materiales para convertirlos en nuevos productos.<br>- Reducción: Menor consumo de productos para generar menos residuos.<br>- Reutilizar: Dar una segunda vida a los materiales u objetos antes de desecharlos.</p><p>Si no realizas ninguna acción, selecciona la opción 'NO'.</p>",
+    "infoText": "<p>Si realizas alguna de estas 3 acciones, selecciona la opción 'SI':<br>- <b>Reciclaje</b>: Proceso de recolección y transformación de materiales para convertirlos en nuevos productos.<br>- <b>Reducción</b>: Menor consumo de productos para generar menos residuos.<br>- <b>Reutilizar</b>: Dar una segunda vida a los materiales u objetos antes de desecharlos.</p><p>Si no realizas ninguna acción, selecciona la opción 'NO'.</p>",
     "requiresResponse": true,
     "title": "<h5>Manejo de Residuos<h5>",
     "response": {
@@ -452,7 +447,7 @@
     "id": 19,
     "content": "<b> <h3>Tu huella de carbono es</h3>",
     "open": false,
-    "infoText": "<p>Un Colombiano promedio puede emitir al año 1.6 toneladas de CO2/año<br>Alto:Mayor a 1.8<br>Medio:Entre 1.5-1.7<br>Bajo:Menor 1.4</p>",
+    "infoText": "<p>Un Colombiano promedio puede emitir al año 1.6 toneladas de CO2/año<br><b>Alto</b>: Mayor a 1.8<br><b>Medio</b>: Entre 1.5-1.7<br><b>Bajo</b>: Menor 1.4</p>",
     "requiresResponse": true,
     "img": {
       "url": "ardilla2",

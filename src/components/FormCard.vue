@@ -21,10 +21,10 @@
               <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
             </div>
             <v-row align="center">
-              <v-col class="text-center columa1" offset="1" xs="12">
+              <v-col class="columna1" offset="1" xs="12">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
-                  <p class="text-justify" v-html="dialog.content"></p>
+                  <p v-html="dialog.content"></p>
                   <!-- Botón de información -->
                   <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true"
                     @mouseout="showInfoTooltip = false">ℹ️</button>
@@ -32,14 +32,14 @@
                 <!-- Tooltip de información adicional -->
                 <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
                   <!-- Contenido del tooltip -->
-                  <p><i v-html="dialog.infoText2"></i></p>
+                  <p v-html="dialog.infoText2"></p>
                 </div>
                 <div v-else-if="showInfoTooltip" class="info-tooltip">
                   <!-- Contenido del tooltip2 -->
-                  <p><i v-html="dialog.infoText"></i></p>
+                  <p v-html="dialog.infoText"></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
                 </div>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" :class="'img-'+dialog.img.url" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
                 <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
                   type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"
@@ -48,17 +48,17 @@
                 <v-text-field variant="solo" class="inputlabel input-green mt-3" :placeholder="dialog.placeholder"
                   v-model="dialog.response.text" type="text"
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
-                <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
+                <p v-if="activeDialog === 20" v-html="dialog.content2"></p>
               </v-col>
               <v-col class="text-center" xs="12" :md="columnSize" :class="columnClass" offset="1">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
-                  <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
+                  <p v-if="activeDialog != 20" v-html="dialog.content2"></p>
                   <!-- Botón de información -->
                   <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'"
                     @mouseout="showInfoTooltip = false">ℹ️</button>
                 </v-row>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" :class="'img-'+dialog.img2.url" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
                   @click="changeDialog(index + 1)">Empezar</v-btn>
                 <!-- Grupo de botones de opción, si es necesario -->
@@ -171,7 +171,6 @@ export default {
         gasolina: require("@/assets/imgs/gasolina.png"),
         gas_natural: require("@/assets/imgs/gas_natural.png"),
         electrico: require("@/assets/imgs/electrico.png"),
-        hibrido: require("@/assets/imgs/hibrido.png"),
         motogasolina: require("@/assets/imgs/motogasolina.png"),
         motoelectrica: require("@/assets/imgs/motoelectrica.png"),
         convencional: require("@/assets/imgs/convencional.png"),
@@ -590,8 +589,7 @@ export default {
           1: { performance: 70, factor: 10.15, name: "ACPM Car" }, // Factor para automóviles de ACPM
           2: { performance: 54, factor: 8.15, name: "Gaso Car" }, // Factor para automóviles a gasolina
           3: { performance: 22, factor: 1.9801, name: "Gas Car" }, // Factor para automóviles a gas
-          4: { performance: 0.18, factor: 0.1260, name: "Electric Car" }, // Factor para automóviles eléctricos
-          5: { performance: 26.84, factor: 4.14, name: "Hybrid Car" } // Factor para automóviles híbridos
+          4: { performance: 0.18, factor: 0.1260, name: "Electric Car" } // Factor para automóviles eléctricos
         },
         3: {
           2: { performance: 121, factor: 8.15, name: "Gaso Bike" }, // Factor para motocicletas a gasolina
@@ -690,9 +688,9 @@ export default {
       const imgUrl = resnivelCarbono === "alta" ? "huellaalta" : resnivelCarbono === "media" ? "huellamedia" : resnivelCarbono === "baja" ? "huellabaja" : "";
 
       // Generar el contenido correspondiente al nivel de carbono
-      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
-        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
-          resnivelCarbono === "baja" ? `<p class='text-center'>¡Felicidades! El resultado de tu huella es baja, por lo tanto, te concedemos un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles. <br>Si te gusta, por favor ayúdanos a compartir esta calculadora para que más personas se sumen a esta iniciativa</p>` : "";
+      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br> Para compensar tu huella necesitas sembrar <b>${compensationTrees}</b> árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
+        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> Para compensar tu huella necesitas sembrar <b>${compensationTrees}</b> árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
+          resnivelCarbono === "baja" ? `<p class='text-center'>¡Felicidades! El resultado de tu huella es baja, por lo tanto, Avgust te concede un diploma de embajador ambiental.<br> Para compensar tu huella necesitas sembrar <b>${compensationTrees}</b> árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` : "";
 
       // Generar el contenido general
       const content = `<b><h2>Tu huella de carbono es</h2></b><h3 class='text-center'>${resnivelCarbono.charAt(0).toUpperCase() + resnivelCarbono.slice(1)}</h3> <p class='txt-border text-center'>${finalCarbonFootPrint.toFixed(2)} toneladas de CO2/año </p><br>`;
@@ -709,10 +707,10 @@ export default {
     TipsFootprint() {
       // Objeto con consejos según el nivel de carbono
       const tip = {
-        alta: "<p><b>-Utiliza bombillos de bajo consumo:</b> ahorran hasta un 75% de energía. <br><br>-<b>Apaga la luz de los ambientes que no estés utilizando.</b><br><br><b>-Usa la luz natural el tiempo que más puedas.</b><br><br>-<b>Emplea la lavadora con carga completa:</b> ahorrarás agua y electricidad. <br><br>-<b>Apaga el computador cuando no lo estés utilizando.</b><br><br>-<b>Desconecta todos los aparatos eléctricos que no estés utilizando.</b> <br><br>-<b>Sustituye la estufa eléctrica por estufa de gas.</b><br><br>-<b>Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero. </b><br><br>-<b>Haz una inspección periódica del depósito de gas</b>; revisa todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y válida que estos estén completos y en óptimo estado. <br><br>-<b>La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental</b>.</p>",
+        alta: "<p>-Utiliza bombillos de bajo consumo: ahorran hasta un 75% de energía. <br><br>-Apaga la luz de los ambientes que no estés utilizando.<br><br>-Usa la luz natural el tiempo que más puedas.<br><br>-Emplea la lavadora con carga completa: ahorrarás agua y electricidad. <br><br>-Apaga el computador cuando no lo estés utilizando.<br><br>-Desconecta todos los aparatos eléctricos que no estés utilizando. <br><br>-Sustituye la estufa eléctrica por estufa de gas.<br><br>-Mantén tu auto en buen estado. Los autos con el mantenimiento adecuado, como las llantas infladas correctamente, generan menos emisiones de gases de efecto invernadero. <br><br>-Haz una inspección periódica del depósito de gas; revisa todos los accesorios (válvulas, llave de paso, conectores, reguladores, empaques) y válida que estos estén completos y en óptimo estado. <br><br>-La siembra de árboles refuerza esta labor, así que considéralo, ya que es una de las mejores alternativas para disminuir y compensar el impacto medioambiental.</p>",
         media: "<p>-Desconecta todos los aparatos eléctricos que no estés utilizando. <br><br>-Mantén limpios todos los gasodomésticos de tu hogar. Los gasodomésticos son los aparatos de tu casa que funcionan con gas (calentador, estufa, horno, calefactores, entre otros). <br><br>-Utiliza bolsas de tela cuando hagas tus compras. <br><br>-Comprar botellas plásticas con líquido cada que tienes sed es poco amigable con el planeta, mejor compra un termo y lleva en éste tus bebidas. <br><br>-Puedes reducir los residuos alimentarios si cultivas tus verduras, haces compostaje o compras productos a granel para evitar o reducir embalajes innecesarios. <br><br>-Si es posible, opta por los ventiladores de techo antes que los aires acondicionados. <br><br>-Ve de vacaciones cerca de casa. Cuanto más lejos viajes, más alta será tu huella de carbono. <br><br>-Recicla las hojas de papel. Reciclando papel ayudas a proteger las selvas tropicales, ya que por 1 tonelada de papel evitamos que talen 17 árboles, preservando así el hábitat de muchos animales.</p>",
-        baja: "<p><h3>-Consume responsable:</h3><br> Elige productos y alimentos que sean producidos de manera sostenible, como productos orgánicos y de comercio justo. También puedes reducir tu consumo de carne y optar por una dieta más basada en plantas. <br><br><h3>-Recolecta agua de lluvia para utilizarla en el riego de plantas. </h3><br><br><h3>-Adopta plantas endémicas:</h3><br> Las plantas propias de la localidad donde vives no requieren demasiado uso de agua, y sus beneficios son mayores al absorber el CO2 del aire.</p>",
-        undefined: "<h3>No entra en la condición</h3>",
+        baja: "<p>-Consume responsable: Elige productos y alimentos que sean producidos de manera sostenible, como productos orgánicos y de comercio justo. También puedes reducir tu consumo de carne y optar por una dieta más basada en plantas. <br><br>-Recolecta agua de lluvia para utilizarla en el riego de plantas. <br><br>-Adopta plantas endémicas: Las plantas propias de la localidad donde vives no requieren demasiado uso de agua, y sus beneficios son mayores al absorber el CO2 del aire.</p>",
+        undefined: "No entra en la condición",
       };
 
       // Verifica si existe un siguiente diálogo
