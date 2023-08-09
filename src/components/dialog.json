@@ -347,7 +347,7 @@
   },
   {
     "id": 14,
-    "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br><br>",
+    "content": "<h3>¿Qué tipo de moto conduces?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -358,12 +358,12 @@
       "numSelected": false,
       "items": [
         {
-          "image": "gasolina",
+          "image": "motogasolina",
           "label": "GASOLINA",
           "id": 2
         },
         {
-          "image": "gasolina",
+          "image": "motoelectrica",
           "label": "ELECTRICA",
           "id": 4
         }
@@ -373,7 +373,7 @@
   },
   {
     "id": 15,
-    "content": "<h3>¿Qué tipo de combustible utilizas?</h3><br><br>",
+    "content": "<h3>¿Qué tipo de bicicleta o patineta conduces?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
     "title": "<h5>Cálculo de Transporte<h5>",
@@ -383,12 +383,12 @@
       "numSelected": false,
       "items": [
         {
-          "image": "diesel",
+          "image": "convencional",
           "label": "CONVENCIONAL",
           "id": 0
         },
         {
-          "image": "gasolina",
+          "image": "trueno",
           "label": "ELECTRICA",
           "id": 4
         }
@@ -484,6 +484,7 @@
     "content2": "<p class='text-center'>Por tu labor de contibruir satisfactoriamente a la reduccion de la <b>huella de carbono</b><p>",
     "open": false,
     "requiresResponse": true,
+    "placeholder": "Nombre",
     "img2": {
       "url": "ardilla2",
       "height": 270
@@ -516,6 +517,7 @@
     "content2": "<b> <h3>Si quieres sembrar un árbol, oprime este botón.</h3> </b><br>",
     "open": false,
     "requiresResponse": true,
+    "placeholder": "Example123@gmail.com",
     "response": {
       "responseType": "text",
       "numSelected": false,

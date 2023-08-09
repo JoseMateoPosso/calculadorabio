@@ -8,7 +8,8 @@
       <!-- Cada diálogo se muestra en una tarjeta -->
       <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
-        <v-icon v-if="index > 0 && !shouldWait" class="icon-back" @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
+        <v-icon v-if="index > 0 && !shouldWait" class="icon-back"
+          @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
         <!-- Título de la tarjeta y barra de progreso -->
         <CardTitle class="mt-5" v-if="!isFirstDialogOpen" :title="dialog.title" :progress="progressValue" />
         <!-- Contenido de la tarjeta -->
@@ -17,10 +18,10 @@
           <v-container id="content">
             <!--Logo de avgust para el diploma-->
             <div class="text-right" v-if="activeDialog === 21">
-              <img :src="imageMap['logoavgust']" alt="" height="50">
+              <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
             </div>
             <v-row align="center">
-              <v-col class="text-center columa1" offset="1">
+              <v-col class="text-center columa1" offset="1" xs="12">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
@@ -41,13 +42,15 @@
                 <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
                 <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
-                  type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"></v-text-field>
+                  type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"
+                  :disabled="dialog.response.radioGroup === 'NoAplica'"></v-text-field>
                 <!-- Campo para ingresar una respuesta de texto, si es necesario -->
-                <v-text-field variant="solo" class="inputlabel mt-3" placeholder="Nombre" v-model="dialog.response.text"
-                  type="text" v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
+                <v-text-field variant="solo" class="inputlabel input-green mt-3" :placeholder="dialog.placeholder"
+                  v-model="dialog.response.text" type="text"
+                  v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
-              <v-col :cols="columnSize" class="text-center" sm="columnSmSize" :class="columnClass" offset="1">
+              <v-col class="text-center" xs="12" :md="columnSize" :class="columnClass" offset="1">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
                   <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
@@ -62,7 +65,7 @@
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col cols="2" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
+                    <v-col xs="12" md="2" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
                       v-for="(item, i) in dialog.response.items" :key="i">
                       <v-card :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
@@ -76,6 +79,10 @@
                 </v-radio-group>
               </v-col>
             </v-row>
+            <!--Footer de avgust para el diploma-->
+            <div class="text-right" v-if="activeDialog === 21">
+              <img :src="imageMap['footer']" alt="" height="260" class="footer-diploma">
+            </div>
           </v-container>
         </v-card-text>
         <!-- Acciones para la tarjeta -->
@@ -111,6 +118,7 @@ export default {
       dialogHistory: [],
       showInfoTooltip: false,
       // Array para almacenar la huella de carbono
+      itemselected: '',
       CarbonFootPrint: [
         {
           idZone: "",
@@ -164,7 +172,12 @@ export default {
         gas_natural: require("@/assets/imgs/gas_natural.png"),
         electrico: require("@/assets/imgs/electrico.png"),
         hibrido: require("@/assets/imgs/hibrido.png"),
+        motogasolina: require("@/assets/imgs/motogasolina.png"),
+        motoelectrica: require("@/assets/imgs/motoelectrica.png"),
+        convencional: require("@/assets/imgs/convencional.png"),
+        trueno: require("@/assets/imgs/trueno.png"),
         logoavgust: require("@/assets/imgs/logoavgust.png"),
+        footer: require("@/assets/imgs/footer.png"),
         arbol: require("@/assets/imgs/arbol.png")
       },
     };
@@ -281,7 +294,7 @@ export default {
     // Cambia al siguiente o al anterior diálogo
     changeDialog(dialogId, isGoingBack = false) {
 
-      this.isGoinB = isGoingBack 
+      this.isGoinB = isGoingBack
       // Encuentra el índice del diálogo en el array dialogs
       const index = this.dialogs.findIndex((dialog) => dialog.id === dialogId);
 
@@ -381,6 +394,14 @@ export default {
 
     // Cambia el estado de selección de un botón de opción
     toggleSelected(response, id) {
+      // Verifica si existe un siguiente diálogo
+      if (id === 'NoAplica') {
+        // Reinicia el input de tipo num
+        console.log("entra", this.dialogs[this.activeDialog])
+        //dialog.response.numSelected
+        this.dialogs[this.activeDialog].response.numSelected = 0
+      }
+
       if (response.radioGroup === id) {
         response.radioGroup = null; // Desmarca el botón si ya estaba seleccionado
       } else {
@@ -737,7 +758,7 @@ export default {
 
     SendMailFootprint() {
       console.log("Entra al último", this.CarbonFootPrint);
-      window.location.reload();
+      //window.location.reload();
       // Implementa aquí la lógica para enviar el correo con los datos de la huella de carbono
     },
 

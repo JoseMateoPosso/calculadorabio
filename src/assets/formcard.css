@@ -301,3 +301,7 @@ table#list a {
     text-decoration: none;
     color: #007bff;
 }
+
+img.footer-diploma {
+    width: 100%;
+}
