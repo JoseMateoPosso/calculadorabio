@@ -65,6 +65,7 @@ h5 {
 h3 {
     font-size: 24px;
     text-align: left;
+    line-height: normal;
 }
 
 h5 {
@@ -112,6 +113,7 @@ h5 {
 
 .v-card-text {
     @apply flex items-center;
+    font-size: 15px!important;
 }
 
 .v-card.first-card button.v-btn {
@@ -126,6 +128,10 @@ h5 {
     background-image: linear-gradient(45deg, #01b5e4, #60b344);
 }
 
+.v-row {
+    align-items: flex-start;
+}
+
 div.popgray p {
     padding: 2em;
     @apply text-left;
@@ -135,9 +141,9 @@ button.v-btn {
     @apply !bg-green-600 !text-white !rounded-tr-none;
     font-family: 'TTNorms';
     text-transform: none;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 35px;
-    padding: 16px 50px 38px !important;
+    padding: 12px 50px 32px !important;
     box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)), 0px 2px 2px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)), 0px 1px 5px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.12));
 }
 
@@ -207,24 +213,30 @@ p.txt-border {
 }
 
 .info-button {
-    @apply w-6 h-6 text-white bg-yellow-600;
+    @apply w-6 h-6 bg-yellow-600;
     background: #ffda00;
     border: none;
     margin: 1px 1em;
     border-radius: 50%;
     cursor: help;
+    color: #4b4d48;
+}
+
+#firstInfoBtn {
+    margin: 0.2rem;
+    cursor: inherit;
 }
 
 .info-tooltip {
-    @apply fixed bg-white font-semibold;
+    @apply fixed bg-white;
     left: 50%;
     top: -15%;
     transform: translateX(-50%);
     border-radius: 11px;
-    padding: 1em;
+    padding: 1.5em 1.2em;
     z-index: 1;
     border: none;
-    text-align: justify;
+    text-align: left;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -240,8 +252,16 @@ p.txt-border {
 /*.v-dialog > .v-overlay__content > .v-card > .v-card-text {
     padding: 2em 5em 0em;
 }*/
+.v-card-text.active-dialog-4 h3{
+    text-align: center!important;
+}
+.v-card-text.active-dialog-5 h3{
+    text-align: center!important;
+}
 
-
+.offset-1.v-locale--is-ltr .v-locale--is-ltr .offset-1 .active-dialog-5 {
+    margin: 0!important;
+}
 .v-card-text.active-dialog-7 .v-selection-control-group .v-card {
     display: flex;
     justify-content: center;
@@ -258,10 +278,16 @@ p.txt-border {
     min-height: 150px;
 }
 
-.active-dialog-10 .text-center.columa1 {
+.active-dialog-10 .columna1 {
     order: 1;
 }
 
+.active-dialog-9 .columna1 {
+    order: 1;
+}
+.v-card-text.active-dialog-8 .info-button {
+    margin-bottom: 2em;
+}
 /*.v-card-text.active-dialog-21 .v-card-title {
     display: none;
 }
@@ -304,4 +330,21 @@ table#list a {
 
 img.footer-diploma {
     width: 100%;
+}
+img.img-seccion2 {
+    margin: 0 auto;
+    display: block;
+}
+
+img.img-huellabaja {
+    margin: 0 auto;
+    display: block;
+}
+img.img-huellamedia {
+    margin: 0 auto;
+    display: block;
+}
+img.img-huellaalta {
+    margin: 0 auto;
+    display: block;
 }
