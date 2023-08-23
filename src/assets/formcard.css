@@ -1,13 +1,15 @@
 @font-face {
     font-family: "TTNorms";
-    font-weight: 900; /* Black */
+    font-weight: 900;
+    /* Black */
     src: local("TTNorms-Black"),
         url(../assets/fonts/TTNorms-Black.otf) format("truetype");
 }
 
 @font-face {
     font-family: "TTNorms";
-    font-weight: 900; /* Black Italic */
+    font-weight: 900;
+    /* Black Italic */
     font-style: italic;
     src: local("TTNorms-BlackItalic"),
         url(../assets/fonts/TTNorms-BlackItalic.otf) format("truetype");
@@ -15,14 +17,16 @@
 
 @font-face {
     font-family: "TTNorms";
-    font-weight: 700; /* Bold */
+    font-weight: 700;
+    /* Bold */
     src: local("TTNorms-Bold"),
         url(../assets/fonts/TTNorms-Bold.otf) format("truetype");
 }
 
 @font-face {
     font-family: "TTNorms";
-    font-weight: 700; /* Bold Italic */
+    font-weight: 700;
+    /* Bold Italic */
     font-style: italic;
     src: local("TTNorms-BoldItalic"),
         url(../assets/fonts/TTNorms-BoldItalic.otf) format("truetype");
@@ -30,19 +34,22 @@
 
 @font-face {
     font-family: "TTNorms";
-    font-weight: 300; /* Light */
+    font-weight: 300;
+    /* Light */
     src: local("TTNorms-Light"),
         url(../assets/fonts/TTNorms-Light.otf) format("truetype");
 }
 
 @font-face {
     font-family: "TTNorms";
-    font-weight: 400; /* Regular */
+    font-weight: 400;
+    /* Regular */
     src: local("TTNorms-Regular"),
         url(../assets/fonts/TTNorms-Regular.otf) format("truetype");
 }
 
-.offset-1.v-locale--is-ltr, .v-locale--is-ltr .offset-1 {
+.offset-1.v-locale--is-ltr,
+.v-locale--is-ltr .offset-1 {
     margin-left: 3.333333%;
 }
 
@@ -50,7 +57,7 @@
     opacity: 0;
 }
 
-p{
+p {
     line-height: 22px;
 }
 
@@ -113,7 +120,7 @@ h5 {
 
 .v-card-text {
     @apply flex items-center;
-    font-size: 15px!important;
+    font-size: 15px !important;
 }
 
 .v-card.first-card button.v-btn {
@@ -252,16 +259,18 @@ p.txt-border {
 /*.v-dialog > .v-overlay__content > .v-card > .v-card-text {
     padding: 2em 5em 0em;
 }*/
-.v-card-text.active-dialog-4 h3{
-    text-align: center!important;
+.v-card-text.active-dialog-4 h3 {
+    text-align: center !important;
 }
-.v-card-text.active-dialog-5 h3{
-    text-align: center!important;
+
+.v-card-text.active-dialog-5 h3 {
+    text-align: center !important;
 }
 
 .offset-1.v-locale--is-ltr .v-locale--is-ltr .offset-1 .active-dialog-5 {
-    margin: 0!important;
+    margin: 0 !important;
 }
+
 .v-card-text.active-dialog-7 .v-selection-control-group .v-card {
     display: flex;
     justify-content: center;
@@ -285,9 +294,11 @@ p.txt-border {
 .active-dialog-9 .columna1 {
     order: 1;
 }
+
 .v-card-text.active-dialog-8 .info-button {
     margin-bottom: 2em;
 }
+
 /*.v-card-text.active-dialog-21 .v-card-title {
     display: none;
 }
@@ -331,6 +342,7 @@ table#list a {
 img.footer-diploma {
     width: 100%;
 }
+
 img.img-seccion2 {
     margin: 0 auto;
     display: block;
@@ -340,11 +352,30 @@ img.img-huellabaja {
     margin: 0 auto;
     display: block;
 }
+
 img.img-huellamedia {
     margin: 0 auto;
     display: block;
 }
+
 img.img-huellaalta {
     margin: 0 auto;
     display: block;
+}
+
+@media only screen and (max-width: 600px) {
+    .v-dialog>.v-overlay__content>.v-card>.v-card-text {
+        padding: 0;
+    }
+    .v-input.v-text-field.inputlabel {
+        max-width: 100%;
+    }
+    h3 {
+        font-size: 18px;
+        text-align: center;
+    }
+    img {
+        max-width: 100%;
+        height: 100%;
+    }    
 }

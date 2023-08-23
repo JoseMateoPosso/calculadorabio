@@ -21,7 +21,7 @@
               <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
             </div>
             <v-row align="center">
-              <v-col class="text-center columa1" offset="1" xs="12">
+              <v-col :class="{ 'px-3': isMobile, 'px-6' : !isMobile }" class="text-center columa1 px-10">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
@@ -33,6 +33,7 @@
                 <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
                   <!-- Contenido del tooltip -->
                   <p><i v-html="dialog.infoText2"></i></p>
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
                 </div>
                 <div v-else-if="showInfoTooltip" class="info-tooltip">
                   <!-- Contenido del tooltip2 -->
@@ -50,7 +51,7 @@
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
-              <v-col class="text-center" xs="12" :md="columnSize" :class="columnClass" offset="1">
+              <v-col class="text-center px-5" :class="{ 'px-3': isMobile, 'px-6' : !isMobile, ...columnClass}" :cols="columnSize">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
                   <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
@@ -65,7 +66,7 @@
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col xs="12" md="2" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
+                    <v-col :cols="isMobile ? '12' : '2'" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
                       v-for="(item, i) in dialog.response.items" :key="i">
                       <v-card :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
@@ -87,10 +88,13 @@
         </v-card-text>
         <!-- Acciones para la tarjeta -->
         <v-card-actions>
-          <!-- Botón para continuar al siguiente diálogo -->
+          <!-- Botón para descargar el certificado -->
+          <v-btn v-if="activeDialog === 21" color="green darken-1" dark @click="exportToPDF">Descargar</v-btn>
           <v-spacer></v-spacer>
-          <v-btn v-if="!isFirstDialogOpen && activeDialog != 17" color="green darken-1" dark
+          <!-- Botón para continuar al siguiente diálogo -->
+          <v-btn v-if="!isFirstDialogOpen && activeDialog != 17 && activeDialog != 23" color="green darken-1" dark
             @click="changeDialog(index + 1)">Siguiente</v-btn>
+          <v-btn v-if="activeDialog === 23" color="green darken-1" dark @click="StartAgain">Volver a empezar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -98,10 +102,11 @@
 </template>
 <script>
 // Importa los componentes necesarios
-import axios from 'axios'; 
+import axios from 'axios';
 import CardTitle from "./CardTitle.vue";
 import data from "./dialog.json";
 import html2pdf from "html2pdf.js";
+import { useDisplay } from 'vuetify';
 
 // Componente Vue principal
 export default {
@@ -143,6 +148,8 @@ export default {
       ],
       // Datos de los diálogos
       dialogs: data,
+      //Varible que habilita descargar el certificado
+      downloadcert: false,
       imageMap: {
         texto: require("@/assets/imgs/texto.png"),
         ardilla: require("@/assets/imgs/ardilla.png"),
@@ -186,6 +193,11 @@ export default {
   },
   // Propiedades computadas del componente
   computed: {
+    // Determina si es dispositivo mobil
+    isMobile() {
+      const { mobile } = useDisplay();
+      return mobile.value
+    },
     // Determina si el primer diálogo está abierto
     isFirstDialogOpen() {
       return this.activeDialog === 0;
@@ -196,6 +208,9 @@ export default {
     },
     // Determina el tamaño de las columnas en función del diálogo activo
     columnSize() {
+      if (this.isMobile) {
+        return 12
+      }
       switch (this.activeDialog) {
         case 21:
           return 7; // Cambiar a 5 columnas si el diálogo está en la posición 21
@@ -685,7 +700,8 @@ export default {
     // Obtiene la huella de carbono
     generateResults(finalCarbonFootPrint) {
       const treePerTon = 6;
-      let compensationTrees = Math.round(finalCarbonFootPrint * treePerTon / 1)
+      let compensationTrees = Math.round(finalCarbonFootPrint * treePerTon / 1);
+      compensationTrees = compensationTrees < 0 ? 0 : compensationTrees;
 
       // Determinar el nivel de carbono y la imagen correspondiente
       const resnivelCarbono = finalCarbonFootPrint > 1.8 ? "alta" : (finalCarbonFootPrint > 1.5 && finalCarbonFootPrint < 1.8) ? "media" : finalCarbonFootPrint <= 1.5 ? "baja" : "undefined";
@@ -717,9 +733,19 @@ export default {
         undefined: "<h3>No entra en la condición</h3>",
       };
 
+      const title = {
+        alta: "<h5>Tips | Huella Alta</h5>",
+        media: "<h5>Tips | Huella Media</h5>",
+        baja: "<h5>Tips | Huella Baja</h5>",
+        undefined: "<h5>Tips</h5>"
+      };
+      //Titulo del card según la huella
+
+
       // Verifica si existe un siguiente diálogo
       if (this.activeDialog + 1 < this.dialogs.length) {
         // Asigna los consejos correspondientes al contenido del siguiente diálogo
+        this.dialogs[this.activeDialog + 1].title = title[this.CarbonFootPrint.nivelCarbono];
         this.dialogs[this.activeDialog + 1].content = tip[this.CarbonFootPrint.nivelCarbono];
         this.dialogs[this.activeDialog + 1].nextDialog = this.CarbonFootPrint.nivelCarbono === "baja" ? 21 : 23
       }
@@ -775,11 +801,16 @@ export default {
         .catch(error => {
           console.error('Error:', error);
         });
-    //window.location.reload();
-    // Implementa aquí la lógica para enviar el correo con los datos de la huella de carbono
-  },
+      //window.location.reload();
+      // Implementa aquí la lógica para enviar el correo con los datos de la huella de carbono
+    },
 
-},
+    StartAgain(){
+      //Recargar la pestaña del aplicativo
+      window.location.reload()
+    }
+
+  },
 
 };
 </script>

@@ -225,7 +225,7 @@
     "content2": "<h3>¿De qué tamaño es tu cilindro de gas propano?</h3><br><br>",
     "open": false,
     "requiresResponse": true,
-    "infoText": "En el cuello del cilindro, encontrarás la información técnica como capacidad y peso.",
+    "infoText2": "En el cuello del cilindro, encontrarás la información técnica como capacidad y peso.",
     "infoImg": "cilindros",
     "title": "<h5>Cálculo de Vivienda - Consumo de gas propano<h5>",
     "nextDialog": 12,
@@ -298,7 +298,7 @@
           "image": "apie",
           "label": "A PIE",
           "id": 5,
-          "nextDialog": 17
+          "nextDialog": 16
         }
       ],
       "completionFunction": "GetTransportType"
@@ -495,15 +495,10 @@
     "id": 22,
     "content2": "<h2 class='txt-gratula txt-green text-center'>¡Felicidades!</h2><h2>Sandra Escobar</h2><br>Avgust quiere concederte el diploma de<h2 class='txt-gratula txt-green'>Embajador Ambiental</h2> por tu labor de contribuir satisfactoriamente <br>a la reducción de la huella de carbono.",
     "open": false,
-    "requiresResponse": true,
+    "requiresResponse": false,
     "img": {
       "url": "ardilla2",
       "height": 270
-    },
-    "response": {
-      "responseType": "none",
-      "numSelected": false,
-      "completionFunction": "exportToPDF"
     }
   },
   {
@@ -528,6 +523,6 @@
   },
   {
     "id": 24,
-    "content": "<table id='list'><tr><th>Nombre de entidad</th><th>Link web</th></tr><tr><td>Jardín Botánico</td><td><a href='https://bogota.gov.co/mi-ciudad/ambiente/plantacion-de-arboles-en-bogota-campana-del-jardin-botanico' target='_blank'>https://bogota.gov.co/mi-ciudad/ambiente/plantacion-de-arboles-en-bogota-campana-del-jardin-botanico</a></td></tr><tr><td>Fundación Humedales de Bogotá</td><td><a href='https://humedalesbogota.com/plantacion-de-arboles/' target='_blank'>https://humedalesbogota.com/plantacion-de-arboles/</a></td></tr><tr><td>Caminatas Ecológicas Bogotá</td><td><a href='https://caminatasecologicasbogota.com/siembra-de-arboles/' target='_blank'>https://caminatasecologicasbogota.com/siembra-de-arboles/</a></td></tr><tr><td>Colombia Potencia de la Vida</td><td><a href='https://www.minambiente.gov.co/bosques-biodiversidad-y-servicios-ecosistemicos/los-10-municipios-que-mas-han-sembrado-arboles-en-colombia/' target='_blank'>https://www.minambiente.gov.co/bosques-biodiversidad-y-servicios-ecosistemicos/los-10-municipios-que-mas-han-sembrado-arboles-en-colombia/</a></td></tr></table>"
+    "content": "<table id='list'><tr><th>Nombre de entidad</th><th>Link web</th></tr><tr><td>Jardín Botánico</td><td><a href='https://bogota.gov.co/mi-ciudad/ambiente/plantacion-de-arboles-en-bogota-campana-del-jardin-botanico' target='_blank'><img src='https://calculadorabio.omarketing.com.co/img/jbblogo.png'/></a></td></tr><tr><td>Fundación Humedales de Bogotá</td><td><a href='https://humedalesbogota.com/plantacion-de-arboles/' target='_blank'><img src='https://calculadorabio.omarketing.com.co/img/humedaleslogo.png'/></a></td></tr><tr><td>Caminatas Ecológicas Bogotá</td><td><a href='https://caminatasecologicasbogota.com/siembra-de-arboles/' target='_blank'><img src='https://calculadorabio.omarketing.com.co/img/caminataslogo.png'/></a></td></tr><tr><td>Colombia Potencia de la Vida</td><td><a href='https://www.minambiente.gov.co/bosques-biodiversidad-y-servicios-ecosistemicos/los-10-municipios-que-mas-han-sembrado-arboles-en-colombia/' target='_blank'><img src='https://calculadorabio.omarketing.com.co/img/vidalogo.png'/></a></td></tr></table>"
   }
 ]
