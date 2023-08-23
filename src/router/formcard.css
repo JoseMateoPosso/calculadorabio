@@ -154,7 +154,7 @@ button.v-btn {
     background: linear-gradient(45deg, #00b5e4, #60b343);
 }
 
-.image-filter {
+.selected-image img {
     filter: brightness(3);
 }
 
