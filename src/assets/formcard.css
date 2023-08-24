@@ -167,7 +167,7 @@ button.v-btn {
     background: linear-gradient(45deg, #00b5e4, #60b343);
 }
 
-.image-filter {
+.selected-image img{
     filter: brightness(3);
 }
 
@@ -367,15 +367,40 @@ img.img-huellaalta {
     .v-dialog>.v-overlay__content>.v-card>.v-card-text {
         padding: 0;
     }
+
     .v-input.v-text-field.inputlabel {
         max-width: 100%;
     }
+
     h3 {
         font-size: 18px;
         text-align: center;
     }
+
+    h4 {
+        font-size: 14px;
+    }
+
     img {
         max-width: 100%;
         height: 100%;
-    }    
+    }
+
+    .v-selection-control-group .v-card img {
+        height: 50px;
+    }
+
+    button.info-button {
+        margin-bottom: 1em;
+    }
+
+    .dialog {
+        height: 100%;
+        width: 100%;
+    }
+
+    img.img-content-1, img.img-content-2 {
+        height: 180px;
+        margin-top: 2em;
+    }
 }

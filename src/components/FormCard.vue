@@ -40,7 +40,7 @@
                   <p><i v-html="dialog.infoText"></i></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
                 </div>
-                <img v-if="dialog.img" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img v-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
                 <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
                   type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"
@@ -59,7 +59,7 @@
                   <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'"
                     @mouseout="showInfoTooltip = false">ℹ️</button>
                 </v-row>
-                <img v-if="dialog.img2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <img v-if="dialog.img2" class="img-content-2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
                   @click="changeDialog(index + 1)">Empezar</v-btn>
                 <!-- Grupo de botones de opción, si es necesario -->
