@@ -21,7 +21,7 @@
               <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
             </div>
             <v-row align="center">
-              <v-col :class="{ 'px-3': isMobile, 'px-6' : !isMobile }" class="text-center columa1 px-10">
+              <v-col :class="{ 'px-3': isMobile, 'px-6': !isMobile }" class="text-center columa1 px-10">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
@@ -40,7 +40,8 @@
                   <p><i v-html="dialog.infoText"></i></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
                 </div>
-                <img v-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]" :height="dialog.img.height" />
+                <img v-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]"
+                  :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
                 <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
                   type="number" v-if="dialog.requiresResponse && dialog.response.numSelected !== false"
@@ -51,7 +52,8 @@
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
-              <v-col class="text-center px-5" :class="{ 'px-3': isMobile, 'px-6' : !isMobile, ...columnClass}" :cols="columnSize">
+              <v-col class="text-center px-5" :class="{ 'px-3': isMobile, 'px-6': !isMobile, ...columnClass }"
+                :cols="columnSize">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
                   <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
@@ -59,15 +61,17 @@
                   <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'"
                     @mouseout="showInfoTooltip = false">ℹ️</button>
                 </v-row>
-                <img v-if="dialog.img2" class="img-content-2" :src="imageMap[dialog.img2.url]" :height="dialog.img2.height" />
+                <img v-if="dialog.img2" class="img-content-2" :src="imageMap[dialog.img2.url]"
+                  :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
                   @click="changeDialog(index + 1)">Empezar</v-btn>
                 <!-- Grupo de botones de opción, si es necesario -->
                 <v-radio-group v-if="dialog.requiresResponse" v-model="dialog.response.radioGroup">
                   <v-row justify="center">
                     <!-- Cada botón de opción se muestra en una tarjeta -->
-                    <v-col :cols="isMobile ? '12' : '2'" class="option-btn" @click="toggleSelected(dialog.response, item.id)"
-                      v-for="(item, i) in dialog.response.items" :key="i">
+                    <v-col :cols="isMobile ? '12' : '2'" class="option-btn"
+                      @click="toggleSelected(dialog.response, item.id)" v-for="(item, i) in dialog.response.items"
+                      :key="i">
                       <v-card :class="{ 'selected-image': isSelected(dialog.response, item.id) }">
                         <!-- Etiqueta y valor para el botón de opción -->
                         <v-radio hide-details :label="item.label" :value="item.id"
@@ -615,8 +619,8 @@ export default {
           4: { performance: 0.05, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
         },
         4: {
-          0: { performance: 0, factor: 0, name: "Conventional Bicycle" }, // Factor para bicicletas a gasolina
-          4: { performance: 0, factor: 0.1260, name: "Electric Bicycle" } // Factor para bicicletas eléctricas
+          0: { performance: 0, factor: 0.0205, name: "Conventional Bicycle" }, // Factor para bicicletas a gasolina
+          4: { performance: 0, factor: 0.0205, name: "Electric Bicycle" } // Factor para bicicletas eléctricas
         },
         5: { factor: 0.0205, name: "Walk" }
       };
@@ -639,7 +643,7 @@ export default {
       } else if (transportType === 3) {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         // Cálculo de huella de carbono para motocicletas
-        transportFootPrint = (numKilometers * yearD * (1 / fuelType.performance) * fuelType.factor) * 0.001;
+        transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor) * 0.001;
       } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
         if (fuelType === 4) {
@@ -805,7 +809,7 @@ export default {
       // Implementa aquí la lógica para enviar el correo con los datos de la huella de carbono
     },
 
-    StartAgain(){
+    StartAgain() {
       //Recargar la pestaña del aplicativo
       window.location.reload()
     }
@@ -816,6 +820,4 @@ export default {
 </script>
 
 <!-- Estilos del componente -->
-<style scoped>
-@import url(../assets/formcard.css);
-</style>
+<style scoped>@import url(../assets/formcard.css);</style>
