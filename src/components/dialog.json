@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "content2": "En <b>Avgust </b>, queremos ayudar al planeta, por eso te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>Calculando tu huella de carbono ahora.</b><br><br>",
+    "content2": "<p class='text-left'>En <b>Avgust </b>, queremos ayudar al planeta, por eso te invitamos <b>a reducir tu impacto ambiental</b>. <br><br>Descubre cómo puedes ayudar al planeta, <b>Calculando tu huella de carbono ahora.</b><br><br><p>",
     "img": {
       "url": "texto",
       "height": 180

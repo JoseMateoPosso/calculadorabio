@@ -33,12 +33,12 @@
                 <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
                   <!-- Contenido del tooltip -->
                   <p><i v-html="dialog.infoText2"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
                 </div>
                 <div v-else-if="showInfoTooltip" class="info-tooltip">
                   <!-- Contenido del tooltip2 -->
                   <p><i v-html="dialog.infoText"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="700" width="600" alt="">
+                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
                 </div>
                 <img v-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]"
                   :height="dialog.img.height" />

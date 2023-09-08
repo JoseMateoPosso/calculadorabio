@@ -140,7 +140,7 @@ h5 {
 }
 
 div.popgray p {
-    padding: 2em;
+    padding: 1em 1em 0em;
     @apply text-left;
 }
 
