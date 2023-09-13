@@ -641,7 +641,7 @@ export default {
         },
         3: {
           2: { performance: 121, factor: 8.15, name: "Gaso Bike" }, // Factor para motocicletas a gasolina
-          4: { performance: 0.05, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
+          4: { performance: 0.04511278195, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
         },
         4: {
           0: { performance: 0, factor: 0.0205, name: "Conventional Bicycle" }, // Factor para bicicletas a gasolina
@@ -676,7 +676,7 @@ export default {
         }
       } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
-        if (fuelType === 4) {
+        if (fuelType.name === 'Conventional Bicycle' || fuelType.name === 'Electric Bicycle') {
           // Cálculo de huella de carbono para bicicletas
           transportFootPrint = (numKilometers * yearD * fuelType.factor) * 0.001;
         } else {
@@ -718,10 +718,10 @@ export default {
     },
 
     calculateRecycleFootPrint(recycle) {
-      let recycleFootPrint = 0.23;
+      let recycleFootPrint = 0.22995;
 
       if (recycle === 1) {
-        recycleFootPrint = -0.23;
+        recycleFootPrint = -0.22995;
       }
 
       return recycleFootPrint;
