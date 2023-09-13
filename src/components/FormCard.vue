@@ -669,14 +669,11 @@ export default {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
-          console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
-          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor * fuelType.performance)) / 1000
+          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor / fuelType.performance)) / 1000
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
         }
-        // Cálculo de huella de carbono para motocicletas eléctricas
-        transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor) * 0.001;
       } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
         if (fuelType === 4) {
@@ -685,10 +682,6 @@ export default {
         } else {
           transportFootPrint = 0
         }
-      }
-      else {
-        // Cálculo de huella de carbono para otros tipos de transporte
-        transportFootPrint = factors[transportType].factor;
       }
 
       return transportFootPrint;
