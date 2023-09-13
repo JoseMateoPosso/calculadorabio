@@ -635,7 +635,7 @@ export default {
         2: {
           1: { performance: 70, factor: 10.15, name: "ACPM Car" }, // Factor para automóviles de ACPM
           2: { performance: 54, factor: 8.15, name: "Gaso Car" }, // Factor para automóviles a gasolina
-          3: { performance: 19, factor: 1.9801, name: "Gas Car" }, // Factor para automóviles a gas
+          3: { performance: 24, factor: 1.9801, name: "Gas Car" }, // Factor para automóviles a gas
           4: { performance: 0.18, factor: 0.1260, name: "Electric Car" }, // Factor para automóviles eléctricos
           5: { performance: 26.84, factor: 4.14, name: "Hybrid Car" } // Factor para automóviles híbridos
         },
@@ -669,7 +669,8 @@ export default {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
-          transportFootPrint = (numKilometers * yearD * (fuelType.factor/fuelType.performance) * 0.001)
+          console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
+          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor * fuelType.performance)) / 1000
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
