@@ -21,22 +21,22 @@
               <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
             </div>
             <v-row align="center">
-              <v-col :class="{ 'px-3': isMobile, 'px-6': !isMobile }" class="text-center columa1 px-10">
+              <v-col :class="{ 'px-3': isMobile, 'px-6': !isMobile }" class="text-center columna1 px-10">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
-                  <!-- Botón de información -->
-                  <button v-if="dialog.infoText" class="info-button" @mouseover="showInfoTooltip = true"
-                    @mouseout="showInfoTooltip = false">ℹ️</button>
+                  <!-- Botón para mostrar el tooltip de infoText -->
+                  <button v-if="dialog.infoText" class="info-button"
+                    @click.stop="toggleInfoTooltip('infoText')">ℹ️</button>
                 </v-row>
                 <!-- Tooltip de información adicional -->
-                <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip">
-                  <!-- Contenido del tooltip -->
+                <!-- Tooltip para infoText2 -->
+                <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip" @click.stop>
                   <p><i v-html="dialog.infoText2"></i></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
                 </div>
-                <div v-else-if="showInfoTooltip" class="info-tooltip">
-                  <!-- Contenido del tooltip2 -->
+                <!-- Tooltip para infoText -->
+                <div v-else-if="showInfoTooltip === 'infoText'" class="info-tooltip" @click.stop>
                   <p><i v-html="dialog.infoText"></i></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
                 </div>
@@ -58,8 +58,7 @@
                 <v-row justify="center">
                   <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
                   <!-- Botón de información -->
-                  <button v-if="dialog.infoText2" class="info-button" @mouseover="showInfoTooltip = 'infoText2'"
-                    @mouseout="showInfoTooltip = false">ℹ️</button>
+                  <button v-if="dialog.infoText2" class="info-button" @click.stop="toggleInfoTooltip('infoText2')">ℹ️</button>
                 </v-row>
                 <img v-if="dialog.img2" class="img-content-2" :src="imageMap[dialog.img2.url]"
                   :height="dialog.img2.height" />
@@ -159,6 +158,7 @@ export default {
         ardilla: require("@/assets/imgs/ardilla.png"),
         ardilla2: require("@/assets/imgs/ardilla2.png"),
         recibo: require("@/assets/imgs/recibo.png"),
+        recibonatural: require("@/assets/imgs/recibonatural.png"),
         cilindros: require("@/assets/imgs/cilindros.png"),
         seccion2: require("@/assets/imgs/seccion2.png"),
         urbana: require("@/assets/imgs/urbana.png"),
@@ -221,6 +221,7 @@ export default {
         case 20:
           return 4; // Cambiar a 5 columnas si el diálogo está en la posición 20
         case 8:
+          return 12;
         case 19:
           return 4; // Mantener 5 columnas si el diálogo está en la posición 8 o 19
         default:
@@ -261,6 +262,30 @@ export default {
   },
   // Métodos del componente
   methods: {
+    // Cambia el tooltip que se muestra al hacer clic en un botón, Si el tooltip ya está abierto, lo cierra.
+    toggleInfoTooltip(type) {
+      if (this.showInfoTooltip !== type) {
+        this.showInfoTooltip = type;
+        document.addEventListener('click', this.handleClickOutside);
+      } else {
+        this.closeTooltip();
+      }
+    },
+    // Maneja los clics fuera del tooltip o del botón para cerrar el tooltip.
+    handleClickOutside(event) {
+      const tooltipElem = this.$el.querySelector('.info-tooltip');
+      const buttonElems = this.$el.querySelectorAll('.info-button');
+      // Verificar si se hizo clic fuera de los botones y del tooltip.
+      const clickedOutside = Array.from(buttonElems).every(button => !button.contains(event.target)) && (!tooltipElem || !tooltipElem.contains(event.target));
+      if (clickedOutside) {
+        this.closeTooltip();
+      }
+    },
+    // Cierra el tooltip y quita el listener de clics en el documento.
+    closeTooltip() {
+      this.showInfoTooltip = false;
+      document.removeEventListener('click', this.handleClickOutside);
+    },
     // Valida la respuesta del diálogo
     validateResponse(dialogResponse) {
       if (dialogResponse) {
@@ -712,8 +737,8 @@ export default {
       const imgUrl = resnivelCarbono === "alta" ? "huellaalta" : resnivelCarbono === "media" ? "huellamedia" : resnivelCarbono === "baja" ? "huellabaja" : "";
 
       // Generar el contenido correspondiente al nivel de carbono
-      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
-        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} (de acuerdo a la formula) árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
+      const content2 = resnivelCarbono === "alta" ? `<p class='text-center'>Lamentablemente el resultado de tu huella es alto, te recomendamos que lo reduzcas con los siguientes consejos que tenemos preparados para ti. <br><br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
+        resnivelCarbono === "media" ? `<p class='text-center'>El resultado de tu huella es medio, sabemos que puedes mejorar. Te ofrecemos consejos para reducir tu huella: <br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles.<br>Si te gustó, por favor ayúdanos a compartir esta calculadora para que más personas sean parte de esta iniciativa.</p>` :
           resnivelCarbono === "baja" ? `<p class='text-center'>¡Felicidades! El resultado de tu huella es baja, por lo tanto, te concedemos un diploma de embajador ambiental.<br> *Para compensar tu huella necesitas sembrar ${compensationTrees} árboles. <br>Si te gusta, por favor ayúdanos a compartir esta calculadora para que más personas se sumen a esta iniciativa</p>` : "";
 
       // Generar el contenido general
@@ -815,9 +840,14 @@ export default {
     }
 
   },
-
+  // Asegura que se quite el listener de clics en el documento al destruir el componente.
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
+  }
 };
 </script>
 
 <!-- Estilos del componente -->
-<style scoped>@import url(../assets/formcard.css);</style>
+<style scoped>
+@import url(../assets/formcard.css);
+</style>
