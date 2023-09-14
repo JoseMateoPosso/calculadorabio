@@ -1,12 +1,10 @@
 <template>
-  <div :class="backgroundClass" id="app">
-    <!-- Muestra una imagen si no se ha abierto el primer diálogo -->
-    <img v-if="!isFirstDialogOpen" :src="headerImage" alt="Imagen de descripción" height="200" style="width:100%" />
+  <div :class="backgroundClass" class="page-background" id="app">
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900"
       class="dialog">
       <!-- Cada diálogo se muestra en una tarjeta -->
-      <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }">
+      <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }" id="cardialog">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0 && !shouldWait" class="icon-back"
           @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
@@ -18,10 +16,10 @@
           <v-container id="content">
             <!--Logo de avgust para el diploma-->
             <div class="text-right" v-if="activeDialog === 21">
-              <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5">
+              <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5 logoavgust">
             </div>
             <v-row align="center">
-              <v-col :class="{ 'px-3': isMobile, 'px-6': !isMobile }" class="text-center columna1 px-10">
+              <v-col :class="{ 'px-10': isMobile, 'px-6': !isMobile }" class="text-center columna1 px-10">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
                   <p class="text-justify" v-html="dialog.content"></p>
@@ -52,7 +50,7 @@
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
-              <v-col class="text-center px-5" :class="{ 'px-3': isMobile, 'px-6': !isMobile, ...columnClass }"
+              <v-col class="text-center px-5" :class="{ 'px-10': isMobile, 'px-6': !isMobile, ...columnClass }"
                 :cols="columnSize">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
@@ -670,7 +668,7 @@ export default {
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
           console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
-          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor * fuelType.performance)) / 1000
+          transportFootPrint = (numKilometers * yearD * (fuelType.factor/fuelType.performance) / 1000)
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
