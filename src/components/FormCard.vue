@@ -611,6 +611,7 @@ export default {
       this.dialogs[this.activeDialog + 1].img.url = results.imgUrl;
       this.dialogs[this.activeDialog + 1].content2 = results.content2;
 
+      console.log('Mateo arreglá el bug pofavo!')
       console.log(`final: ${finalCarbonFootPrint} electric: ${electricFootPrint} transport: ${transportFootPrint} kitchen: ${kitchenFootPrint} recycle: ${recycleFootPrint}`);
 
       return {
