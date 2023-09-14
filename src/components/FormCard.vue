@@ -703,9 +703,9 @@ export default {
         kitchenFootPrint = cubicMeters * yearM * factors[fuelType].factor * 0.001;
       } else if (fuelType === "gaspropano") {
         let density = 2.02
-        let gallons = 264.172
+        let gal = 0.00378541
         // Cálculo de huella de carbono para cocina de gas propano
-        kitchenFootPrint = (cylinders * cylinderType * yearM * factors[fuelType].factor * (1/density) * (1/gallons))/numPeople; 
+        kitchenFootPrint = ((cylinderType * cylinders) * yearM * (1/density) * gal * factors[fuelType].factor);
       } else if (fuelType === "combustiblesolido") {
         const solidFuelType = factors[fuelType][solidFuel] || factors[fuelType].default;
         // Cálculo de huella de carbono para combustible sólido
