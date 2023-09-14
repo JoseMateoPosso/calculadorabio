@@ -665,7 +665,7 @@ export default {
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
           console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
-          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor * fuelType.performance)) / 1000
+          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor / fuelType.performance)) / 1000
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
