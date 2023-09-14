@@ -497,16 +497,8 @@ export default {
     // Actualiza la cantidad de metros cúbicos
     GetCubicMeters(numSelected, radioGroup) {
       if (this.CarbonFootPrint.fuelType === "gaspropano") {
-        let cylinders = numSelected;
-        let density = 2.0;
-        let type = radioGroup;
-        let mass = type * cylinders;
-        let result = mass / density;
-        console.log("propaneCubicMeters: " + result);
-        console.log("num: " + numSelected + " radio" + radioGroup);
-        return { cubicMeters: result };
+        return { cylinders: numSelected, cylinderType: radioGroup };
       } else if (this.CarbonFootPrint.fuelType === "gasnatural") {
-        console.log("naturalGasCubicMeters: " + numSelected);
         return { cubicMeters: numSelected };
       }
     },
@@ -557,6 +549,8 @@ export default {
         solidFuelWeight,
         solidFuel,
         cubicMeters,
+        cylinders,
+        cylinderType,
         transportType,
         transportFuelType,
         numKilometers,
@@ -593,6 +587,8 @@ export default {
       kitchenFootPrint = this.calculateKitchenFootPrint(
         fuelType,
         cubicMeters,
+        cylinders,
+        cylinderType,
         numPeople,
         yearM,
         yearD,
@@ -687,7 +683,7 @@ export default {
       return transportFootPrint;
     },
 
-    calculateKitchenFootPrint(fuelType, cubicMeters, numPeople, yearM, yearD, solidFuel, solidFuelWeight) {
+    calculateKitchenFootPrint(fuelType, cubicMeters, cylinders, cylinderType, numPeople, yearM, yearD, solidFuel, solidFuelWeight) {
       const factors = {
         gasnatural: { factor: 1.9801, name: "Gas Natural" }, // Factor para cocina de gas natural
         gaspropano: { factor: 8.21, name: "Gas Propano" }, // Factor para cocina de gas propano
@@ -706,8 +702,10 @@ export default {
         // Cálculo de huella de carbono para cocina de gas natural
         kitchenFootPrint = cubicMeters * yearM * factors[fuelType].factor * 0.001;
       } else if (fuelType === "gaspropano") {
+        let density = 2.02
+        let gallons = 264.172
         // Cálculo de huella de carbono para cocina de gas propano
-        kitchenFootPrint = cubicMeters * yearM * factors[fuelType].factor * 0.001;
+        kitchenFootPrint = (cylinders * cylinderType * yearM * factors[fuelType].factor * (1/density) * (1/gallons))/numPeople; 
       } else if (fuelType === "combustiblesolido") {
         const solidFuelType = factors[fuelType][solidFuel] || factors[fuelType].default;
         // Cálculo de huella de carbono para combustible sólido
