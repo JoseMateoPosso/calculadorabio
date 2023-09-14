@@ -497,16 +497,8 @@ export default {
     // Actualiza la cantidad de metros cúbicos
     GetCubicMeters(numSelected, radioGroup) {
       if (this.CarbonFootPrint.fuelType === "gaspropano") {
-        let cylinders = numSelected;
-        let density = 2.0;
-        let type = radioGroup;
-        let mass = type * cylinders;
-        let result = mass / density;
-        console.log("propaneCubicMeters: " + result);
-        console.log("num: " + numSelected + " radio" + radioGroup);
-        return { cubicMeters: result };
+        return { cylinders: numSelected, cylinderType: radioGroup };
       } else if (this.CarbonFootPrint.fuelType === "gasnatural") {
-        console.log("naturalGasCubicMeters: " + numSelected);
         return { cubicMeters: numSelected };
       }
     },
@@ -557,6 +549,8 @@ export default {
         solidFuelWeight,
         solidFuel,
         cubicMeters,
+        cylinders,
+        cylinderType,
         transportType,
         transportFuelType,
         numKilometers,
@@ -593,6 +587,8 @@ export default {
       kitchenFootPrint = this.calculateKitchenFootPrint(
         fuelType,
         cubicMeters,
+        cylinders,
+        cylinderType,
         numPeople,
         yearM,
         yearD,
@@ -641,7 +637,7 @@ export default {
         },
         3: {
           2: { performance: 121, factor: 8.15, name: "Gaso Bike" }, // Factor para motocicletas a gasolina
-          4: { performance: 0.05, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
+          4: { performance: 0.04511278195, factor: 0.1260, name: "Electric Bike" } // Factor para motocicletas eléctricas
         },
         4: {
           0: { performance: 0, factor: 0.0205, name: "Conventional Bicycle" }, // Factor para bicicletas a gasolina
@@ -669,32 +665,25 @@ export default {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
-          console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
-          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor * fuelType.performance)) / 1000
+          transportFootPrint = ((numKilometers * yearD) * (fuelType.factor / fuelType.performance)) / 1000
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
           transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
         }
-        // Cálculo de huella de carbono para motocicletas eléctricas
-        transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor) * 0.001;
       } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
-        if (fuelType === 4) {
+        if (fuelType.name === 'Conventional Bicycle' || fuelType.name === 'Electric Bicycle') {
           // Cálculo de huella de carbono para bicicletas
           transportFootPrint = (numKilometers * yearD * fuelType.factor) * 0.001;
         } else {
           transportFootPrint = 0
         }
       }
-      else {
-        // Cálculo de huella de carbono para otros tipos de transporte
-        transportFootPrint = factors[transportType].factor;
-      }
 
       return transportFootPrint;
     },
 
-    calculateKitchenFootPrint(fuelType, cubicMeters, numPeople, yearM, yearD, solidFuel, solidFuelWeight) {
+    calculateKitchenFootPrint(fuelType, cubicMeters, cylinders, cylinderType, numPeople, yearM, yearD, solidFuel, solidFuelWeight) {
       const factors = {
         gasnatural: { factor: 1.9801, name: "Gas Natural" }, // Factor para cocina de gas natural
         gaspropano: { factor: 8.21, name: "Gas Propano" }, // Factor para cocina de gas propano
@@ -713,8 +702,10 @@ export default {
         // Cálculo de huella de carbono para cocina de gas natural
         kitchenFootPrint = cubicMeters * yearM * factors[fuelType].factor * 0.001;
       } else if (fuelType === "gaspropano") {
+        let density = 2.02
+        let gal = 0.00378541
         // Cálculo de huella de carbono para cocina de gas propano
-        kitchenFootPrint = cubicMeters * yearM * factors[fuelType].factor * 0.001;
+        kitchenFootPrint = ((cylinderType * cylinders) * yearM * (1/density) * gal * factors[fuelType].factor);
       } else if (fuelType === "combustiblesolido") {
         const solidFuelType = factors[fuelType][solidFuel] || factors[fuelType].default;
         // Cálculo de huella de carbono para combustible sólido
@@ -725,10 +716,10 @@ export default {
     },
 
     calculateRecycleFootPrint(recycle) {
-      let recycleFootPrint = 0.23;
+      let recycleFootPrint = 0.22995;
 
       if (recycle === 1) {
-        recycleFootPrint = -0.23;
+        recycleFootPrint = -0.22995;
       }
 
       return recycleFootPrint;
