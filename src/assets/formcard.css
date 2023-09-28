@@ -165,6 +165,7 @@ button.v-btn {
     background: #fff;
     box-shadow: 0px 3px 6px gray;
     border-radius: 10px;
+    z-index: 20000;
     @apply fixed p-4;
 }
 
@@ -371,21 +372,35 @@ img.img-huellaalta {
 }
 
 @media only screen and (max-width: 600px) {
+    img.logofooter-diploma {
+        height: 70px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 5em;
+    }
+
+    .v-overlay__content {
+        overflow: visible !important;
+    }
+
+    img.header-mobile {
+        height: 105px;
+        padding: 50px 30px 0px;
+        margin: 0 auto;
+        display: block;
+    }
+
     .text-justify {
         text-align: left !important;
     }
 
     #cardialog {
-        height: 100vh !important;
+        height: 80vh !important;
+        margin-top: 30%;
     }
 
     .page-background {
         background-image: url(../assets/imgs/fondo-02-movil.png);
-        @apply bg-cover h-screen
-    }
-
-    .dialog-background {
-        background-image: url(../assets/imgs/fondo-01-movil.png);
         @apply bg-cover h-screen
     }
 
@@ -430,6 +445,23 @@ img.img-huellaalta {
     }
 
     img.img-content-1 {
-        height: 100%;
+        height: 120px;
+    }
+
+    .v-card-text.active-dialog-18 img.img-content-1 {
+        height: 90px;
+    }
+
+    .info-tooltip {
+        position: relative;
+        box-shadow: 0px 2px 5px #b09f9f;
+        margin-left: 5%;
+    }
+
+    .active-dialog-4 .info-tooltip, .active-dialog-5 .info-tooltip{
+        position: fixed;
+        width: 100%;
+        top: 20%;
+        left: 50%;
     }
 }

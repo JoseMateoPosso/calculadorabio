@@ -1,5 +1,6 @@
 <template>
   <div :class="backgroundClass" class="page-background" id="app">
+    <img v-if="!isFirstDialogOpen && isMobile" class="header-mobile" :src="headerImage" alt="Imagen de descripción" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900"
       class="dialog">
@@ -38,7 +39,8 @@
                   <p><i v-html="dialog.infoText"></i></p>
                   <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
                 </div>
-                <img v-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]"
+                <img v-if="dialog.img && activeDialog === 21 && !isMobile"  class="ardilla-mobile" :src="imageMap['ardilla2mobile']" alt="">
+                <img v-else-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]"
                   :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
                 <v-text-field class="inputlabel input-green mt-3" variant="solo" v-model="dialog.response.numSelected"
@@ -84,6 +86,9 @@
             <!--Footer de avgust para el diploma-->
             <div class="text-right" v-if="activeDialog === 21">
               <img :src="imageMap['footer']" alt="" height="260" class="footer-diploma">
+            </div>
+            <div class="text-right mt-5" v-else-if="activeDialog === 0 && isMobile">
+              <img :src="imageMap['logofooter']" alt="" height="160" class="logofooter-diploma">
             </div>
           </v-container>
         </v-card-text>
@@ -155,6 +160,7 @@ export default {
         texto: require("@/assets/imgs/texto.png"),
         ardilla: require("@/assets/imgs/ardilla.png"),
         ardilla2: require("@/assets/imgs/ardilla2.png"),
+        ardilla2mobile: require("@/assets/imgs/ardilla2mobile.png"),
         recibo: require("@/assets/imgs/recibo.png"),
         recibonatural: require("@/assets/imgs/recibonatural.png"),
         cilindros: require("@/assets/imgs/cilindros.png"),
@@ -189,6 +195,7 @@ export default {
         trueno: require("@/assets/imgs/trueno.png"),
         logoavgust: require("@/assets/imgs/logoavgust.png"),
         footer: require("@/assets/imgs/footer.png"),
+        logofooter: require("@/assets/imgs/logofooter.png"),
         arbol: require("@/assets/imgs/arbol.png")
       },
     };
@@ -245,7 +252,7 @@ export default {
     },
     // Ruta a la imagen del encabezado
     headerImage() {
-      return require("@/assets/imgs/Header.png");
+      return require("@/assets/imgs/logomobile.png");
     },
   },
   // Watcher para activeDialog
@@ -609,7 +616,6 @@ export default {
       this.dialogs[this.activeDialog + 1].img.url = results.imgUrl;
       this.dialogs[this.activeDialog + 1].content2 = results.content2;
 
-      console.log('Mateo arreglá el bug pofavo!')
       console.log(`final: ${finalCarbonFootPrint} electric: ${electricFootPrint} transport: ${transportFootPrint} kitchen: ${kitchenFootPrint} recycle: ${recycleFootPrint}`);
 
       return {
@@ -664,7 +670,6 @@ export default {
         const fuelType = factors[transportType][transportFuelType] || factors[transportType].default;
         if (fuelType.name === "Gaso Bike") {
           // Cálculo de huella de carbono para motocicletas a gasolina
-          console.log("numKilometers",numKilometers,"yearD",yearD,"fuelType.factor",fuelType.factor,"fuelType.performance",fuelType.performance)
           transportFootPrint = ((numKilometers * yearD) * (fuelType.factor / fuelType.performance)) / 1000
         } else {
           // Cálculo de huella de carbono para motocicletas eléctricas
