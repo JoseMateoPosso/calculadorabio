@@ -1,11 +1,11 @@
 <template>
   <div :class="backgroundClass" class="page-background" id="app">
-    <img v-if="!isFirstDialogOpen && isMobile" class="header-mobile" :src="headerImage" alt="Imagen de descripción" />
+    <img v-if="isMobile" class="header-mobile" :src="headerImage" alt="Imagen de descripción" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900"
       class="dialog">
       <!-- Cada diálogo se muestra en una tarjeta -->
-      <v-card height="70vh" :class="{ 'first-card': isFirstDialogOpen }" id="cardialog">
+      <v-card height="65vh" :class="{ 'first-card': isFirstDialogOpen }" id="cardialog">
         <!-- Si no es el primer diálogo, se muestra un icono para retroceder -->
         <v-icon v-if="index > 0 && !shouldWait" class="icon-back"
           @click="changeDialog(index + 1, true)">mdi-arrow-left</v-icon>
@@ -20,6 +20,10 @@
               <img :src="imageMap['logoavgust']" alt="" height="50" class="mb-5 logoavgust">
             </div>
             <v-row align="center">
+              <div v-if="showInfoTooltip === 'infoText'" class="info-tooltip" @click.stop>
+                <p><i v-html="dialog.infoText"></i></p>
+                <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
+              </div>
               <v-col :class="{ 'px-10': isMobile, 'px-6': !isMobile }" class="text-center columna1 px-10">
                 <!-- Contenido del diálogo y una imagen, si existe -->
                 <v-row justify="center">
@@ -29,17 +33,10 @@
                     @click.stop="toggleInfoTooltip('infoText')">ℹ️</button>
                 </v-row>
                 <!-- Tooltip de información adicional -->
-                <!-- Tooltip para infoText2 -->
-                <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip" @click.stop>
-                  <p><i v-html="dialog.infoText2"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
-                </div>
                 <!-- Tooltip para infoText -->
-                <div v-else-if="showInfoTooltip === 'infoText'" class="info-tooltip" @click.stop>
-                  <p><i v-html="dialog.infoText"></i></p>
-                  <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
-                </div>
-                <img v-if="dialog.img && activeDialog === 21 && !isMobile"  class="ardilla-mobile" :src="imageMap['ardilla2mobile']" alt="">
+
+                <img v-if="dialog.img && activeDialog === 21 && !isMobile" class="ardilla-mobile"
+                  :src="imageMap['ardilla2mobile']" alt="">
                 <img v-else-if="dialog.img" class="img-content-1" :src="imageMap[dialog.img.url]"
                   :height="dialog.img.height" />
                 <!-- Campo para ingresar una respuesta numérica, si es necesario -->
@@ -52,14 +49,21 @@
                   v-if="dialog.requiresResponse && dialog.response.responseType === 'text'"></v-text-field>
                 <p v-if="activeDialog === 20" class="text-justify" v-html="dialog.content2"></p>
               </v-col>
+              <div v-if="showInfoTooltip === 'infoText2'" class="info-tooltip" @click.stop>
+                <p><i v-html="dialog.infoText2"></i></p>
+                <img v-if="dialog.infoImg" :src="imageMap[dialog.infoImg]" height="500" alt="">
+              </div>
               <v-col class="text-center px-5" :class="{ 'px-10': isMobile, 'px-6': !isMobile, ...columnClass }"
                 :cols="columnSize">
                 <!-- Contenido adicional y otra imagen, si existe -->
                 <v-row justify="center">
                   <p v-if="activeDialog != 20" class="text-justify" v-html="dialog.content2"></p>
                   <!-- Botón de información -->
-                  <button v-if="dialog.infoText2" class="info-button" @click.stop="toggleInfoTooltip('infoText2')">ℹ️</button>
+                  <button v-if="dialog.infoText2" class="info-button"
+                    @click.stop="toggleInfoTooltip('infoText2')">ℹ️</button>
                 </v-row>
+                <!-- Tooltip para infoText2 -->
+
                 <img v-if="dialog.img2" class="img-content-2" :src="imageMap[dialog.img2.url]"
                   :height="dialog.img2.height" />
                 <v-btn v-if="isFirstDialogOpen" color="green darken-1" dark
@@ -86,9 +90,6 @@
             <!--Footer de avgust para el diploma-->
             <div class="text-right" v-if="activeDialog === 21">
               <img :src="imageMap['footer']" alt="" height="260" class="footer-diploma">
-            </div>
-            <div class="text-right mt-5" v-else-if="activeDialog === 0 && isMobile">
-              <img :src="imageMap['logofooter']" alt="" height="160" class="logofooter-diploma">
             </div>
           </v-container>
         </v-card-text>
@@ -710,7 +711,7 @@ export default {
         let density = 2.02
         let gal = 0.00378541
         // Cálculo de huella de carbono para cocina de gas propano
-        kitchenFootPrint = ((cylinderType * cylinders) * yearM * (1/density) * gal * factors[fuelType].factor);
+        kitchenFootPrint = ((cylinderType * cylinders) * yearM * (1 / density) * gal * factors[fuelType].factor);
       } else if (fuelType === "combustiblesolido") {
         const solidFuelType = factors[fuelType][solidFuel] || factors[fuelType].default;
         // Cálculo de huella de carbono para combustible sólido

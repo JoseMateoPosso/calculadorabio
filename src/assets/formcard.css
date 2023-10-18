@@ -85,6 +85,7 @@ h5 {
 
 .page-background {
     background-image: url(../assets/imgs/fondo-02.png);
+    width: 100%;
     @apply bg-cover h-screen
 }
 
@@ -371,6 +372,12 @@ img.img-huellaalta {
     display: block;
 }
 
+@media screen and (min-width: 601px) {
+    .header-mobile {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     img.logofooter-diploma {
         height: 70px;
@@ -384,7 +391,7 @@ img.img-huellaalta {
     }
 
     img.header-mobile {
-        height: 105px;
+        height: auto;
         padding: 50px 30px 0px;
         margin: 0 auto;
         display: block;
@@ -401,6 +408,7 @@ img.img-huellaalta {
 
     .page-background {
         background-image: url(../assets/imgs/fondo-02-movil.png);
+        width: 100%;
         @apply bg-cover h-screen
     }
 
@@ -440,7 +448,6 @@ img.img-huellaalta {
 
     img.img-content-1,
     img.img-content-2 {
-        margin-top: 2em;
         height: 180px;
     }
 
@@ -458,7 +465,8 @@ img.img-huellaalta {
         margin-left: 5%;
     }
 
-    .active-dialog-4 .info-tooltip, .active-dialog-5 .info-tooltip{
+    .active-dialog-4 .info-tooltip,
+    .active-dialog-5 .info-tooltip {
         position: fixed;
         width: 100%;
         top: 20%;
