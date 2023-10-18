@@ -1,6 +1,6 @@
 <template>
   <div :class="backgroundClass" class="page-background" id="app">
-    <img v-if="isMobile" class="header-mobile" :src="headerImage" alt="Imagen de descripción" />
+    <img v-if="isMobile && !isFirstDialogOpen" class="header-mobile" :src="headerImage" alt="Imagen de descripción" />
     <!-- Recorre todos los diálogos y los muestra en la aplicación -->
     <v-dialog v-for="(dialog, index) in dialogs" :key="dialog.id" v-model="dialog.open" persistent width="900"
       class="dialog">
@@ -609,6 +609,9 @@ export default {
       finalCarbonFootPrint =
         electricFootPrint + transportFootPrint + kitchenFootPrint + recycleFootPrint;
 
+      //Si la huella es menor que 0 el resutado es 0
+      finalCarbonFootPrint = (finalCarbonFootPrint > 0) ? finalCarbonFootPrint : 0;
+
       // Generar resultados
       const results = this.generateResults(finalCarbonFootPrint);
 
@@ -678,9 +681,12 @@ export default {
         }
       } else if (transportType === 4) {
         const fuelType = factors[transportType][transportFuelType];
-        if (fuelType.name === 'Conventional Bicycle' || fuelType.name === 'Electric Bicycle') {
+        if (fuelType.name === 'Conventional Bicycle') {
           // Cálculo de huella de carbono para bicicletas
           transportFootPrint = (numKilometers * yearD * fuelType.factor) * 0.001;
+        } else if (fuelType.name === 'Electric Bicycle') {
+          // Cálculo de huella de carbono para bicicletas eléctricas
+          transportFootPrint = (numKilometers * yearD * fuelType.performance * fuelType.factor * 0.001);
         } else {
           transportFootPrint = 0
         }
